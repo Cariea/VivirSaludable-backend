@@ -15,7 +15,6 @@ export const logIn = async (
       text: `
         SELECT
           user_id,
-          email,
           password
         FROM users
         WHERE
@@ -28,7 +27,6 @@ export const logIn = async (
       text: `
         SELECT
           user_id,
-          email,
           password
         FROM asistents
         WHERE
@@ -40,7 +38,7 @@ export const logIn = async (
     if (userResponse.length > 0) {
       const isPasswordCorrect = await bcrypt.compare(password, userResponse[0].password)
       if (isPasswordCorrect) {
-        const token = await generateToken(userResponse[0].email, 'users')
+        const token = await generateToken(userResponse[0].user_id, 'users')
         console.log(token)
         return res.status(STATUS.OK).json(token)
       }
@@ -49,13 +47,13 @@ export const logIn = async (
     if (asistentsResponse.length > 0) {
       const isPasswordCorrect = await bcrypt.compare(password, asistentsResponse[0].password)
       if (isPasswordCorrect) {
-        const token = await generateToken(asistentsResponse[0].email, 'asistents')
+        const token = await generateToken(asistentsResponse[0].user_id, 'asistents')
         console.log(token)
         return res.status(STATUS.OK).json(token)
       }
     }
     console.log('hola')
-    return res.status(STATUS.UNAUTHORIZED).json({ message: 'Email o Contraseña Incorrecta' })
+    return res.status(STATUS.UNAUTHORIZED).json({ message: 'Id o Contraseña Incorrecta' })
   } catch (error: unknown) {
     console.log(error)
     return handleControllerError(error, res)
