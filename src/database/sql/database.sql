@@ -12,7 +12,7 @@ CREATE DOMAIN dom_created_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP - INTERVAL '4'
 
 -- Types
 CREATE TYPE dom_role AS ENUM ('asistent', 'pacient', 'specialist');
-CREATE TYPE dom_specialties AS ENUM ('nutricionista','psicologo','deportologo', 'internista', 'gastrointerologo','cirujano');
+CREATE TYPE dom_specialties AS ENUM ('nutricionista','psicologo','deportologo', 'internista', 'gastrointerologo','cirujano bariatrico');
 CREATE TYPE dom_ingredient_type AS ENUM ('vegetal','fruta','proteina','lacteo','cereal','carbohidrato','otro');
 -- Tables
 
@@ -29,16 +29,9 @@ CREATE TABLE asistents (
 CREATE TABLE users (
   user_id dom_id_card NOT NULL,
   name dom_name NOT NULL,
-  email dom_email UNIQUE NOT NULL,
   password dom_password NOT NULL,
   role dom_role NOT NULL,
-  asistent_id dom_id_card,
-  phone dom_phone_number,
-  status BOOLEAN DEFAULT TRUE,
-  created_at dom_created_at,
-  updated_at dom_created_at,
-  CONSTRAINT pk_user_id PRIMARY KEY (user_id),
-  CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT pk_user_id PRIMARY KEY (user_id)
 );
 -- 3
 CREATE TABLE pacients (
@@ -46,6 +39,7 @@ CREATE TABLE pacients (
   name dom_name NOT NULL,
   email dom_email UNIQUE NOT NULL,
   password dom_password NOT NULL,
+  asistent_id dom_id_card,
   phone dom_phone_number,
   status BOOLEAN DEFAULT TRUE,
   created_at dom_created_at,
@@ -64,10 +58,10 @@ CREATE TABLE specialists (
   name dom_name NOT NULL,
   email dom_email UNIQUE NOT NULL,
   password dom_password NOT NULL,
+  asistent_id dom_id_card,
   speciality_id INTEGER,
   phone dom_phone_number,
   status BOOLEAN DEFAULT TRUE,
-  role dom_role NOT NULL,
   created_at dom_created_at,
   updated_at dom_created_at,
   CONSTRAINT pk_specialist_id PRIMARY KEY (user_id),
@@ -100,7 +94,6 @@ CREATE TABLE programs (
   name dom_name NOT NULL,
   description dom_description NOT NULL,
   created_at dom_created_at,
-  updated_at dom_created_at,
   CONSTRAINT pk_program_id PRIMARY KEY (program_id)
 );
 
@@ -128,7 +121,6 @@ CREATE TABLE messages (
   message dom_description NOT NULL,
   user_receptor dom_id_card NOT NULL,
   created_at dom_created_at,
-  updated_at dom_created_at,
   CONSTRAINT pk_message PRIMARY KEY (user_id,message_id),
   CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_user_receptor FOREIGN KEY (user_receptor) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -143,7 +135,6 @@ CREATE TABLE meals (
   indicate_hour TIMESTAMP,
   pica BOOLEAN,
   created_at dom_created_at,
-
   CONSTRAINT pk_meal PRIMARY KEY (pacient_id,meal_id),
   CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -156,7 +147,6 @@ CREATE TABLE ingredients (
   name dom_name NOT NULL,
   volume dom_volume NOT NULL,
   created_at dom_created_at,
-
   CONSTRAINT pk_ingredient PRIMARY KEY (pacient_id,meal_id,ingredient_id),
   CONSTRAINT fk_meal_id FOREIGN KEY (pacient_id,meal_id) REFERENCES meals(pacient_id,meal_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -192,7 +182,6 @@ CREATE TABLE assigned (
   indicationt_id INTEGER,
   pacient_id dom_id_card,
   completed BOOLEAN DEFAULT FALSE,
-
   CONSTRAINT pk_assigned PRIMARY KEY (specialist_id,indicationt_id,pacient_id),
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -203,7 +192,6 @@ CREATE TABLE assings (
   pacient_id dom_id_card,
   assigned_date dom_created_at,
   assigned_status BOOLEAN DEFAULT TRUE,
-
   CONSTRAINT pk_assings PRIMARY KEY (asistent_id,specialist_id,pacient_id),
   CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -215,7 +203,6 @@ CREATE TABLE belongs (
   pacient_id dom_id_card,
   program_id INTEGER,
   entry_date dom_created_at,
-
   CONSTRAINT pk_belongs PRIMARY KEY (asistent_id,pacient_id,program_id),
   CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -255,14 +242,13 @@ CREATE TABLE quotes (
   pacient_id dom_id_card NOT NULL,
   quote_atention BOOLEAN ,
   quote_review dom_description,
-
   CONSTRAINT pk_quote PRIMARY KEY (specialist_id,quote_id),
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- Functions
 
-CREATE FUNCTION update_updated_at ()
+CREATE OR REPLACE FUNCTION update_updated_at ()
 RETURNS TRIGGER AS $$
 BEGIN
   NEW.updated_at = CURRENT_TIMESTAMP - INTERVAL '4' HOUR;
@@ -270,6 +256,45 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION insert_users ()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF TG_TABLE_NAME = 'pacients' THEN
+    INSERT INTO users (user_id, name, password, role)
+    VALUES (NEW.user_id, NEW.name, NEW.password, 'pacient');
+  ELSIF TG_TABLE_NAME = 'specialists' THEN
+    INSERT INTO users (user_id, name, password, role)
+    VALUES (NEW.user_id, NEW.name, NEW.password, 'specialist');
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
 
 -- Triggers
+CREATE TRIGGER update_updated_at_pacients
+BEFORE UPDATE ON pacients
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER update_updated_at_specialists
+BEFORE UPDATE ON specialists
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+
+
+CREATE TRIGGER insert_users_from_pacients
+AFTER INSERT ON pacients
+FOR EACH ROW
+EXECUTE FUNCTION insert_users();
+
+CREATE TRIGGER insert_users_from_specialists
+AFTER INSERT ON specialists
+FOR EACH ROW
+EXECUTE FUNCTION insert_users();
+
+
+
 COMMIT;
