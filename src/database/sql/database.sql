@@ -18,45 +18,81 @@ CREATE TYPE dom_ingredient_type AS ENUM ('vegetal','fruta','proteina','lacteo','
 
 -- 1
 CREATE TABLE asistents (
-  asistent_id dom_id_card NOT NULL,
+  user_id dom_id_card NOT NULL,
   name dom_name NOT NULL,
   email dom_email UNIQUE NOT NULL,
   password dom_password NOT NULL,
   role dom_role NOT NULL,
-  CONSTRAINT pk_asistent_id PRIMARY KEY (asistent_id)
+  CONSTRAINT pk_asistent_id PRIMARY KEY (user_id)
 );
 -- 2
 CREATE TABLE users (
   user_id dom_id_card NOT NULL,
   name dom_name NOT NULL,
   email dom_email UNIQUE NOT NULL,
+  password dom_password NOT NULL,
   role dom_role NOT NULL,
   asistent_id dom_id_card,
+  phone dom_phone_number,
+  status BOOLEAN DEFAULT TRUE,
   created_at dom_created_at,
   updated_at dom_created_at,
   CONSTRAINT pk_user_id PRIMARY KEY (user_id),
-  CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(asistent_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 3
 CREATE TABLE pacients (
-  pacient_id dom_id_card NOT NULL,
+  user_id dom_id_card NOT NULL,
   name dom_name NOT NULL,
   email dom_email UNIQUE NOT NULL,
   password dom_password NOT NULL,
+  phone dom_phone_number,
+  status BOOLEAN DEFAULT TRUE,
   created_at dom_created_at,
   updated_at dom_created_at,
-  CONSTRAINT pk_pacient_id PRIMARY KEY (pacient_id)
+  CONSTRAINT pk_pacient_id PRIMARY KEY (user_id)
+);
+-- 3.5
+CREATE TABLE specialties (
+  specialty_id SERIAL,
+  name dom_specialties NOT NULL,
+  CONSTRAINT pk_specialty_id PRIMARY KEY (specialty_id)
 );
 -- 4
 CREATE TABLE specialists (
-  specialist_id dom_id_card NOT NULL,
+  user_id dom_id_card NOT NULL,
   name dom_name NOT NULL,
   email dom_email UNIQUE NOT NULL,
   password dom_password NOT NULL,
+  speciality_id INTEGER,
+  phone dom_phone_number,
+  status BOOLEAN DEFAULT TRUE,
   role dom_role NOT NULL,
   created_at dom_created_at,
   updated_at dom_created_at,
-  CONSTRAINT pk_specialist_id PRIMARY KEY (specialist_id)
+  CONSTRAINT pk_specialist_id PRIMARY KEY (user_id),
+  CONSTRAINT fk_speciality_id FOREIGN KEY (speciality_id) REFERENCES specialties(specialty_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+--4.5 
+CREATE TABLE atropometricos (
+  specialist_id dom_id_card,
+  pacient_id dom_id_card,
+  antropometrico_id SERIAL,
+  arm_circumference dom_volume NOT NULL,
+  leg_circumference dom_volume NOT NULL,
+  waist dom_volume NOT NULL,
+  hip dom_volume NOT NULL,
+  weight dom_volume NOT NULL,
+  size dom_volume NOT NULL,
+  musculoskeletal_mass dom_volume NOT NULL,
+  body_fat_mass dom_volume  NOT NULL,
+  body_mass_index dom_volume NOT NULL,
+  body_fat_percentage dom_volume NOT NULL,
+  waist_hip_ratio dom_volume NOT NULL,
+  visceral_fat_level dom_volume NOT NULL,
+  created_at dom_created_at, 
+  CONSTRAINT pk_atropometricos PRIMARY KEY (specialist_id,pacient_id, antropometrico_id),
+  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 5
 CREATE TABLE programs (
@@ -65,31 +101,25 @@ CREATE TABLE programs (
   description dom_description NOT NULL,
   created_at dom_created_at,
   updated_at dom_created_at,
-
   CONSTRAINT pk_program_id PRIMARY KEY (program_id)
 );
--- 6
-CREATE TABLE specialties (
-  specialty_id SERIAL,
-  name dom_name NOT NULL,
-  CONSTRAINT pk_specialty_id PRIMARY KEY (specialty_id)
-);
+
 -- 7
 CREATE TABLE indicationts (
   specialist_id dom_id_card,
   indicationt_id SERIAL,
   description dom_description NOT NULL,
   CONSTRAINT pk_indicationt PRIMARY KEY (specialist_id,indicationt_id),
-  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(specialist_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 8
 CREATE TABLE bot_questions (
-  specialist_id dom_id_card NOT NULL,
+  specialist_id dom_id_card,
   question_id SERIAL,
   question dom_description NOT NULL,
   answer dom_description NOT NULL,
   CONSTRAINT pk_question PRIMARY KEY (specialist_id,question_id),
-  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(specialist_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 9
 CREATE TABLE messages (
@@ -115,7 +145,7 @@ CREATE TABLE meals (
   created_at dom_created_at,
 
   CONSTRAINT pk_meal PRIMARY KEY (pacient_id,meal_id),
-  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(pacient_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 11
 CREATE TABLE ingredients (
@@ -139,7 +169,7 @@ CREATE TABLE symptoms (
   when_appeared dom_description NOT NULL,
   created_at dom_created_at,
   CONSTRAINT pk_symptom PRIMARY KEY (pacient_id,symptom_id),
-  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(pacient_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 13
 CREATE TABLE activities (
@@ -154,7 +184,7 @@ CREATE TABLE activities (
   description dom_description NOT NULL,
   created_at dom_created_at,
   CONSTRAINT pk_activity PRIMARY KEY (pacient_id,activity_id),
-  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(pacient_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 14
 CREATE TABLE assigned (
@@ -164,33 +194,22 @@ CREATE TABLE assigned (
   completed BOOLEAN DEFAULT FALSE,
 
   CONSTRAINT pk_assigned PRIMARY KEY (specialist_id,indicationt_id,pacient_id),
-  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(specialist_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 15
-CREATE TABLE has_specialities (
-  specialist_id dom_id_card,
-  specialty_id INTEGER,
-
-  CONSTRAINT pk_has_specialities PRIMARY KEY (specialist_id,specialty_id),
-  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(specialist_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_specialty_id FOREIGN KEY (specialty_id) REFERENCES specialties(specialty_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
--- 16
 CREATE TABLE assings (
   asistent_id dom_id_card,
   specialist_id dom_id_card,
   pacient_id dom_id_card,
-  program_id INTEGER,
   assigned_date dom_created_at,
   assigned_status BOOLEAN DEFAULT TRUE,
 
-  CONSTRAINT pk_assings PRIMARY KEY (asistent_id,specialist_id,pacient_id,program_id),
-  CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(asistent_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(specialist_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(pacient_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_program_id FOREIGN KEY (program_id) REFERENCES programs(program_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT pk_assings PRIMARY KEY (asistent_id,specialist_id,pacient_id),
+  CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
--- 17
+-- 16
 CREATE TABLE belongs (
   asistent_id dom_id_card,
   pacient_id dom_id_card,
@@ -198,8 +217,59 @@ CREATE TABLE belongs (
   entry_date dom_created_at,
 
   CONSTRAINT pk_belongs PRIMARY KEY (asistent_id,pacient_id,program_id),
-  CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(asistent_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(pacient_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_program_id FOREIGN KEY (program_id) REFERENCES programs(program_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE TABLE post_procedure_symtomps (
+  pacient_id dom_id_card,
+  record_id SERIAL,
+  temperature dom_volume NOT NULL,
+  redness BOOLEAN NOT NULL,
+  swelling BOOLEAN NOT NULL,
+  secretions BOOLEAN NOT NULL,
+  pain BOOLEAN NOT NULL,
+  temperature_high BOOLEAN GENERATED ALWAYS AS (
+    CASE
+      WHEN temperature > 38.5 THEN true
+    END
+  ) STORED,
+  created_at dom_created_at,
+  CONSTRAINT pk_post_procedure_symtomps PRIMARY KEY (pacient_id,record_id),
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE SECRETIONS (
+  pacient_id dom_id_card,
+  record_id SERIAL,
+  abundant BOOLEAN NOT NULL,
+  yellow BOOLEAN NOT NULL,
+  blood BOOLEAN NOT NULL,
+  smelly BOOLEAN NOT NULL,
+  CONSTRAINT pk_secretions PRIMARY KEY (pacient_id,record_id),
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+CREATE TABLE quotes (
+  specialist_id dom_id_card,
+  quote_id SERIAL,
+  quote_date dom_created_at NOT NULL,
+  pacient_id dom_id_card NOT NULL,
+  quote_atention BOOLEAN ,
+  quote_review dom_description,
+
+  CONSTRAINT pk_quote PRIMARY KEY (specialist_id,quote_id),
+  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+-- Functions
+
+CREATE FUNCTION update_updated_at ()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = CURRENT_TIMESTAMP - INTERVAL '4' HOUR;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+-- Triggers
 COMMIT;
