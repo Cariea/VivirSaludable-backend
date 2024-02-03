@@ -15,7 +15,7 @@ interface ExtendedRequestUser {
 }
 
 export interface ExtendedRequest extends Request {
-  user?: any
+  user?: ExtendedRequestUser
   // Esta propiedad almacenará la información del usuario decodificada
 }
 
@@ -33,14 +33,14 @@ export const verifyToken = () =>
     }
   }
 
-export const isAdmin = () =>
+export const hasAuthorization = (validRole: string) =>
   (req: ExtendedRequest, res: Response, next: NextFunction): any => {
     try {
       // Punto Critico
-      const { role } = req.user
+      const role = req.user?.role
       // --
 
-      if (role !== 'admin') {
+      if (role !== `${validRole}`) {
         return errorResponse(res, STATUS.UNAUTHORIZED, 'No autorizado para realizar esta acción')
       }
       return next()
