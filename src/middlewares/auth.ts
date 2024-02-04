@@ -37,6 +37,7 @@ export const hasAuthorization = (validRole: string) =>
 	(req: ExtendedRequest, res: Response, next: NextFunction): any => {
 		try {
 			// Punto Critico
+			console.log(req.user)
 			const role = req.user?.role
 			// --
 			console.log(role)
