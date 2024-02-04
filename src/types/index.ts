@@ -2,7 +2,7 @@
 import { z } from 'zod'
 
 // Schemas
-import { UserSchema } from '../api/users/users.schema'
+import { UserSchema } from '../api/users/user.schema'
 
 // User
 export type User = z.infer<typeof UserSchema>

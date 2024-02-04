@@ -5,8 +5,7 @@ export const UserSchema = z.object({
   userId: z
     .string()
     .min(1, 'Debe indicar una cedula')
-    .max(16, 'El nombre no puede superar los 16 carácteres')
-    .optional(),
+    .max(16, 'El nombre no puede superar los 16 carácteres'),
   name: z
     .string()
     .min(1, 'Debe indicar un nombre')
@@ -24,7 +23,7 @@ export const UserSchema = z.object({
     .string()
     .max(16, 'El número de teléfono no puede superar los 16 carácteres')
     .optional(),
-  asistenteId: z
+  specialityId: z
     .number()
     .optional(),
   role: z

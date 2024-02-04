@@ -7,59 +7,79 @@ import { handleControllerError } from '../../../utils/responses/handle-controlle
 import camelizeObject from '../../../utils/camelize-object'
 import { AUTH_ROUNDS } from '../../../config'
 import { ExtendedRequest } from '../../../middlewares/auth'
+import { QueryResult } from 'pg'
 
 export const signUp = async (
   req: ExtendedRequest,
   res: Response
 ): Promise<Response | undefined> => {
   try {
-    const { userId, email, name, role } = req.body
+    const { userId, email, name, role, phone, specialityId } = req.body
     let { password } = req.body
-    const registerData = [email, password]
+    const registerData = [userId, password]
 
-    // Verficar la existencia de esa persona antes de crear
+    let response: QueryResult = { rows: [], rowCount: 0, command: 'algo paso', oid: 0, fields: [] }
 
     const { rows } = await pool.query({
       text: `
-        SELECT *
-        FROM users
-        WHERE user_id = $1
-        or email = $2
+        SELECT EXISTS 
+        (SELECT 1 FROM users WHERE user_id = $1);
       `,
-      values: [userId, email]
+      values: [userId]
     })
-    if (rows.length > 0) {
+    if (rows[0].exists === true) {
       throw new StatusError({
-        message: 'Ya existe una cuenta con ese email o cédula',
+        message: 'Ya existe una cuenta con esta cédula',
         statusCode: STATUS.BAD_REQUEST
       })
     }
 
-    // --
-
     password = await bcrypt.hash(registerData[1], Number(AUTH_ROUNDS))
 
-    const response = await pool.query({
-      text: `
-          INSERT INTO users (
+    if (role === 'pacient') {
+      response = await pool.query({
+        text: `
+          INSERT INTO pacients (
             user_id,
-            email,
             name,
+            email,
             password,
-            role,
-            asistent_id
-          )
+            asistent_id,
+            phone
+            )
           VALUES ($1, $2, $3, $4, $5, $6)
           RETURNING
             user_id,
             email,
             name
         `,
-      values: [userId, email, name, password, role, req.user?.id]
-    })
+        values: [userId, name, email, password, req.user?.id, phone]
+      })
+    }
+    if (role === 'specialist') {
+      response = await pool.query({
+        text: `
+          INSERT INTO specialists (
+            user_id,
+            name,
+            email,
+            password,
+            speciality_id,
+            asistent_id,
+            phone
+            )
+          VALUES ($1, $2, $3, $4, $5, $6, $7)
+          RETURNING
+            user_id,
+            email,
+            name
+        `,
+        values: [userId, name, email, password, specialityId, phone, req.user?.id]
+      })
+    }
+
     return res.status(STATUS.CREATED).json(camelizeObject(response.rows[0]))
   } catch (error: unknown) {
-    console.error('hola ', error)
     return handleControllerError(error, res)
   }
 }
