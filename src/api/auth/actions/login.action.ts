@@ -10,7 +10,7 @@ export const logIn = async (
 ): Promise<Response | undefined> => {
   try {
     const { userId, password } = req.body
-    console.log('hola')
+
     const { rows: userResponse } = await pool.query({
       text: `
         SELECT
@@ -22,7 +22,7 @@ export const logIn = async (
       `,
       values: [userId]
     })
-    console.log('hola')
+
     const { rows: asistentsResponse } = await pool.query({
       text: `
         SELECT
@@ -34,7 +34,7 @@ export const logIn = async (
       `,
       values: [userId]
     })
-    console.log('hola')
+
     if (userResponse.length > 0) {
       const isPasswordCorrect = await bcrypt.compare(password, userResponse[0].password)
       if (isPasswordCorrect) {
@@ -43,7 +43,7 @@ export const logIn = async (
         return res.status(STATUS.OK).json(token)
       }
     }
-    console.log('hola')
+
     if (asistentsResponse.length > 0) {
       const isPasswordCorrect = await bcrypt.compare(password, asistentsResponse[0].password)
       if (isPasswordCorrect) {
@@ -52,7 +52,7 @@ export const logIn = async (
         return res.status(STATUS.OK).json(token)
       }
     }
-    console.log('hola')
+
     return res.status(STATUS.UNAUTHORIZED).json({ message: 'Id o Contraseña Incorrecta' })
   } catch (error: unknown) {
     console.log(error)
