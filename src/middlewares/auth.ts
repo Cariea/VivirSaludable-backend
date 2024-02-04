@@ -39,7 +39,7 @@ export const hasAuthorization = (validRole: string) =>
       // Punto Critico
       const role = req.user?.role
       // --
-
+      console.log(role)
       if (role !== `${validRole}`) {
         return errorResponse(res, STATUS.UNAUTHORIZED, 'No autorizado para realizar esta acción')
       }

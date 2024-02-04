@@ -59,7 +59,7 @@ CREATE TABLE specialists (
   email dom_email UNIQUE NOT NULL,
   password dom_password NOT NULL,
   asistent_id dom_id_card,
-  speciality_id INTEGER,
+  speciality_id INTEGER NOT NULL,
   phone dom_phone_number,
   status BOOLEAN DEFAULT TRUE,
   created_at dom_created_at,
