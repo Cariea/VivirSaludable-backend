@@ -10,7 +10,7 @@ export const logIn = async (
 ): Promise<Response | undefined> => {
 	try {
 		const { userId, password } = req.body
-
+		console.log(userId, password)
 		const { rows: userResponse } = await pool.query({
 			text: `
         SELECT
@@ -24,7 +24,7 @@ export const logIn = async (
       `,
 			values: [userId]
 		})
-
+		console.log(userResponse)
 		if (userResponse.length > 0) {
 			const isPasswordCorrect = await bcrypt.compare(password, userResponse[0].password)
 			if (isPasswordCorrect) {

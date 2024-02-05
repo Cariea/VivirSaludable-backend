@@ -29,6 +29,7 @@ export const verifyToken = () =>
 			req.user = decoded as ExtendedRequestUser
 			return next()
 		} catch (error) {
+			console.log(error)
 			errorResponse(res, STATUS.UNAUTHORIZED, 'Error al decodificar el token')
 		}
 	}
