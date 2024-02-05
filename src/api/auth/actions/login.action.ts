@@ -15,20 +15,10 @@ export const logIn = async (
 			text: `
         SELECT
           user_id,
+          name,
+          role,
           password
         FROM users
-        WHERE
-          user_id = $1
-      `,
-			values: [userId]
-		})
-
-		const { rows: asistentsResponse } = await pool.query({
-			text: `
-        SELECT
-          user_id,
-          password
-        FROM asistents
         WHERE
           user_id = $1
       `,
@@ -38,16 +28,30 @@ export const logIn = async (
 		if (userResponse.length > 0) {
 			const isPasswordCorrect = await bcrypt.compare(password, userResponse[0].password)
 			if (isPasswordCorrect) {
-				const token = await generateToken(userResponse[0].user_id, 'users')
+				const token = await generateToken(userResponse[0].user_id, userResponse[0].name, userResponse[0].role)
 				console.log(token)
 				return res.status(STATUS.OK).json(token)
 			}
 		}
 
+		const { rows: asistentsResponse } = await pool.query({
+			text: `
+        SELECT
+          user_id,
+          name,
+          role,
+          password
+        FROM asistents
+        WHERE
+          user_id = $1
+      `,
+			values: [userId]
+		})
+
 		if (asistentsResponse.length > 0) {
 			const isPasswordCorrect = await bcrypt.compare(password, asistentsResponse[0].password)
 			if (isPasswordCorrect) {
-				const token = await generateToken(asistentsResponse[0].user_id, 'asistents')
+				const token = await generateToken(asistentsResponse[0].user_id,asistentsResponse[0].name, asistentsResponse[0].role)
 				console.log(token)
 				return res.status(STATUS.OK).json(token)
 			}
