@@ -98,11 +98,11 @@ CREATE TABLE programs (
 );
 
 -- 7
-CREATE TABLE indicationts (
+CREATE TABLE indications (
   specialist_id dom_id_card,
-  indicationt_id SERIAL,
+  indication_id SERIAL,
   description dom_description NOT NULL,
-  CONSTRAINT pk_indicationt PRIMARY KEY (specialist_id,indicationt_id),
+  CONSTRAINT pk_indicationt PRIMARY KEY (specialist_id,indication_id),
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 8
@@ -179,10 +179,10 @@ CREATE TABLE activities (
 -- 14
 CREATE TABLE assigned (
   specialist_id dom_id_card,
-  indicationt_id INTEGER,
+  indication_id INTEGER,
   pacient_id dom_id_card,
   completed BOOLEAN DEFAULT FALSE,
-  CONSTRAINT pk_assigned PRIMARY KEY (specialist_id,indicationt_id,pacient_id),
+  CONSTRAINT pk_assigned PRIMARY KEY (specialist_id,indication_id,pacient_id),
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 15

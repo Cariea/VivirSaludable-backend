@@ -48,4 +48,32 @@ INSERT INTO specialists (
     ('00000004', 'u5', 'ejsucre.19@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',3 , '00000008', '0412-1234571', TRUE),
     ('00000005', 'u6', 'cjnaim.16@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',4 , '00000008', '0412-1234572', TRUE);
 
+
+INSERT INTO indications (
+  specialist_id,
+  description
+) VALUES
+  ('00000004', 'tomar agua'),
+  ('00000004', 'hacer ejercicio'),
+  ('00000004', 'tomar medicamento'),
+  ('00000002', 'hacer ejercicio'),
+  ('00000002', 'tomar agua'),
+  ('00000003', 'hacer ejercicio'),
+  ('00000003', 'tomar medicamento'),
+  ('00000005', 'hacer ejercicio'),
+  ('00000005', 'tomar agua'),
+  ('00000005', 'tomar medicamento');
+
+  INSERT INTO programs (
+    name,
+    description
+  ) VALUES
+    ('programa #1', 'descripcion del programa #1'),
+    ('programa #2', 'descripcion del programa #2'),
+    ('programa #3', 'descripcion del programa #3'),
+    ('programa #4', 'descripcion del programa #4'),
+    ('programa #5', 'descripcion del programa #5'),
+    ('programa #6', 'descripcion del programa #6');
+  
+
 COMMIT;
