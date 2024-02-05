@@ -10,35 +10,35 @@ import { ExtendedRequest } from '../../../middlewares/auth'
 import { QueryResult } from 'pg'
 
 export const signUp = async (
-  req: ExtendedRequest,
-  res: Response
+	req: ExtendedRequest,
+	res: Response
 ): Promise<Response | undefined> => {
-  try {
-    const { userId, email, name, role, phone, specialityId } = req.body
-    let { password } = req.body
-    const registerData = [userId, password]
+	try {
+		const { userId, email, name, role, phone, specialityId } = req.body
+		let { password } = req.body
+		const registerData = [userId, password]
 
-    let response: QueryResult = { rows: [], rowCount: 0, command: 'algo paso', oid: 0, fields: [] }
+		let response: QueryResult = { rows: [], rowCount: 0, command: 'algo paso', oid: 0, fields: [] }
 
-    const { rows } = await pool.query({
-      text: `
+		const { rows } = await pool.query({
+			text: `
         SELECT EXISTS 
         (SELECT 1 FROM users WHERE user_id = $1);
       `,
-      values: [userId]
-    })
-    if (rows[0].exists === true) {
-      throw new StatusError({
-        message: 'Ya existe una cuenta con esta cédula',
-        statusCode: STATUS.BAD_REQUEST
-      })
-    }
+			values: [userId]
+		})
+		if (rows[0].exists === true) {
+			throw new StatusError({
+				message: 'Ya existe una cuenta con esta cédula',
+				statusCode: STATUS.BAD_REQUEST
+			})
+		}
 
-    password = await bcrypt.hash(registerData[1], Number(AUTH_ROUNDS))
+		password = await bcrypt.hash(registerData[1], Number(AUTH_ROUNDS))
 
-    if (role === 'pacient') {
-      response = await pool.query({
-        text: `
+		if (role === 'pacient') {
+			response = await pool.query({
+				text: `
           INSERT INTO pacients (
             user_id,
             name,
@@ -53,12 +53,12 @@ export const signUp = async (
             email,
             name
         `,
-        values: [userId, name, email, password, req.user?.id, phone]
-      })
-    }
-    if (role === 'specialist') {
-      response = await pool.query({
-        text: `
+				values: [userId, name, email, password, req.user?.id, phone]
+			})
+		}
+		if (role === 'specialist') {
+			response = await pool.query({
+				text: `
           INSERT INTO specialists (
             user_id,
             name,
@@ -74,12 +74,12 @@ export const signUp = async (
             email,
             name
         `,
-        values: [userId, name, email, password, specialityId, phone, req.user?.id]
-      })
-    }
+				values: [userId, name, email, password, specialityId, phone, req.user?.id]
+			})
+		}
 
-    return res.status(STATUS.CREATED).json(camelizeObject(response.rows[0]))
-  } catch (error: unknown) {
-    return handleControllerError(error, res)
-  }
+		return res.status(STATUS.CREATED).json(camelizeObject(response.rows[0]))
+	} catch (error: unknown) {
+		return handleControllerError(error, res)
+	}
 }
