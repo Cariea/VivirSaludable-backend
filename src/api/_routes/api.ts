@@ -8,6 +8,7 @@ import { verifyToken } from '../../middlewares/auth'
 import authRouter from '../auth/auth.routes'
 import pacientRouter from '../pacients/pacient.routes'
 import specialistRouter from '../specialists/specialist.routes'
+import indicationsRouter from '../indications/indication.routes'
 export const router = Router()
 
 // Test endpoint
@@ -21,3 +22,4 @@ router.use('/auth', authRouter)
 router.use(tokenGuard(), verifyToken())
 router.use('/pacients', pacientRouter)
 router.use('/specialists', specialistRouter)
+router.use('/indications', indicationsRouter)
