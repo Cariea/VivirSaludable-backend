@@ -1,16 +1,16 @@
 import { Response, Request } from 'express'
 import { pool } from '../../../database'
-import {  DEFAULT_PAGE, STATUS } from '../../../utils/constants'
-import { handleControllerError } from '../../../utils/responses/handle-controller-error'
-import camelizeObject from '../../../utils/camelize-object'
+import { DEFAULT_PAGE, STATUS } from '../../../utils/constants'
 import {
 	PaginateSettings,
 	paginatedItemsResponse
 } from '../../../utils/responses'
+import { handleControllerError } from '../../../utils/responses/handle-controller-error'
+import camelizeObject from '../../../utils/camelize-object'
 
-export const getPrograms = async (
+export const getSpecialties = async (
 	req: Request,
-	res: Response
+	res: Response,
 ): Promise<Response> => {
 	try {
 		const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size } = req.query
@@ -18,26 +18,25 @@ export const getPrograms = async (
 		if (Number(page) < 1) {
 			offset = 0
 		}
-		const { rows: programs } = await pool.query({
+		const { rows: specialties } = await pool.query({
 			text: `
         SELECT COUNT(*) 
-          FROM programs
+          FROM specialties
       `
 		})
 		const { rows } = await pool.query({
 			text: `
         SELECT 
-          program_id, 
-          name, 
-          description
-        FROM programs
+          specialty_id, 
+          name
+        FROM specialties
         LIMIT $1
         OFFSET $2
       `,
 			values: [size, offset]
 		})
 		const pagination: PaginateSettings = {
-			total: Number(programs[0].count),
+			total: Number(specialties[0].count),
 			page: Number(page),
 			perPage: Number(size)
 		}

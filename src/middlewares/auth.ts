@@ -34,15 +34,31 @@ export const verifyToken = () =>
 		}
 	}
 
-export const hasAuthorization = (validRole: string) =>
+// export const hasAuthorization = (validRole: string) =>
+// 	(req: ExtendedRequest, res: Response, next: NextFunction): any => {
+// 		try {
+// 			// Punto Critico
+// 			console.log(req.user)
+// 			const role = req.user?.role
+// 			// --
+// 			console.log(role)
+// 			if (role !== `${validRole}`) {
+// 				return errorResponse(res, STATUS.UNAUTHORIZED, 'No autorizado para realizar esta acción')
+// 			}
+// 			return next()
+// 		} catch (error) {
+// 			errorResponse(res, STATUS.UNAUTHORIZED, 'No autorizado para realizar esta acción')
+// 		}
+// 	}
+export const hasAuthorization = (validRoles: string[]) =>
 	(req: ExtendedRequest, res: Response, next: NextFunction): any => {
 		try {
 			// Punto Critico
 			console.log(req.user)
-			const role = req.user?.role
+			const role = req.user?.role || ''
 			// --
 			console.log(role)
-			if (role !== `${validRole}`) {
+			if (!validRoles.includes(role)) {
 				return errorResponse(res, STATUS.UNAUTHORIZED, 'No autorizado para realizar esta acción')
 			}
 			return next()

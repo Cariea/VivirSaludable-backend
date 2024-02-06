@@ -270,6 +270,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION update_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE users
+  SET name = NEW.name, password = NEW.password
+  WHERE user_id = NEW.user_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 
 
 -- Triggers
@@ -295,6 +305,9 @@ AFTER INSERT ON specialists
 FOR EACH ROW
 EXECUTE FUNCTION insert_users();
 
-
+CREATE TRIGGER update_user_from_specialists
+AFTER UPDATE ON specialists
+FOR EACH ROW
+EXECUTE FUNCTION update_user();
 
 COMMIT;

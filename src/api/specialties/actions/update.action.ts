@@ -4,24 +4,26 @@ import { STATUS } from '../../../utils/constants'
 import { handleControllerError } from '../../../utils/responses/handle-controller-error'
 import camelizeObject from '../../../utils/camelize-object'
 
-export const getBySpecialistsId = async (
+export const updateSpecialty = async (
 	req: Request,
 	res: Response
 ): Promise<Response> => {
 	try {
-		const { specialistId } = req.params
-		console.log(specialistId)
+		const { specialtyId } = req.params
+		const { name } = req.body
+
 		const { rows } = await pool.query({
 			text: `
-        SELECT name, email, phone, speciality_id
-          FROM specialists
-          WHERE user_id = $1
-          AND status = true
+        UPDATE specialties
+          SET name = $1
+          WHERE specialty_id = $2
+          RETURNING 
+          name
       `,
-			values: [specialistId]
+			values: [name, specialtyId]
 		})
 		if (rows.length === 0) {
-			return res.status(STATUS.NOT_FOUND).json({ message: 'Especialista no encontrado' })
+			return res.status(STATUS.NOT_FOUND).json({ message: 'Especialidad no encontrada' })
 		}
 		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	} catch (error: unknown) {

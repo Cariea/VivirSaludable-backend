@@ -1,31 +1,31 @@
-import { Response, Request } from 'express'
+import { Response } from 'express'
 import { pool } from '../../../database'
 import { STATUS } from '../../../utils/constants'
 import { handleControllerError } from '../../../utils/responses/handle-controller-error'
 import camelizeObject from '../../../utils/camelize-object'
+import { ExtendedRequest } from '../../../middlewares/auth'
 
-export const getBySpecialistsId = async (
-	req: Request,
+export const deleteQuestion = async (
+	req: ExtendedRequest,
 	res: Response
 ): Promise<Response> => {
+	const { questionId } = req.params
+
 	try {
-		const { specialistId } = req.params
-		console.log(specialistId)
 		const { rows } = await pool.query({
 			text: `
-        SELECT name, email, phone, speciality_id
-          FROM specialists
-          WHERE user_id = $1
-          AND status = true
+        DELETE FROM bot_questions
+          WHERE specialist_id = $1
+            AND question_id = $2
+          RETURNING *
       `,
-			values: [specialistId]
+			values: [req.user?.id, questionId]
 		})
 		if (rows.length === 0) {
-			return res.status(STATUS.NOT_FOUND).json({ message: 'Especialista no encontrado' })
+			return res.status(STATUS.NOT_FOUND).json({ message: 'Question not found' })
 		}
 		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
-	} catch (error: unknown) {
-		console.error(error)
+	}catch (error: unknown) {
 		return handleControllerError(error, res)
 	}
 }

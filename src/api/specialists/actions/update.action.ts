@@ -10,17 +10,17 @@ export const updateSpecialists = async (
 ): Promise<Response> => {
 	try {
 		const { specialistId } = req.params
-		const { name, email, phone } = req.body
+		const { name, email, phone, specialityId } = req.body
 
 		const { rows } = await pool.query({
 			text: `
         UPDATE specialists
-          SET name = $1, email = $2, phone = $3
+          SET name = $1, email = $2, phone = $3, speciality_id = $5
           WHERE user_id = $4
           AND status = true
           RETURNING name, email, phone
       `,
-			values: [name, email, phone, specialistId]
+			values: [name, email, phone, specialistId, specialityId]
 		})
 		if (rows.length === 0) {
 			return res.status(STATUS.NOT_FOUND).json({ message: 'Especialista no encontrado' })

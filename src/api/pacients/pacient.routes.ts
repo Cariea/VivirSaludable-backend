@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-
+// Constants
+import { AdminRoles, UserRole } from '../../utils/roles.enum'
 // Schemas
 // import { PacientSchema } from './pacient.schema'
 
@@ -16,9 +17,9 @@ import { updatePacient } from './actions/update.action'
 
 const router = Router()
 
-router.get('/me', hasAuthorization('pacient'), getMe)
-router.get('/:pacientId', hasAuthorization('specialist'), getByPacientId)
-router.get('/', hasAuthorization('specialist'), getPacients)
-router.put('/:pacientId', hasAuthorization('asistent'), updatePacient)
+router.get('/me', hasAuthorization([AdminRoles.ASISTENT]), getMe)
+router.get('/:pacientId', hasAuthorization([UserRole.ESPECIALISTA]), getByPacientId)
+router.get('/', hasAuthorization([UserRole.ESPECIALISTA]), getPacients)
+router.put('/:pacientId', hasAuthorization([AdminRoles.ASISTENT]), updatePacient)
 
 export default router
