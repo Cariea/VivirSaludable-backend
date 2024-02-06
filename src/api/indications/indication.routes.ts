@@ -16,7 +16,7 @@ const router = Router()
 
 router.use(hasAuthorization([UserRole.ESPECIALISTA]))
 
-router.get('/:specialistId', getBySpecialistId)
+router.get('/', getBySpecialistId)
 router.post('/add', addIndication)
 router.put('/:indicationId', updateIndication)
 router.delete('/:indicationId', deleteIndication)

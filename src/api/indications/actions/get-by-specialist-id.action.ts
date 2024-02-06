@@ -20,7 +20,7 @@ export const getBySpecialistId = async (
 			values: [req.user?.id]
 		})
 		if (rows.length === 0) {
-			return res.status(STATUS.NOT_FOUND).json({ message: 'Paciente no encontrado' })
+			return res.status(STATUS.NOT_FOUND).json({ message: 'Indicacion no encontrada' })
 		}
 		return res.status(STATUS.OK).json(camelizeObject(rows))
 	} catch (error: unknown) {

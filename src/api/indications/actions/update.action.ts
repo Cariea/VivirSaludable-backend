@@ -25,7 +25,9 @@ export const updateIndication = async (
       `,
 			values: [description, indicationId, req.user?.id]
 		})
-
+		if (response.rows.length === 0) {
+			return res.status(STATUS.NOT_FOUND).json({ message: 'Indicacion no encontrada' })
+		}
 		return res.status(STATUS.OK).json(camelizeObject(response.rows[0]))
 	} catch (error: any) {
 		console.error(error)
