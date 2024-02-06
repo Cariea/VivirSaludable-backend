@@ -1,28 +1,49 @@
 import { Response } from 'express'
 import { pool } from '../../../database'
-import { STATUS } from '../../../utils/constants'
+import { DEFAULT_PAGE, STATUS } from '../../../utils/constants'
 import { handleControllerError } from '../../../utils/responses/handle-controller-error'
 import camelizeObject from '../../../utils/camelize-object'
 import { ExtendedRequest } from '../../../middlewares/auth'
-
+import {
+	PaginateSettings,
+	paginatedItemsResponse
+} from '../../../utils/responses'
 export const getBySpecialistId = async (
 	req: ExtendedRequest,
 	res: Response
 ): Promise<Response> => {
 	try {
 
-		const { rows } = await pool.query({
+		const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size } = req.query
+		let offset = (Number(page) - 1) * Number(size)
+		if (Number(page) < 1) {
+			offset = 0
+		}
+		const { rows: indications } = await pool.query({
 			text: `
-        SELECT specialist_id, description
+        SELECT COUNT(*) 
           FROM indications
           WHERE specialist_id = $1
       `,
 			values: [req.user?.id]
 		})
-		if (rows.length === 0) {
-			return res.status(STATUS.NOT_FOUND).json({ message: 'Indicacion no encontrada' })
+		const { rows } = await pool.query({
+			text: `
+        SELECT specialist_id, description
+          FROM indications
+          WHERE specialist_id = $1
+          LIMIT $2
+          OFFSET $3
+      `,
+			values: [req.user?.id, size, offset]
+		})
+		const pagination: PaginateSettings = {
+			total: Number(indications[0].count),
+			page: Number(page),
+			perPage: Number(size)
 		}
-		return res.status(STATUS.OK).json(camelizeObject(rows))
+		return paginatedItemsResponse(res, STATUS.OK, camelizeObject(rows) as Array<Record<string, any>>, pagination)
+	
 	} catch (error: unknown) {
 		console.error(error)
 		return handleControllerError(error, res)
