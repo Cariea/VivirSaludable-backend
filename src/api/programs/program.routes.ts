@@ -1,5 +1,6 @@
 import { Router } from 'express'
-
+// Constants
+import { AdminRoles } from '../../utils/roles.enum'
 // Middlewares
 import { hasAuthorization } from '../../middlewares/auth'
 
@@ -11,7 +12,7 @@ import { deleteProgram } from './actions/delete.action'
 
 const router = Router()
 
-router.use(hasAuthorization('asistent'))
+router.use(hasAuthorization([AdminRoles.ASISTENT]))
 router.get('/', getPrograms)
 router.post('/add', addProgram)
 router.put('/:programId', updateProgram)
