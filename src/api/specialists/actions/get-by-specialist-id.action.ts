@@ -13,7 +13,7 @@ export const getBySpecialistsId = async (
 		console.log(specialistId)
 		const { rows } = await pool.query({
 			text: `
-        SELECT name, email, phone
+        SELECT name, email, phone, speciality_id
           FROM specialists
           WHERE user_id = $1
           AND status = true
