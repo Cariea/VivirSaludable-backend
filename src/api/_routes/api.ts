@@ -13,6 +13,7 @@ import programRouter from '../programs/program.routes'
 import questionRouter from '../bot-questions/question.routes'
 import specialtiesRouter from '../specialties/specialtie.routes'
 import antropometricosRouter from '../antropometricos/antropometricos.routes'
+import mealsRouter from '../meals/meal.routes'
 export const router = Router()
 
 // Test endpoint
@@ -31,3 +32,4 @@ router.use('/programs', programRouter)
 router.use('/questions', questionRouter)
 router.use('/specialties', specialtiesRouter)
 router.use('/antropometricos', antropometricosRouter)
+router.use('/meals', mealsRouter)

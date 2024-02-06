@@ -125,4 +125,26 @@ INSERT INTO atropometricos (
   ('00000003', '00000001', 43, 53, 63, 73, 83, 93, 103, 113, 123, 133, 143, 20),
   ('00000004', '00000006', 44, 54, 64, 74, 84, 94, 104, 114, 124, 134, 144, 20),
   ('00000005', '00000007', 45, 55, 65, 75, 85, 95, 105, 115, 125, 135, 145, 20);
+
+INSERT INTO meals (
+  pacient_id,
+  description,
+  meal_image_url,
+  was_safistied,
+  indicate_hour,
+  pica,
+  created_at
+) VALUES
+  ('00000000', 'desayuno', 'https://www.google.com', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
+  ('00000000', 'almuerzo', 'https://www.google.com', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
+  ('00000000', 'cena', 'https://www.google.com', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00'),
+  ('00000001', 'desayuno', 'https://www.google.com', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
+  ('00000001', 'almuerzo', 'https://www.google.com', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
+  ('00000001', 'cena', 'https://www.google.com', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00'),
+  ('00000006', 'desayuno', 'https://www.google.com', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
+  ('00000006', 'almuerzo', 'https://www.google.com', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
+  ('00000006', 'cena', 'https://www.google.com', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00'),
+  ('00000007', 'desayuno', 'https://www.google.com', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
+  ('00000007', 'almuerzo', 'https://www.google.com', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
+  ('00000007', 'cena', 'https://www.google.com', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00');
 COMMIT;
