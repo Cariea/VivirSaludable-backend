@@ -5,6 +5,7 @@ import { Server } from 'socket.io'
 import { createServer } from 'node:http'
 import { PORT } from './config'
 import { router } from './api/_routes/api'
+import { horus } from './middlewares/horus'
 
 // App Declaration
 const app = express()
@@ -42,7 +43,7 @@ app.use(cors({
 	credentials: true
 }))
 // Routes
-app.use('/', router)
+app.use('/',horus(), router)
 
 // Starting the server
 server.listen(app.get('port'), () => {
