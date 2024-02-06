@@ -75,5 +75,22 @@ INSERT INTO indications (
     ('programa #5', 'descripcion del programa #5'),
     ('programa #6', 'descripcion del programa #6');
   
+INSERT INTO bot_questions (
+  specialist_id,
+  question,
+  answer
+) VALUES
+  ('00000002', 'pregunta #1', 'respuesta #1'),
+  ('00000002', 'pregunta #2', 'respuesta #2'),
+  ('00000002', 'pregunta #3', 'respuesta #3'),
+  ('00000003', 'pregunta #4', 'respuesta #4'),
+  ('00000003', 'pregunta #5', 'respuesta #5'),
+  ('00000003', 'pregunta #6', 'respuesta #6'),
+  ('00000004', 'pregunta #7', 'respuesta #7'),
+  ('00000004', 'pregunta #8', 'respuesta #8'),
+  ('00000004', 'pregunta #9', 'respuesta #9'),
+  ('00000005', 'pregunta #10', 'respuesta #10'),
+  ('00000005', 'pregunta #11', 'respuesta #11'),
+  ('00000005', 'pregunta #12', 'respuesta #12');
 
 COMMIT;
