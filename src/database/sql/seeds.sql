@@ -239,4 +239,34 @@ INSERT INTO ingredients (
   ('00000001', 6, 'cereal', 'arroz', 200),
   ('00000001', 6, 'cereal', 'avena', 200),
   ('00000001', 6, 'cereal', 'trigo', 200);
+
+  CREATE TABLE symptoms (
+  pacient_id dom_id_card,
+  symptom_id SERIAL,
+  name dom_name NOT NULL,
+  description dom_description NOT NULL,
+  when_appeared dom_description NOT NULL,
+  created_at dom_created_at,
+  CONSTRAINT pk_symptom PRIMARY KEY (pacient_id,symptom_id),
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO symptoms (
+  pacient_id,
+  name,
+  description,
+  when_appeared
+) VALUES
+  ('00000000', 'sintoma #1', 'descripcion del sintoma #1', '2021-10-10 08:00:00'),
+  ('00000000', 'sintoma #2', 'descripcion del sintoma #2', '2021-10-10 12:00:00'),
+  ('00000000', 'sintoma #3', 'descripcion del sintoma #3', '2021-10-10 18:00:00'),
+  ('00000001', 'sintoma #4', 'descripcion del sintoma #4', '2021-10-10 08:00:00'),
+  ('00000001', 'sintoma #5', 'descripcion del sintoma #5', '2021-10-10 12:00:00'),
+  ('00000001', 'sintoma #6', 'descripcion del sintoma #6', '2021-10-10 18:00:00'),
+  ('00000006', 'sintoma #7', 'descripcion del sintoma #7', '2021-10-10 08:00:00'),
+  ('00000006', 'sintoma #8', 'descripcion del sintoma #8', '2021-10-10 12:00:00'),
+  ('00000006', 'sintoma #9', 'descripcion del sintoma #9', '2021-10-10 18:00:00'),
+  ('00000007', 'sintoma #10', 'descripcion del sintoma #10', '2021-10-10 08:00:00'),
+  ('00000007', 'sintoma #11', 'descripcion del sintoma #11', '2021-10-10 12:00:00'),
+  ('00000007', 'sintoma #12', 'descripcion del sintoma #12', '2021-10-10 18:00:00');
 COMMIT;

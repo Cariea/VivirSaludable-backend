@@ -15,6 +15,7 @@ import specialtiesRouter from '../specialties/specialtie.routes'
 import antropometricosRouter from '../antropometricos/antropometricos.routes'
 import mealsRouter from '../meals/meal.routes'
 import ingredientsRouter from '../ingredients/ingredient.routes'
+import symptomsRouter from '../symptoms/symptom.routes'
 export const router = Router()
 
 // Test endpoint
@@ -35,3 +36,4 @@ router.use('/specialties', specialtiesRouter)
 router.use('/antropometricos', antropometricosRouter)
 router.use('/meals', mealsRouter)
 router.use('/ingredients', ingredientsRouter)
+router.use('/symptoms', symptomsRouter)
