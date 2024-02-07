@@ -17,7 +17,7 @@ export const horus = () =>
 			const params = req.params  
 			const query = req.query
 			const body = req.body
-      
+			const headers = req.headers
 			const message =`
       Nueva solicitud recibida:
       - Endpoint: ${endpoint}
@@ -26,6 +26,7 @@ export const horus = () =>
       - Cuerpo: ${JSON.stringify(body)}
       - Método: ${method}
       - IP: ${ip}
+      - Headers: ${JSON.stringify(headers)}
       `
 			bot.telegram.sendMessage(Number(CHAT_ID), message)
 			return next()

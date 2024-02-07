@@ -269,4 +269,43 @@ INSERT INTO symptoms (
   ('00000007', 'sintoma #10', 'descripcion del sintoma #10', '2021-10-10 08:00:00'),
   ('00000007', 'sintoma #11', 'descripcion del sintoma #11', '2021-10-10 12:00:00'),
   ('00000007', 'sintoma #12', 'descripcion del sintoma #12', '2021-10-10 18:00:00');
+
+  CREATE TABLE activities (
+  pacient_id dom_id_card,
+  activity_id SERIAL,
+  name dom_name NOT NULL,
+  hour TIMESTAMP,
+  time dom_volume,
+  distance dom_volume,
+  weight dom_volume,
+  repetitions dom_volume,
+  description dom_description NOT NULL,
+  created_at dom_created_at,
+  CONSTRAINT pk_activity PRIMARY KEY (pacient_id,activity_id),
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO activities (
+  pacient_id,
+  name,
+  hour,
+  time,
+  distance,
+  weight,
+  repetitions,
+  description
+) VALUES
+  ('00000000', 'actividad #1', '2021-10-10 08:00:00', 1, 1, 1, 1, 'descripcion de la actividad #1'),
+  ('00000000', 'actividad #2', '2021-10-10 12:00:00', 1, 1, 1, 1, 'descripcion de la actividad #2'),
+  ('00000000', 'actividad #3', '2021-10-10 18:00:00', 1, 1, 1, 1, 'descripcion de la actividad #3'),
+  ('00000001', 'actividad #4', '2021-10-10 08:00:00', 1, 1, 1, 1, 'descripcion de la actividad #4'),
+  ('00000001', 'actividad #5', '2021-10-10 12:00:00', 1, 1, 1, 1, 'descripcion de la actividad #5'),
+  ('00000001', 'actividad #6', '2021-10-10 18:00:00', 1, 1, 1, 1, 'descripcion de la actividad #6'),
+  ('00000006', 'actividad #7', '2021-10-10 08:00:00', 1, 1, 1, 1, 'descripcion de la actividad #7'),
+  ('00000006', 'actividad #8', '2021-10-10 12:00:00', 1, 1, 1, 1, 'descripcion de la actividad #8'),
+  ('00000006', 'actividad #9', '2021-10-10 18:00:00', 1, 1, 1, 1, 'descripcion de la actividad #9'),
+  ('00000007', 'actividad #10', '2021-10-10 08:00:00', 1, 1, 1, 1, 'descripcion de la actividad #10'),
+  ('00000007', 'actividad #11', '2021-10-10 12:00:00', 1, 1, 1, 1, 'descripcion de la actividad #11'),
+  ('00000007', 'actividad #12', '2021-10-10 18:00:00', 1, 1, 1, 1, 'descripcion de la actividad #12');
+
 COMMIT;

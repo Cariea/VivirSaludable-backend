@@ -6,30 +6,29 @@ import { handleControllerError } from '../utils/responses/handle-controller-erro
 import { errorResponse } from '../utils/responses'
 
 const schema = z.object({
-  authorization: z.string().refine((value) => {
-    if (!value.startsWith('Bearer')) {
-      throw new StatusError({
-        message: 'Autorización Bearer necesaria',
-        statusCode: STATUS.UNAUTHORIZED
-      })
-    }
-    return true
-  })
+	authorization: z.string().refine((value) => {
+		if (!value.startsWith('Bearer')) {
+			throw new StatusError({
+				message: 'Autorización Bearer necesaria',
+				statusCode: STATUS.UNAUTHORIZED
+			})
+		}
+		return true
+	})
 })
 
-export const tokenGuard =
-  () => (req: Request, res: Response, next: NextFunction) => {
-    try {
-      schema.parse(req.headers)
-      return next()
-    } catch (error) {
-      if (error instanceof ZodError) {
-        return errorResponse(res, STATUS.BAD_REQUEST, 'Error de Token',
-          error.issues.map((issue) => ({
-            field: String(issue.path),
-            message: issue.message
-          })))
-      }
-      handleControllerError(error, res)
-    }
-  }
+export const tokenGuard = () => (req: Request, res: Response, next: NextFunction) => {
+	try {
+		schema.parse(req.headers)
+		return next()
+	} catch (error) {
+		if (error instanceof ZodError) {
+			return errorResponse(res, STATUS.BAD_REQUEST, 'Error de Token',
+				error.issues.map((issue) => ({
+					field: String(issue.path),
+					message: issue.message
+				})))
+		}
+		handleControllerError(error, res)
+	}
+}
