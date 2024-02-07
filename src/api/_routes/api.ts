@@ -14,6 +14,7 @@ import questionRouter from '../bot-questions/question.routes'
 import specialtiesRouter from '../specialties/specialtie.routes'
 import antropometricosRouter from '../antropometricos/antropometricos.routes'
 import mealsRouter from '../meals/meal.routes'
+import ingredientsRouter from '../ingredients/ingredient.routes'
 export const router = Router()
 
 // Test endpoint
@@ -33,3 +34,4 @@ router.use('/questions', questionRouter)
 router.use('/specialties', specialtiesRouter)
 router.use('/antropometricos', antropometricosRouter)
 router.use('/meals', mealsRouter)
+router.use('/ingredients', ingredientsRouter)
