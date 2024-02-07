@@ -5,7 +5,7 @@ export const MealSchema = z.object({
 		.string(),
 	description: z
 		.string(),
-	imageUrl: z
+	mealImage: z
 		.string(),
 	wasSatisfied: z
 		.boolean(),
@@ -14,3 +14,6 @@ export const MealSchema = z.object({
 	pica: z
 		.boolean()
 })
+
+export const AddMealSchema = MealSchema.omit({ pacient_id: true })
+export const UpdateMealSchema = MealSchema.omit({ pacient_id: true })

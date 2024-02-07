@@ -6,9 +6,12 @@ export const IngredientSchema = z.object({
 	mealId: z
 		.number(),
 	ingredientType: z
-		.enum(['solid', 'liquid']),
+		.enum(['vegetal','fruta','proteina','lacteo','cereal','carbohidrato','otro']),
 	name: z
 		.string(),
 	volume: z
 		.number()
 })
+
+export const AddIngredientSchema = IngredientSchema.omit({pacientId: true, mealId: true})
+export const UpdateIngredientSchema = IngredientSchema.omit({pacientId: true, mealId: true})

@@ -10,3 +10,6 @@ export const SymptomSchema = z.object({
 	whenAppeared: z
 		.string()
 })
+
+export const addSymptomSchema = SymptomSchema.omit({ pacientId: true })
+export const updateSymptomSchema = SymptomSchema.omit({ pacientId: true })

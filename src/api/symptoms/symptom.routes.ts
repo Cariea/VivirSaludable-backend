@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 //schemas
-import { SymptomSchema } from './symptom.schema'
+import { addSymptomSchema,updateSymptomSchema } from './symptom.schema'
 //Middlewares
 import { schemaGuard } from '../../middlewares/schema-guard'
 //Controllers
@@ -13,8 +13,8 @@ import { deleteSymptom } from './actions/delete.action'
 const router = Router()
 //Routes
 router.get('/:pacientId', getSymptoms)
-router.post('/add',schemaGuard(SymptomSchema), addSymptom)
-router.put('/:symptomId', updateSymptom)
+router.post('/add/:pacientId',schemaGuard(addSymptomSchema), addSymptom)
+router.put('/:symptomId',schemaGuard(updateSymptomSchema), updateSymptom)
 router.delete('/:symptomId', deleteSymptom)
 
 export default router

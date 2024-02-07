@@ -9,7 +9,8 @@ export const addIngredient = async (
 	res: Response
 ): Promise<Response> => {
 	try {
-		const {ingredientType, name, volume, pacientId, mealId } = req.body
+		const {ingredientType, name, volume } = req.body
+		const {  pacientId, mealId } = req.params
 
 		const { rows } = await pool.query({
 			text: `

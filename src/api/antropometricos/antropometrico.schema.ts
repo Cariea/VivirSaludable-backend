@@ -1,10 +1,6 @@
 import { z } from 'zod'
 
 export const AntropometricoSchema = z.object({
-	specialistId: z
-		.string(),
-	pacientId: z
-		.string(),
 	armCircumference: z
 		.number()
 		.min(1, 'Arm circumference is too short'),

@@ -9,7 +9,8 @@ export const addSymptom = async (
 	res: Response
 ): Promise<Response> => {
 	try {
-		const { name, description, pacientId, whenAppeared } = req.body
+		const { name, description, whenAppeared } = req.body
+		const { pacientId } = req.params
 		const { rows } = await pool.query({
 			text: `
         INSERT INTO symptoms (

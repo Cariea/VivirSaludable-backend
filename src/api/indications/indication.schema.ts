@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const IndicatioSchema = z.object({
+export const IndicationSchema = z.object({
 	description: z
 		.string()
 		.min(1, 'Debe indicar una descripción')

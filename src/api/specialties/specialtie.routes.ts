@@ -1,10 +1,12 @@
 import { Router } from 'express'
 
+// Schema
+import { SpecialtieSchema } from './specialtie.schema'
+
 // Middlewares
 // import { hasAuthorization } from '../../middlewares/auth'
+import { schemaGuard } from '../../middlewares/schema-guard'
 
-// // Schema
-// import { SpecialtieSchema } from './specialtie.schema'
 
 // Controllers
 import { getSpecialties } from './actions/get.action'
@@ -14,8 +16,8 @@ import { deleteSpecialty } from './actions/delete.action'
 const router = Router()
 
 router.get('/', getSpecialties)
-router.post('/add', addSpecialty)
-router.put('/:specialtyId', updateSpecialty)
+router.post('/add', schemaGuard(SpecialtieSchema), addSpecialty)
+router.put('/:specialtyId', schemaGuard(SpecialtieSchema), updateSpecialty)
 router.delete('/:specialtyId', deleteSpecialty)
 
 export default router
