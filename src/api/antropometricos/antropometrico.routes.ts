@@ -1,9 +1,9 @@
 import {Router} from 'express'
 
-// Middlewares
-
 // Schemas
-
+import { AntropometricoSchema } from './antropometrico.schema'
+// Middlewares
+import { schemaGuard } from '../../middlewares/schema-guard'
 // Controllers
 import { getAntropometricos } from './actions/get.action'
 import { addAntropometrico } from './actions/add.action'
@@ -13,8 +13,8 @@ const router = Router()
 
 //Routes
 router.get('/', getAntropometricos)
-router.post('/add/:pacientId', addAntropometrico)
-router.put('/:antropometricoId', updateAntropometrico)
+router.post('/add/:pacientId',schemaGuard(AntropometricoSchema),  addAntropometrico)
+router.put('/:antropometricoId',schemaGuard(AntropometricoSchema),  updateAntropometrico)
 router.delete('/:antropometricoId', deleteAntropometrico)
 
 export default router

@@ -24,3 +24,7 @@ export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET
 
 // Frontend
 export const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL
+
+// Horus
+export const BOT_TOKEN = process.env.BOT_TOKEN
+export const CHAT_ID = process.env.CHAT_ID
