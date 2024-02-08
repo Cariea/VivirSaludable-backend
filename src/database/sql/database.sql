@@ -210,7 +210,7 @@ CREATE TABLE belongs (
   CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_program_id FOREIGN KEY (program_id) REFERENCES programs(program_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE post_procedure_symtomps (
+CREATE TABLE post_procedure_symptoms (
   pacient_id dom_id_card,
   record_id SERIAL,
   temperature dom_volume NOT NULL,
@@ -221,6 +221,7 @@ CREATE TABLE post_procedure_symtomps (
   temperature_high BOOLEAN GENERATED ALWAYS AS (
     CASE
       WHEN temperature > 38.5 THEN true
+      WHEN temperature <= 38.5 THEN false
     END
   ) STORED,
   created_at dom_created_at,
