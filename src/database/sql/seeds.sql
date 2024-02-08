@@ -148,17 +148,6 @@ INSERT INTO meals (
   ('00000007', 'almuerzo', 'https://www.google.com', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
   ('00000007', 'cena', 'https://www.google.com', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00');
 
-  CREATE TABLE ingredients (
-  pacient_id dom_id_card,
-  meal_id INTEGER,
-  ingredient_id SERIAL,
-  ingredient_type dom_ingredient_type NOT NULL,
-  name dom_name NOT NULL,
-  volume dom_volume NOT NULL,
-  created_at dom_created_at,
-  CONSTRAINT pk_ingredient PRIMARY KEY (pacient_id,meal_id,ingredient_id),
-  CONSTRAINT fk_meal_id FOREIGN KEY (pacient_id,meal_id) REFERENCES meals(pacient_id,meal_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
 
 INSERT INTO ingredients (
   pacient_id,
@@ -240,16 +229,6 @@ INSERT INTO ingredients (
   ('00000001', 6, 'cereal', 'avena', 200),
   ('00000001', 6, 'cereal', 'trigo', 200);
 
-  CREATE TABLE symptoms (
-  pacient_id dom_id_card,
-  symptom_id SERIAL,
-  name dom_name NOT NULL,
-  description dom_description NOT NULL,
-  when_appeared dom_description NOT NULL,
-  created_at dom_created_at,
-  CONSTRAINT pk_symptom PRIMARY KEY (pacient_id,symptom_id),
-  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
 
 INSERT INTO symptoms (
   pacient_id,
@@ -270,20 +249,7 @@ INSERT INTO symptoms (
   ('00000007', 'sintoma #11', 'descripcion del sintoma #11', '2021-10-10 12:00:00'),
   ('00000007', 'sintoma #12', 'descripcion del sintoma #12', '2021-10-10 18:00:00');
 
-  CREATE TABLE activities (
-  pacient_id dom_id_card,
-  activity_id SERIAL,
-  name dom_name NOT NULL,
-  hour TIMESTAMP,
-  time dom_volume,
-  distance dom_volume,
-  weight dom_volume,
-  repetitions dom_volume,
-  description dom_description NOT NULL,
-  created_at dom_created_at,
-  CONSTRAINT pk_activity PRIMARY KEY (pacient_id,activity_id),
-  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
+
 
 INSERT INTO activities (
   pacient_id,
@@ -308,4 +274,18 @@ INSERT INTO activities (
   ('00000007', 'actividad #11', '2021-10-10 12:00:00', 1, 1, 1, 1, 'descripcion de la actividad #11'),
   ('00000007', 'actividad #12', '2021-10-10 18:00:00', 1, 1, 1, 1, 'descripcion de la actividad #12');
 
+
+INSERT INTO assigned (
+  specialist_id,
+  indication_id,
+  pacient_id
+) VALUES
+  ('00000002', 4, '00000000'),
+  ('00000002', 5, '00000000'),
+  ('00000002', 4, '00000001'),
+  ('00000002', 5, '00000001'),
+  ('00000002', 4, '00000006'),
+  ('00000002', 5, '00000006'),
+  ('00000002', 4, '00000007'),
+  ('00000002', 5, '00000007');
 COMMIT;
