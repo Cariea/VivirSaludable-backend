@@ -288,4 +288,28 @@ INSERT INTO assigned (
   ('00000002', 5, '00000006'),
   ('00000002', 4, '00000007'),
   ('00000002', 5, '00000007');
+
+  
+CREATE TABLE belongs (
+  asistent_id dom_id_card,
+  pacient_id dom_id_card,
+  program_id INTEGER,
+  entry_date dom_created_at,
+  CONSTRAINT pk_belongs PRIMARY KEY (asistent_id,pacient_id,program_id),
+  CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_program_id FOREIGN KEY (program_id) REFERENCES programs(program_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO belongs (
+  asistent_id,
+  pacient_id,
+  program_id,
+  entry_date
+) VALUES
+  ('00000008', '00000000', 1, '2021-10-10 08:00:00'),
+  ('00000008', '00000001', 2, '2021-10-10 08:00:00'),
+  ('00000008', '00000006', 3, '2021-10-10 08:00:00'),
+  ('00000008', '00000007', 4, '2021-10-10 08:00:00');
+  
 COMMIT;
