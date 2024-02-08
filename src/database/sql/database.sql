@@ -181,6 +181,7 @@ CREATE TABLE assigned (
   specialist_id dom_id_card,
   indication_id INTEGER,
   pacient_id dom_id_card,
+  assigned_id SERIAL,
   completed BOOLEAN DEFAULT FALSE,
   CONSTRAINT pk_assigned PRIMARY KEY (specialist_id,indication_id,pacient_id),
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -204,11 +205,12 @@ CREATE TABLE belongs (
   program_id INTEGER,
   entry_date dom_created_at,
   CONSTRAINT pk_belongs PRIMARY KEY (asistent_id,pacient_id,program_id),
+  CONSTRAINT uq_belongs UNIQUE (pacient_id, program_id),
   CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_program_id FOREIGN KEY (program_id) REFERENCES programs(program_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE post_procedure_symtomps (
+CREATE TABLE post_procedure_symptoms (
   pacient_id dom_id_card,
   record_id SERIAL,
   temperature dom_volume NOT NULL,
@@ -219,6 +221,7 @@ CREATE TABLE post_procedure_symtomps (
   temperature_high BOOLEAN GENERATED ALWAYS AS (
     CASE
       WHEN temperature > 38.5 THEN true
+      WHEN temperature <= 38.5 THEN false
     END
   ) STORED,
   created_at dom_created_at,

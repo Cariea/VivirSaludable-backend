@@ -17,6 +17,10 @@ import mealsRouter from '../meals/meal.routes'
 import ingredientsRouter from '../ingredients/ingredient.routes'
 import symptomsRouter from '../symptoms/symptom.routes'
 import activitiesRoutes from '../activities/activity.routes'
+import assignmentsRoutes from '../assigned/assigned.routes'
+import belongsRoutes from '../belongs/belong.routes'
+import ppSymptomsRoutes from '../post-procedure-symptoms/pp-symptoms.routes'
+
 export const router = Router()
 
 // Test endpoint
@@ -39,3 +43,6 @@ router.use('/meals', mealsRouter)
 router.use('/ingredients', ingredientsRouter)
 router.use('/symptoms', symptomsRouter)
 router.use('/activities', activitiesRoutes)
+router.use('/assignments', assignmentsRoutes)
+router.use('/belongs', belongsRoutes)
+router.use('/post-procedure-symptoms', ppSymptomsRoutes)
