@@ -30,7 +30,7 @@ export const getSpecialists = async (
 
 		const { rows: specialists } = await pool.query({
 			text: `
-        SELECT * 
+        SELECT  user_id, name, email, phone, asistent_id, speciality_id, status, created_at, updated_at
           FROM specialists
           WHERE status = $1
           ORDER BY created_at DESC

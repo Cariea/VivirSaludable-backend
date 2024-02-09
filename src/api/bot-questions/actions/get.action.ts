@@ -14,6 +14,9 @@ export const getQuestions = async (
 ): Promise<Response> => {
 	const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size } = req.query
 	const specialisId = req.query.specialistId
+	if (!specialisId) {
+		return res.status(STATUS.BAD_REQUEST).json({ message: 'Specialist id is required' })
+	}
 	console.log(specialisId)
 	try {
 		let offset = (Number(page) - 1) * Number(size)

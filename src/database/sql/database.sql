@@ -228,7 +228,7 @@ CREATE TABLE post_procedure_symptoms (
   CONSTRAINT pk_post_procedure_symtomps PRIMARY KEY (pacient_id,record_id),
   CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE SECRETIONS (
+CREATE TABLE secretions (
   pacient_id dom_id_card,
   record_id SERIAL,
   abundant BOOLEAN NOT NULL,
@@ -238,7 +238,7 @@ CREATE TABLE SECRETIONS (
   CONSTRAINT pk_secretions PRIMARY KEY (pacient_id,record_id),
   CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE TABLE quotes (
+CREATE TABLE health_queries (
   specialist_id dom_id_card,
   quote_id SERIAL,
   quote_date dom_created_at NOT NULL,

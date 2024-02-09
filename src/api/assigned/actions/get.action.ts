@@ -16,18 +16,19 @@ export const getAssignments = async (
 ): Promise<Response> => {
 	const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size } = req.query
 	const {pacientId, specialistId}= req.query
-
+	if (req.user?.role === UserRole.PACIENTE && !specialistId) {
+		return res.status(STATUS.BAD_REQUEST).json({ message: 'Falta el id del especialista' })
+	}
+	if (req.user?.role === UserRole.ESPECIALISTA && !pacientId) {
+		return res.status(STATUS.BAD_REQUEST).json({ message: 'Falta el id del paciente' })
+	}
+  
 	const querySpecialists = `SELECT COUNT(*) FROM assigned WHERE specialist_id = $1 AND pacient_id = $2`
 	const queryPacients = 'SELECT COUNT(*) FROM assigned WHERE pacient_id = $1 AND specialist_id = $2'
 
 	let assignments: Array<Record<string, any>> = []
 	let count 
-	console.log({
-		pacientId,
-		specialistId,
-		queryPacients,
-		querySpecialists
-	})
+
 	try {
 		let offset = (Number(page) - 1) * Number(size)
 		if (Number(page) < 1) {
@@ -53,12 +54,7 @@ export const getAssignments = async (
 			})
 			assignments = rows
 		}
-		console.log({
-			specialist: req.user?.id,
-			pacient: pacientId,
-			count,
-			assignments
-		})
+
 		if(req.user?.role === UserRole.PACIENTE){
 			const {rows: response}  = await pool.query({
 				text: queryPacients,
@@ -78,14 +74,7 @@ export const getAssignments = async (
 			})
 			assignments = rows
 		}
-		console.log({
-			pacient: req.user?.id,
-			specialist: specialistId,
-			count,
-			assignments
-		})
 		
-
 		const pagination: PaginateSettings = {
 			total: Number(count),
 			page: Number(page),

@@ -9,6 +9,10 @@ export const addAntropometrico = async (
 	req: ExtendedRequest,
 	res: Response
 ): Promise<Response> => {
+	const { pacientId } = req.query
+	if (!pacientId) {
+		return res.status(STATUS.BAD_REQUEST).json({ message: 'Falta el id del paciente' })
+	}
 	const {
 		armCircumference,
 		legCircumference,
@@ -23,7 +27,7 @@ export const addAntropometrico = async (
 		waistHipRatio,
 		visceralFatLevel
 	} = req.body
-	const { pacientId } = req.params
+	
 
 	try {
 		const { rows } = await pool.query({

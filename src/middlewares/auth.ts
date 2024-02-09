@@ -57,7 +57,7 @@ export const hasAuthorization = (validRoles: string[]) =>
 			console.log(req.user)
 			const role = req.user?.role || ''
 			// --
-			console.log(role)
+			console.log(' ssss',role)
 			if (!validRoles.includes(role)) {
 				return errorResponse(res, STATUS.UNAUTHORIZED, 'No autorizado para realizar esta acción')
 			}

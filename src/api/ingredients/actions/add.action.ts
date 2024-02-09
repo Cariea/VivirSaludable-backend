@@ -10,8 +10,10 @@ export const addIngredient = async (
 ): Promise<Response> => {
 	try {
 		const {ingredientType, name, volume } = req.body
-		const {  pacientId, mealId } = req.params
-
+		const {  pacientId, mealId } = req.query
+		if (!pacientId || !mealId) {
+			return res.status(STATUS.BAD_REQUEST).json({ message: 'Pacient id and meal id are required' })
+		}
 		const { rows } = await pool.query({
 			text: `
         INSERT INTO ingredients (

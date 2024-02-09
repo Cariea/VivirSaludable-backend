@@ -13,7 +13,10 @@ export const getMeals = async (
 	res: Response
 ): Promise<Response> => {
 	try {
-		const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size } = req.query
+		const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size, pacientId } = req.query
+		if (!pacientId) {
+			return res.status(STATUS.BAD_REQUEST).json({ message: 'Pacient id is required' })
+		}
 		let offset = (Number(page) - 1) * Number(size)
 		if (Number(page) < 1) {
 			offset = 0
@@ -22,17 +25,20 @@ export const getMeals = async (
 			text: `
         SELECT COUNT(*) 
           FROM meals
-      `
+          WHERE pacient_id = $1
+      `,
+			values: [pacientId]
 		})
 		const { rows } = await pool.query({
 			text: `
         SELECT 
           *
         FROM meals
-        LIMIT $1
-        OFFSET $2
+        WHERE pacient_id = $1
+        LIMIT $2
+        OFFSET $3
       `,
-			values: [size, offset]
+			values: [pacientId, size, offset]
 		})
 		const pagination: PaginateSettings = {
 			total: Number(meals[0].count),
