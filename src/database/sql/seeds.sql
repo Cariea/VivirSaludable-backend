@@ -320,4 +320,20 @@ INSERT INTO post_procedure_symptoms (
   ('00000006', 39.5, TRUE, TRUE, TRUE, TRUE),
   ('00000007', 39.5, TRUE, TRUE, TRUE, TRUE);
 
+INSERT INTO secretions (
+  pacient_id,
+  abundant,
+  yellow,
+  blood,
+  smelly
+) VALUES
+  ('00000000', TRUE, TRUE, TRUE, TRUE),
+  ('00000001', TRUE, TRUE, TRUE, TRUE),
+  ('00000006', TRUE, TRUE, TRUE, TRUE),
+  ('00000007', TRUE, TRUE, TRUE, TRUE),
+  ('00000000', TRUE, TRUE, TRUE, TRUE),
+  ('00000001', TRUE, TRUE, TRUE, TRUE),
+  ('00000006', TRUE, TRUE, TRUE, TRUE),
+  ('00000007', TRUE, TRUE, TRUE, TRUE);
+
 COMMIT;
