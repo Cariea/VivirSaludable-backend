@@ -186,6 +186,16 @@ CREATE TABLE assigned (
   CONSTRAINT pk_assigned PRIMARY KEY (specialist_id,indication_id,pacient_id),
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE daily_assing (
+  specialist_id dom_id_card,
+  indication_id INTEGER,
+  pacient_id dom_id_card,
+  date_assing dom_created_at,
+  completed BOOLEAN DEFAULT FALSE,
+  CONSTRAINT pk_daily_assing PRIMARY KEY (specialist_id,indication_id,pacient_id,date_assing),
+  CONSTRAINT fk_assigned_id FOREIGN KEY (specialist_id,indication_id,pacient_id) REFERENCES assigned(specialist_id,indication_id,pacient_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 -- 15
 CREATE TABLE assings (
   asistent_id dom_id_card,
