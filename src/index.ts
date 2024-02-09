@@ -21,15 +21,38 @@ export const io = new Server(server, {
 	allowEIO3: true,
 	connectionStateRecovery: {}
 })
-
+const userIdToSocket = new Map<string,string>()
+const socketToUserId = new Map<string,string>()
+const pendingMessages = new Map<string, Array<any>>()
 io.on('connection', (socket) => {
-	console.log('New client connected')
-	console.log(socket.id)
+	console.log(`Nuevo cliente conectado: ${socket.id}, Usuario: ${socket.handshake.query.userId}`)
+  
+	socketToUserId.set(socket.id, socket.handshake.query.userId as string)
+	userIdToSocket.set(socket.handshake.query.userId as string, socket.id)
+
 	socket.on('disconnect', () => {
-		console.log('Client disconnected')
+		console.log(`Se desconecto: ${socketToUserId.get(socket.id)}`)
+		userIdToSocket.delete(socketToUserId.get(socket.id) as string)
+		socketToUserId.delete(socket.id)
+		console.log(userIdToSocket)
+		console.log(socketToUserId)
+	})
+
+	socket.on('chat message', (message) => {
+		if(userIdToSocket.get(message.to)){
+			console.log('Mensaje enviado de: ', socketToUserId.get(socket.id), 'a:', message.to)
+		}{
+			console.log('Mensaje enviado de: ', socketToUserId.get(socket.id), 'a:', message.to, 'no se encuentra conectado')
+			pendingMessages.set(message.to, pendingMessages.get(message.to) ? [...pendingMessages.get(message.to) as any, message] : [message])
+			console.log(pendingMessages)
+		}
+
+		//io.to(onlineUsers.get(socket.id)).emit('chat message', message
+		// Puedes emitir el mensaje a todos los usuarios conectados, por ejemplo:
+		// io.emit('chat message', message)
 	})
 })
-// const onlineUsers = new Map<string, string>()
+
 // Settings
 app.set('port', PORT !== '' ? PORT : 3000)
 
