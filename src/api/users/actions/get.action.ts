@@ -24,8 +24,8 @@ export const getAllUsers = async (
           p.status,
           u.role AS role,
           pr.name AS program,
-          COUNT(DISTINCT a.specialist_id) AS numero_especialistas,
-          COUNT(DISTINCT b.program_id) AS numero_programas
+          COUNT(DISTINCT a.specialist_id) AS especialists,
+          COUNT(DISTINCT b.program_id) AS program
         FROM
           pacients p
         LEFT JOIN
