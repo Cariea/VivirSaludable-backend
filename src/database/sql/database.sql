@@ -250,12 +250,12 @@ CREATE TABLE secretions (
 );
 CREATE TABLE health_queries (
   specialist_id dom_id_card,
+  pacient_id dom_id_card NOT NULL,
   quote_id SERIAL,
   quote_date dom_created_at NOT NULL,
-  pacient_id dom_id_card NOT NULL,
   quote_atention BOOLEAN ,
   quote_review dom_description,
-  CONSTRAINT pk_quote PRIMARY KEY (specialist_id,quote_id),
+  CONSTRAINT pk_quote PRIMARY KEY (specialist_id, pacient_id, quote_id),
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -294,6 +294,25 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION check_quote_date()
+RETURNS TRIGGER AS $$
+DECLARE
+  last_quote_date date;
+BEGIN
+  SELECT MAX(quote_date) INTO last_quote_date
+  FROM health_queries
+  WHERE specialist_id = NEW.specialist_id
+    AND pacient_id = NEW.pacient_id;
+
+  IF last_quote_date IS NOT NULL AND last_quote_date >= CURRENT_DATE THEN
+    RAISE NOTICE 'No se puede registrar una nueva consulta antes de la fecha de la ultima consulta registrada.';
+    RETURN NULL;
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 
 -- Triggers
 CREATE TRIGGER update_updated_at_pacients
@@ -322,5 +341,11 @@ CREATE TRIGGER update_user_from_specialists
 AFTER UPDATE ON specialists
 FOR EACH ROW
 EXECUTE FUNCTION update_user();
+
+
+CREATE TRIGGER trigger_check_quote_date
+BEFORE INSERT ON health_queries
+FOR EACH ROW
+EXECUTE FUNCTION check_quote_date();
 
 COMMIT;
