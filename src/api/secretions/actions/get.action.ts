@@ -8,32 +8,37 @@ import {
 	paginatedItemsResponse
 } from '../../../utils/responses'
 
-export const getMeals = async (
+export const getSecretions = async (
 	req: Request,
 	res: Response
 ): Promise<Response> => {
 	try {
 		const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size, pacientId } = req.query
 		if (!pacientId) {
-			return res.status(STATUS.BAD_REQUEST).json({ message: 'Pacient id is required' })
+			return res.status(STATUS.BAD_REQUEST).json({ message: 'Falta el id del paciente' })
 		}
 		let offset = (Number(page) - 1) * Number(size)
 		if (Number(page) < 1) {
 			offset = 0
 		}
-		const { rows: meals } = await pool.query({
+		const { rows: secretions } = await pool.query({
 			text: `
         SELECT COUNT(*) 
-          FROM meals
-          WHERE pacient_id = $1
+          FROM secretions
+          where pacient_id = $1
       `,
 			values: [pacientId]
 		})
 		const { rows } = await pool.query({
 			text: `
         SELECT 
-          *
-        FROM meals
+          pacient_id,
+          record_id,
+          abundant, 
+          yellow, 
+          blood, 
+          smelly
+        FROM secretions
         WHERE pacient_id = $1
         LIMIT $2
         OFFSET $3
@@ -41,7 +46,7 @@ export const getMeals = async (
 			values: [pacientId, size, offset]
 		})
 		const pagination: PaginateSettings = {
-			total: Number(meals[0].count),
+			total: Number(secretions[0].count),
 			page: Number(page),
 			perPage: Number(size)
 		}

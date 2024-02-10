@@ -48,6 +48,42 @@ INSERT INTO specialists (
     ('00000004', 'u5', 'ejsucre.19@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',3 , '00000008', '0412-1234571', TRUE),
     ('00000005', 'u6', 'cjnaim.16@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',4 , '00000008', '0412-1234572', TRUE);
 
+CREATE TABLE assings (
+  asistent_id dom_id_card,
+  specialist_id dom_id_card,
+  pacient_id dom_id_card,
+  assigned_date dom_created_at,
+  assigned_status BOOLEAN DEFAULT TRUE,
+  CONSTRAINT pk_assings PRIMARY KEY (asistent_id,specialist_id,pacient_id),
+  CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO assings (
+  asistent_id,
+  specialist_id,
+  pacient_id,
+  assigned_date
+) VALUES
+  ('00000008', '00000002', '00000000', '2021-10-10 08:00:00'),
+  ('00000008', '00000002', '00000001', '2021-10-10 08:00:00'),
+  ('00000008', '00000002', '00000006', '2021-10-10 08:00:00'),
+  ('00000008', '00000002', '00000007', '2021-10-10 08:00:00'),
+  ('00000008', '00000003', '00000000', '2021-10-10 08:00:00'),
+  ('00000008', '00000003', '00000001', '2021-10-10 08:00:00'),
+  ('00000008', '00000003', '00000006', '2021-10-10 08:00:00');,
+  ('00000008', '00000003', '00000007', '2021-10-10 08:00:00'),
+  ('00000008', '00000004', '00000000', '2021-10-10 08:00:00'),
+  ('00000008', '00000004', '00000001', '2021-10-10 08:00:00'),
+  ('00000008', '00000004', '00000006', '2021-10-10 08:00:00'),
+  ('00000008', '00000004', '00000007', '2021-10-10 08:00:00'),
+  ('00000008', '00000005', '00000000', '2021-10-10 08:00:00'),
+  ('00000008', '00000005', '00000001', '2021-10-10 08:00:00'),
+  ('00000008', '00000005', '00000006', '2021-10-10 08:00:00'),
+  ('00000008', '00000005', '00000007', '2021-10-10 08:00:00');
+
+
 
 INSERT INTO indications (
   specialist_id,
@@ -289,6 +325,20 @@ INSERT INTO assigned (
   ('00000002', 4, '00000007'),
   ('00000002', 5, '00000007');
 
+INSERT INTO daily_assing (
+  specialist_id,
+  indication_id,
+  pacient_id
+) VALUES
+  ('00000002', 4, '00000000'),
+  ('00000002', 5, '00000000'),
+  ('00000002', 4, '00000001'),
+  ('00000002', 5, '00000001'),
+  ('00000002', 4, '00000006'),
+  ('00000002', 5, '00000006'),
+  ('00000002', 4, '00000007'),
+  ('00000002', 5, '00000007');
+
 
 INSERT INTO belongs (
   asistent_id,
@@ -319,5 +369,21 @@ INSERT INTO post_procedure_symptoms (
   ('00000001', 37.5, TRUE, TRUE, TRUE, TRUE),
   ('00000006', 39.5, TRUE, TRUE, TRUE, TRUE),
   ('00000007', 39.5, TRUE, TRUE, TRUE, TRUE);
+
+INSERT INTO secretions (
+  pacient_id,
+  abundant,
+  yellow,
+  blood,
+  smelly
+) VALUES
+  ('00000000', TRUE, TRUE, TRUE, TRUE),
+  ('00000001', TRUE, TRUE, TRUE, TRUE),
+  ('00000006', TRUE, TRUE, TRUE, TRUE),
+  ('00000007', TRUE, TRUE, TRUE, TRUE),
+  ('00000000', TRUE, TRUE, TRUE, TRUE),
+  ('00000001', TRUE, TRUE, TRUE, TRUE),
+  ('00000006', TRUE, TRUE, TRUE, TRUE),
+  ('00000007', TRUE, TRUE, TRUE, TRUE);
 
 COMMIT;

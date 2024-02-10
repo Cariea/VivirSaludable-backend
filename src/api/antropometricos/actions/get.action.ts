@@ -15,7 +15,9 @@ export const getAntropometricos = async (
 ): Promise<Response> => {
 	try {
 		const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size, pacientId } = req.query
-		console.log(req.user?.id)
+		if (!pacientId) {
+			return res.status(STATUS.BAD_REQUEST).json({ message: 'Falta el id del paciente' })
+		}
 		let offset = (Number(page) - 1) * Number(size)
 		if (Number(page) < 1) {
 			offset = 0

@@ -14,11 +14,11 @@ export const addAssigment = async (
 	try {
 		const { rows } = await pool.query({
 			text: `
-        INSERT INTO assigned (specialist_id, pacient_id, indication_id)
+        INSERT INTO assigned (specialist_id, indication_id, pacient_id)
           VALUES ($1, $2, $3)
           RETURNING *
       `,
-			values: [req.user?.id, pacientId, indicationId]
+			values: [req.user?.id, indicationId, pacientId]
 		})
 
 		return res.status(STATUS.CREATED).json(camelizeObject(rows[0]))

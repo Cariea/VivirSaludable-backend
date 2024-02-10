@@ -4,29 +4,31 @@ import { STATUS } from '../../../utils/constants'
 import { handleControllerError } from '../../../utils/responses/handle-controller-error'
 import camelizeObject from '../../../utils/camelize-object'
 
-export const addIngredient = async (
+export const addSecretion = async (
 	req: Request,
 	res: Response
 ): Promise<Response> => {
 	try {
-		const {ingredientType, name, volume } = req.body
-		const {  pacientId, mealId } = req.query
-		if (!pacientId || !mealId) {
-			return res.status(STATUS.BAD_REQUEST).json({ message: 'Pacient id and meal id are required' })
-		}
+		const { pacientId, abundant, yellow, blood, smelly } = req.body
+
 		const { rows } = await pool.query({
 			text: `
-        INSERT INTO ingredients (
-          pacient_id,
-          meal_id,
-          ingredient_type,
-          name,
-          volume
+        INSERT INTO secretions (
+          pacient_id, 
+          abundant, 
+          yellow, 
+          blood, 
+          smelly
         ) VALUES ($1, $2, $3, $4, $5)
         RETURNING 
-          ingredient_id
+          pacient_id,
+          record_id,
+          abundant, 
+          yellow, 
+          blood, 
+          smelly
       `,
-			values: [pacientId, mealId, ingredientType, name, volume]
+			values: [pacientId, abundant, yellow, blood, smelly]
 		})
 		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	}catch (error: unknown) {

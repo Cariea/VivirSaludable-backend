@@ -18,7 +18,7 @@ import { deleteActivity } from './actions/delete.action'
 const router = Router()
 
 //Routes
-router.get('/:pacientId', hasAuthorization([UserRole.PACIENTE, UserRole.ESPECIALISTA]), getActivity)
+router.get('/', hasAuthorization([UserRole.PACIENTE, UserRole.ESPECIALISTA]), getActivity)
 router.post('/', hasAuthorization([UserRole.PACIENTE]), schemaGuard(AddActivitySchema), addActivity)
 router.put('/:activityId', hasAuthorization([UserRole.PACIENTE]),schemaGuard(UpdateActivitySchema), updateActivity)
 router.delete('/:activityId',hasAuthorization([UserRole.PACIENTE]), deleteActivity)

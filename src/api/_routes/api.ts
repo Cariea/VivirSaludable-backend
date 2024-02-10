@@ -20,7 +20,9 @@ import activitiesRoutes from '../activities/activity.routes'
 import assignmentsRoutes from '../assigned/assigned.routes'
 import belongsRoutes from '../belongs/belong.routes'
 import ppSymptomsRoutes from '../post-procedure-symptoms/pp-symptoms.routes'
-
+import secretionsRouter from '../secretions/secretion.routes'
+import dailyAssinmentsRouter from '../daily-assignments/daily-assignments.routes'
+import usersRouter from '../users/user.routes'
 export const router = Router()
 
 // Test endpoint
@@ -46,3 +48,6 @@ router.use('/activities', activitiesRoutes)
 router.use('/assignments', assignmentsRoutes)
 router.use('/belongs', belongsRoutes)
 router.use('/post-procedure-symptoms', ppSymptomsRoutes)
+router.use('/secretions', secretionsRouter)
+router.use('/daily-assignments', dailyAssinmentsRouter)
+router.use('/users', usersRouter)

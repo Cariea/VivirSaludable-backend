@@ -13,9 +13,10 @@ export const getIngredients = async (
 	res: Response
 ): Promise<Response> => {
 	try {
-		const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size } = req.query
-		console.log(req.params.mealId)
-		console.log(req.query)
+		const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size, mealId } = req.query
+		if (!mealId) {
+			return res.status(STATUS.BAD_REQUEST).json({ message: 'Meal id is required' })
+		}
 		let offset = (Number(page) - 1) * Number(size)
 		if (Number(page) < 1) {
 			offset = 0
@@ -26,7 +27,7 @@ export const getIngredients = async (
           FROM ingredients
           WHERE meal_id = $1
       `,
-			values: [req.params.mealId]
+			values: [mealId]
 		})
 		console.log(ingredients)
 		const { rows } = await pool.query({
@@ -38,7 +39,7 @@ export const getIngredients = async (
         LIMIT $2
         OFFSET $3
       `,
-			values: [req.params.mealId, size, offset]
+			values: [mealId, size, offset]
 		})
 		const pagination: PaginateSettings = {
 			total: Number(ingredients[0].count),

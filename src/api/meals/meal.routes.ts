@@ -16,7 +16,7 @@ const router = Router()
 //Routes
 router.get('/', getMeals)
 router.post('/add/:pacientId', schemaGuard(AddMealSchema), addMeal)
-router.put('/update/:mealId',  schemaGuard(UpdateMealSchema),updateMeal)
+router.put('/:mealId',  schemaGuard(UpdateMealSchema),updateMeal)
 router.delete('/:mealId', deleteMeal)
 
 export default router

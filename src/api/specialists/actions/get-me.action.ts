@@ -14,7 +14,7 @@ export const getMe = async (
 		const { rows } = await pool.query({
 			text: `
         SELECT user_id, name, email, phone, created_at
-          FROM spqcialists
+          FROM specialists
           WHERE user_id = $1
           AND status = true
       `,

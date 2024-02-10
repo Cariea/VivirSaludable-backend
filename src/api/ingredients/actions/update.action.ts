@@ -25,6 +25,9 @@ export const updateIngredient = async (
       `,
 			values: [ingredientType, name, volume, ingredientId]
 		})
+		if (!rows[0]) {
+			return res.status(STATUS.NOT_FOUND).json({ message: 'Ingredient not found' })
+		}
 		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	}catch (error: unknown) {
 		console.error(error)

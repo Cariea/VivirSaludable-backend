@@ -15,9 +15,9 @@ import { updateIngredient } from './actions/update.action'
 const router = Router()
 
 //Routes
-router.get('/:mealId', getIngredients)
-router.post('/add/:pacientId/:mealId', schemaGuard(AddIngredientSchema), addIngredient)
-router.put('/update/:ingredientId',schemaGuard(UpdateIngredientSchema), updateIngredient)
+router.get('/', getIngredients)
+router.post('/add', schemaGuard(AddIngredientSchema), addIngredient)
+router.put('/:ingredientId',schemaGuard(UpdateIngredientSchema), updateIngredient)
 router.delete('/:ingredientId', deleteIngredient)
 
 export default router
