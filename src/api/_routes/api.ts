@@ -24,6 +24,7 @@ import secretionsRouter from '../secretions/secretion.routes'
 import dailyAssinmentsRouter from '../daily-assignments/daily-assignments.routes'
 import usersRouter from '../users/user.routes'
 import healtQueriesRouter from '../health-queries/health-querie.routes'
+import messagesRouter from '../messages/message.routes'
 
 export const router = Router()
 
@@ -54,3 +55,4 @@ router.use('/secretions', secretionsRouter)
 router.use('/daily-assignments', dailyAssinmentsRouter)
 router.use('/users', usersRouter)
 router.use('/health-queries', healtQueriesRouter)
+router.use('/messages', messagesRouter)
