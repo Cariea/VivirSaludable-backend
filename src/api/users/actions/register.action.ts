@@ -14,8 +14,12 @@ export const signUp = async (
 	res: Response
 ): Promise<Response | undefined> => {
 	try {
-		const { userId, email, name, role, phone, specialityId } = req.body
+		const { userId, email, name, role, phone, specialityId, programId } = req.body
 		let { password } = req.body
+
+		if(!userId || !email || !name || !role || !phone || !password){
+			return res.status(STATUS.BAD_REQUEST).json({message: 'Datos incompletos en el formulario'})
+		}
 		const registerData = [userId, password]
 
 		let response: QueryResult = { rows: [], rowCount: 0, command: 'algo paso', oid: 0, fields: [] }
@@ -37,6 +41,9 @@ export const signUp = async (
 		password = await bcrypt.hash(registerData[1], Number(AUTH_ROUNDS))
 
 		if (role === 'pacient') {
+			if(!programId){
+				return res.status(STATUS.BAD_REQUEST).json({message: 'Se requiere el id del programa'})
+			}
 			response = await pool.query({
 				text: `
           INSERT INTO pacients (
@@ -55,8 +62,19 @@ export const signUp = async (
         `,
 				values: [userId, name, email, password, req.user?.id, phone]
 			})
+
+			await pool.query({
+				text: `
+        INSERT INTO belongs (asistent_id, pacient_id, program_id)
+        VALUES ($1, $2, $3)
+        `,
+				values: [req.user?.id, userId, programId]
+			})
 		}
 		if (role === 'specialist') {
+			if(!specialityId){
+				return res.status(STATUS.BAD_REQUEST).json({message: 'Se requiere el id de la especialidad'})
+			}
 			response = await pool.query({
 				text: `
           INSERT INTO specialists (

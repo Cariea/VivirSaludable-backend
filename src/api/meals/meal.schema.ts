@@ -5,14 +5,12 @@ export const MealSchema = z.object({
 		.string(),
 	description: z
 		.string(),
-	mealImage: z
-		.string(),
 	wasSatisfied: z
-		.boolean(),
+		.enum(['true', 'false']),
 	indicateHour: z
 		.string(),
 	pica: z
-		.boolean()
+		.enum(['true', 'false'])
 })
 
 export const AddMealSchema = MealSchema.omit({ pacient_id: true })

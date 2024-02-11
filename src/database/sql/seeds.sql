@@ -48,17 +48,6 @@ INSERT INTO specialists (
     ('00000004', 'u5', 'ejsucre.19@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',3 , '00000008', '0412-1234571', TRUE),
     ('00000005', 'u6', 'cjnaim.16@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',4 , '00000008', '0412-1234572', TRUE);
 
-CREATE TABLE assings (
-  asistent_id dom_id_card,
-  specialist_id dom_id_card,
-  pacient_id dom_id_card,
-  assigned_date dom_created_at,
-  assigned_status BOOLEAN DEFAULT TRUE,
-  CONSTRAINT pk_assings PRIMARY KEY (asistent_id,specialist_id,pacient_id),
-  CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
 
 INSERT INTO assings (
   asistent_id,
@@ -72,7 +61,7 @@ INSERT INTO assings (
   ('00000008', '00000002', '00000007', '2021-10-10 08:00:00'),
   ('00000008', '00000003', '00000000', '2021-10-10 08:00:00'),
   ('00000008', '00000003', '00000001', '2021-10-10 08:00:00'),
-  ('00000008', '00000003', '00000006', '2021-10-10 08:00:00');,
+  ('00000008', '00000003', '00000006', '2021-10-10 08:00:00'),
   ('00000008', '00000003', '00000007', '2021-10-10 08:00:00'),
   ('00000008', '00000004', '00000000', '2021-10-10 08:00:00'),
   ('00000008', '00000004', '00000001', '2021-10-10 08:00:00'),
@@ -385,5 +374,31 @@ INSERT INTO secretions (
   ('00000001', TRUE, TRUE, TRUE, TRUE),
   ('00000006', TRUE, TRUE, TRUE, TRUE),
   ('00000007', TRUE, TRUE, TRUE, TRUE);
+
+  CREATE TABLE health_queries (
+  specialist_id dom_id_card,
+  pacient_id dom_id_card NOT NULL,
+  quote_id SERIAL,
+  quote_date dom_created_at NOT NULL,
+  quote_atention BOOLEAN ,
+  quote_review dom_description,
+  CONSTRAINT pk_quote PRIMARY KEY (specialist_id, pacient_id, quote_id),
+  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO health_queries (
+  specialist_id,
+  pacient_id,
+  quote_date
+) VALUES
+  ('00000002', '00000000', '2024-02-10'),
+  ('00000002', '00000001', '2024-02-10'),
+  ('00000002', '00000006', '2024-02-10'),
+  ('00000002', '00000007', '2024-02-10'),
+  ('00000003', '00000000', '2024-02-10'),
+  ('00000003', '00000001', '2024-02-11'),
+  ('00000004', '00000006', '2024-02-11'),
+  ('00000005', '00000007', '2024-02-09');
 
 COMMIT;
