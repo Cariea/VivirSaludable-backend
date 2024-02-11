@@ -342,6 +342,11 @@ AFTER UPDATE ON specialists
 FOR EACH ROW
 EXECUTE FUNCTION update_user();
 
+CREATE TRIGGER update_user_from_pacients
+AFTER UPDATE ON pacients
+FOR EACH ROW
+EXECUTE FUNCTION update_user();
+
 
 CREATE TRIGGER trigger_check_quote_date
 BEFORE INSERT ON health_queries
