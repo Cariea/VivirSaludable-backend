@@ -5,7 +5,7 @@ import { Server } from 'socket.io'
 import { createServer } from 'node:http'
 import { PORT } from './config'
 import { router } from './api/_routes/api'
-
+import fileUpload from 'express-fileupload'
 // App Declaration
 const app = express()
 // Server Declaration
@@ -64,6 +64,11 @@ app.use(cors({
 	methods: ['GET', 'POST'],
 	credentials: true
 }))
+app.use(fileUpload({
+	useTempFiles: false,
+	tempFileDir: ''
+}))
+
 // Routes
 app.use('/', router)
 
