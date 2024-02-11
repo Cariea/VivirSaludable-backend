@@ -293,6 +293,14 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION delete_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  DELETE FROM users
+  WHERE user_id = OLD.user_id;
+  RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION check_quote_date()
 RETURNS TRIGGER AS $$
@@ -347,6 +355,15 @@ AFTER UPDATE ON pacients
 FOR EACH ROW
 EXECUTE FUNCTION update_user();
 
+CREATE TRIGGER delete_user_from_specialists
+AFTER DELETE ON specialists
+FOR EACH ROW
+EXECUTE FUNCTION delete_user();
+
+CREATE TRIGGER delete_user_from_pacients
+AFTER DELETE ON pacients
+FOR EACH ROW
+EXECUTE FUNCTION delete_user();
 
 CREATE TRIGGER trigger_check_quote_date
 BEFORE INSERT ON health_queries

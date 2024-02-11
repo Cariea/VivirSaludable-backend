@@ -28,3 +28,9 @@ export const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL
 // Horus
 export const BOT_TOKEN = process.env.BOT_TOKEN
 export const CHAT_ID = process.env.CHAT_ID
+
+// SMTP
+export const SMTP_HOST = process.env.SMTP_HOST
+export const SMTP_PORT = process.env.SMTP_PORT
+export const SMTP_MAIL = process.env.SMTP_MAIL
+export const SMTP_PASSWORD = process.env.SMTP_PASSWORD

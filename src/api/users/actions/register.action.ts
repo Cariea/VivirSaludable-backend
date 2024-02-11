@@ -8,6 +8,7 @@ import camelizeObject from '../../../utils/camelize-object'
 import { AUTH_ROUNDS } from '../../../config'
 import { ExtendedRequest } from '../../../middlewares/auth'
 import { QueryResult } from 'pg'
+// import { sendMail } from '../../../utils/send-mail-service'
 
 export const signUp = async (
 	req: ExtendedRequest,
@@ -15,12 +16,11 @@ export const signUp = async (
 ): Promise<Response | undefined> => {
 	try {
 		const { userId, email, name, role, phone, specialityId, programId } = req.body
-		let { password } = req.body
 
-		if(!userId || !email || !name || !role || !phone || !password){
+		if(!userId || !email || !name || !role || !phone){
 			return res.status(STATUS.BAD_REQUEST).json({message: 'Datos incompletos en el formulario'})
 		}
-		const registerData = [userId, password]
+		// const registerData = [userId, password]
 
 		let response: QueryResult = { rows: [], rowCount: 0, command: 'algo paso', oid: 0, fields: [] }
 
@@ -37,8 +37,10 @@ export const signUp = async (
 				statusCode: STATUS.BAD_REQUEST
 			})
 		}
+		// const code = Math.floor(Math.random() * 900000) + 100000
+		// const password = await bcrypt.hash(String(code), Number(AUTH_ROUNDS))
+		const password = await bcrypt.hash('vs123', Number(AUTH_ROUNDS))
 
-		password = await bcrypt.hash(registerData[1], Number(AUTH_ROUNDS))
 
 		if (role === 'pacient') {
 			if(!programId){
@@ -70,6 +72,8 @@ export const signUp = async (
         `,
 				values: [req.user?.id, userId, programId]
 			})
+
+			// sendMail(email, 'Bienvenido a la plataforma de salud',`<h1>Su contraseña es: ${code}</h1>`)
 		}
 		if (role === 'specialist') {
 			if(!specialityId){
@@ -94,6 +98,7 @@ export const signUp = async (
         `,
 				values: [userId, name, email, password, specialityId, phone, req.user?.id]
 			})
+			// sendMail(email, `Bienvenido a Vivir Saludable, ${name}`,`<h1>Su contraseña es: ${code}</h1>`)
 		}
 
 		return res.status(STATUS.CREATED).json(camelizeObject(response.rows[0]))
