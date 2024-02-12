@@ -6,6 +6,8 @@ import { createServer } from 'node:http'
 import { PORT } from './config'
 import { router } from './api/_routes/api'
 import fileUpload from 'express-fileupload'
+
+import { addMessage } from './api/messages/actions/add.action'
 // App Declaration
 const app = express()
 // Server Declaration
@@ -18,12 +20,11 @@ export const io = new Server(server, {
 		methods: ['GET', 'POST'],
 		credentials: true
 	},
-	allowEIO3: true,
 	connectionStateRecovery: {}
 })
 const userIdToSocket = new Map<string,string>()
 const socketToUserId = new Map<string,string>()
-const pendingMessages = new Map<string, Array<any>>()
+
 io.on('connection', (socket) => {
 	console.log(`Nuevo cliente conectado: ${socket.id}, Usuario: ${socket.handshake.query.userId}`)
   
@@ -34,22 +35,16 @@ io.on('connection', (socket) => {
 		console.log(`Se desconecto: ${socketToUserId.get(socket.id)}`)
 		userIdToSocket.delete(socketToUserId.get(socket.id) as string)
 		socketToUserId.delete(socket.id)
-		console.log(userIdToSocket)
-		console.log(socketToUserId)
 	})
 
 	socket.on('chat message', (message) => {
 		if(userIdToSocket.get(message.to)){
-			console.log('Mensaje enviado de: ', socketToUserId.get(socket.id), 'a:', message.to)
-		}{
+			addMessage(socketToUserId.get(socket.id) as string, message.to, message.text)
+			io.to(userIdToSocket.get(message.to) as string).emit('chat message', message)
+		}else{
+			addMessage(socketToUserId.get(socket.id) as string, message.to, message.text)
 			console.log('Mensaje enviado de: ', socketToUserId.get(socket.id), 'a:', message.to, 'no se encuentra conectado')
-			pendingMessages.set(message.to, pendingMessages.get(message.to) ? [...pendingMessages.get(message.to) as any, message] : [message])
-			console.log(pendingMessages)
 		}
-
-		//io.to(onlineUsers.get(socket.id)).emit('chat message', message
-		// Puedes emitir el mensaje a todos los usuarios conectados, por ejemplo:
-		// io.emit('chat message', message)
 	})
 })
 

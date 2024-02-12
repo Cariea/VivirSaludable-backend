@@ -27,15 +27,16 @@ CREATE TABLE asistents (
 );
 -- 2
 CREATE TABLE users (
-  user_id dom_id_card NOT NULL,
+  user_id dom_id_card,
   name dom_name NOT NULL,
   password dom_password NOT NULL,
   role dom_role NOT NULL,
+  code dom_id_card,
   CONSTRAINT pk_user_id PRIMARY KEY (user_id)
 );
 -- 3
 CREATE TABLE pacients (
-  user_id dom_id_card NOT NULL,
+  user_id dom_id_card,
   name dom_name NOT NULL,
   email dom_email UNIQUE NOT NULL,
   password dom_password NOT NULL,
@@ -54,7 +55,7 @@ CREATE TABLE specialties (
 );
 -- 4
 CREATE TABLE specialists (
-  user_id dom_id_card NOT NULL,
+  user_id dom_id_card,
   name dom_name NOT NULL,
   email dom_email UNIQUE NOT NULL,
   password dom_password NOT NULL,
@@ -85,7 +86,7 @@ CREATE TABLE atropometricos (
   waist_hip_ratio dom_volume NOT NULL,
   visceral_fat_level dom_volume NOT NULL,
   created_at dom_created_at, 
-  CONSTRAINT pk_atropometricos PRIMARY KEY (specialist_id,pacient_id, antropometrico_id),
+  CONSTRAINT pk_atropometricos PRIMARY KEY (specialist_id, pacient_id, antropometrico_id),
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 5
@@ -293,6 +294,14 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION delete_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  DELETE FROM users
+  WHERE user_id = OLD.user_id;
+  RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION check_quote_date()
 RETURNS TRIGGER AS $$
@@ -342,6 +351,20 @@ AFTER UPDATE ON specialists
 FOR EACH ROW
 EXECUTE FUNCTION update_user();
 
+CREATE TRIGGER update_user_from_pacients
+AFTER UPDATE ON pacients
+FOR EACH ROW
+EXECUTE FUNCTION update_user();
+
+CREATE TRIGGER delete_user_from_specialists
+AFTER DELETE ON specialists
+FOR EACH ROW
+EXECUTE FUNCTION delete_user();
+
+CREATE TRIGGER delete_user_from_pacients
+AFTER DELETE ON pacients
+FOR EACH ROW
+EXECUTE FUNCTION delete_user();
 
 CREATE TRIGGER trigger_check_quote_date
 BEFORE INSERT ON health_queries

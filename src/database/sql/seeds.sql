@@ -23,6 +23,10 @@ INSERT INTO pacients (
   ('00000006', 'u7', 'mggiorgetti.17@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234573', TRUE),
   ('00000007', 'u8', 'ynacosta.15@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234574', TRUE);
 
+update pacients set name = 'Vicente Fernandez' where user_id = '00000000';
+update pacients set name = 'Juan Gabriel' where user_id = '00000001';
+update pacients set name = 'Jose Jose' where user_id = '00000006';
+update pacients set name = 'Rocio Durcal' where user_id = '00000007';
 INSERT INTO specialties (
   name
 ) VALUES
@@ -48,7 +52,10 @@ INSERT INTO specialists (
     ('00000004', 'u5', 'ejsucre.19@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',3 , '00000008', '0412-1234571', TRUE),
     ('00000005', 'u6', 'cjnaim.16@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',4 , '00000008', '0412-1234572', TRUE);
 
-
+update specialists set name = 'Luis Miguel' where user_id = '00000002';
+update specialists set name = 'Alejandro Fernandez' where user_id = '00000003';
+update specialists set name = 'Pedro Infante' where user_id = '00000004';
+update specialists set name = 'Javier Solis' where user_id = '00000005';
 INSERT INTO assings (
   asistent_id,
   specialist_id,
@@ -375,17 +382,6 @@ INSERT INTO secretions (
   ('00000006', TRUE, TRUE, TRUE, TRUE),
   ('00000007', TRUE, TRUE, TRUE, TRUE);
 
-  CREATE TABLE health_queries (
-  specialist_id dom_id_card,
-  pacient_id dom_id_card NOT NULL,
-  quote_id SERIAL,
-  quote_date dom_created_at NOT NULL,
-  quote_atention BOOLEAN ,
-  quote_review dom_description,
-  CONSTRAINT pk_quote PRIMARY KEY (specialist_id, pacient_id, quote_id),
-  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
 
 INSERT INTO health_queries (
   specialist_id,
@@ -400,5 +396,41 @@ INSERT INTO health_queries (
   ('00000003', '00000001', '2024-02-11'),
   ('00000004', '00000006', '2024-02-11'),
   ('00000005', '00000007', '2024-02-09');
+
+
+  CREATE TABLE messages (
+  user_id dom_id_card,
+  message_id SERIAL,
+  message dom_description NOT NULL,
+  user_receptor dom_id_card NOT NULL,
+  created_at dom_created_at,
+  CONSTRAINT pk_message PRIMARY KEY (user_id,message_id),
+  CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_user_receptor FOREIGN KEY (user_receptor) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO messages (
+  user_id,
+  message,
+  user_receptor
+  ) VALUES
+    ('00000000', 'A los que al contemplarme', '00000001'),
+    ('00000000', 'Rodando en el fango quisieran llorar', '00000001'),
+    ('00000000', 'Que sepan que soy un charco de lodo', '00000001'),
+    ('00000000', 'Pero que tambien soy un manantial', '00000001'),
+    ('00000001', 'No sabia de tristezas', '00000000'),
+    ('00000001', 'Ni de lagrimas ni nada', '00000000'),
+    ('00000001', 'Que me hicieran llorar', '00000000'),
+    ('00000001', 'Yo sabia de caricias, de ternura', '00000000'),
+    ('00000006', '1', '00000007'),
+    ('00000006', '2', '00000007'),
+    ('00000006', '3', '00000007'),
+    ('00000006', '4', '00000007'),
+    ('00000007', '1', '00000006'),
+    ('00000007', '2', '00000006'),
+    ('00000007', '3', '00000006'),
+    ('00000007', '4', '00000006');
+
+  
 
 COMMIT;
