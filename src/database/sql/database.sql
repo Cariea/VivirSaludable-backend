@@ -69,7 +69,7 @@ CREATE TABLE specialists (
   CONSTRAINT fk_speciality_id FOREIGN KEY (speciality_id) REFERENCES specialties(specialty_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 --4.5 
-CREATE TABLE atropometricos (
+CREATE TABLE antropometricos (
   specialist_id dom_id_card,
   pacient_id dom_id_card,
   antropometrico_id SERIAL,
@@ -246,6 +246,7 @@ CREATE TABLE secretions (
   yellow BOOLEAN NOT NULL,
   blood BOOLEAN NOT NULL,
   smelly BOOLEAN NOT NULL,
+  created_at dom_created_at,
   CONSTRAINT pk_secretions PRIMARY KEY (pacient_id,record_id),
   CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
