@@ -14,10 +14,6 @@ export const PacientSchema = z.object({
 		.min(1, 'Debe indicar un correo electrónico')
 		.max(128, 'El email no puede superar los 128 carácteres')
 		.email(),
-	password: z
-		.string()
-		.min(1, 'Debe indicar una contraseña')
-		.max(128, 'La contraseña no puede superar los 128 carácteres'),
 	phone: z
 		.string()
 		.max(16, 'El número de teléfono no puede superar los 16 carácteres')
