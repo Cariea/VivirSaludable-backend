@@ -120,3 +120,14 @@ WHERE pacient_id = '00000000';
 SELECT quote_id, quote_date, quote_atention, quote_review
 FROM health_queries
 WHERE pacient_id = '00000000';
+
+
+-- get health query
+
+SELECT 
+  CASE 
+    WHEN MAX(quote_date) > CURRENT_DATE THEN COALESCE(MAX(CAST(quote_date AS TEXT)), 'No hay proxima consulta')
+    ELSE 'No hay proxima consulta'
+  END AS next_quote_date
+FROM health_queries
+WHERE pacient_id = '00000000';

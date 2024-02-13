@@ -17,7 +17,7 @@ import { updatePacient } from './actions/update.action'
 
 const router = Router()
 
-router.get('/me', hasAuthorization([AdminRoles.ASISTENT]), getMe)
+router.get('/me', hasAuthorization([UserRole.ESPECIALISTA, UserRole.PACIENTE]), getMe)
 router.get('/:pacientId', hasAuthorization([UserRole.ESPECIALISTA]), getByPacientId)
 router.get('/', hasAuthorization([UserRole.ESPECIALISTA]), getPacients)
 router.put('/:pacientId', hasAuthorization([AdminRoles.ASISTENT]), updatePacient)
