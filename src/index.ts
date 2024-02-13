@@ -6,8 +6,9 @@ import { createServer } from 'node:http'
 import { PORT } from './config'
 import { router } from './api/_routes/api'
 import fileUpload from 'express-fileupload'
-
 import { addMessage } from './api/messages/actions/add.action'
+//import { chat } from './services/chat'
+
 // App Declaration
 const app = express()
 // Server Declaration
@@ -22,6 +23,7 @@ export const io = new Server(server, {
 	},
 	connectionStateRecovery: {}
 })
+// chat(io)
 const userIdToSocket = new Map<string,string>()
 const socketToUserId = new Map<string,string>()
 
