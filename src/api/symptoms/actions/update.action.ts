@@ -10,20 +10,21 @@ export const updateSymptom = async (
 ): Promise<Response> => {
 	try {
 		const { symptomId } = req.params
-		const { name, description, whenAppeared } = req.body
+		const { name, description, whenAppeared, specialistId } = req.body
 
 		const { rows } = await pool.query({
 			text: `
         UPDATE symptoms
           SET name = $1,
           description = $2,
-          when_appeared = $3
-          WHERE symptom_id = $4
+          when_appeared = $3,
+          specialist_id = $4
+          WHERE symptom_id = $5
           RETURNING 
           name,
           description
       `,
-			values: [name, description, whenAppeared, symptomId]
+			values: [name, description, whenAppeared, specialistId, symptomId]
 		})
 		if (rows.length === 0) {
 			return res.status(STATUS.NOT_FOUND).json({ message: 'Síntoma no encontrado' })

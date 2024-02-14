@@ -3,6 +3,8 @@ import { z } from 'zod'
 export const SymptomSchema = z.object({
 	pacientId: z
 		.string(),
+	specialistId: z
+		.string(),
 	name: z
 		.string(),
 	description: z

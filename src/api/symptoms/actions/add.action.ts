@@ -9,7 +9,8 @@ export const addSymptom = async (
 	res: Response
 ): Promise<Response> => {
 	try {
-		const { name, description, whenAppeared } = req.body
+		const { name, description, whenAppeared, specialistId } = req.body
+  
 		const { pacientId } = req.params
 		const { rows } = await pool.query({
 			text: `
@@ -17,13 +18,14 @@ export const addSymptom = async (
           pacient_id,
           name,
           description,
-          when_appeared
-          )VALUES ($1, $2, $3, $4)
+          when_appeared,
+          specialist_id
+          )VALUES ($1, $2, $3, $4, $5)
           RETURNING 
           pacient_id,
           name
       `,
-			values: [pacientId, name, description, whenAppeared]
+			values: [pacientId, name, description, whenAppeared, specialistId]
 		})
 		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	} catch (error: unknown) {
