@@ -159,12 +159,14 @@ CREATE TABLE ingredients (
 CREATE TABLE symptoms (
   pacient_id dom_id_card,
   symptom_id SERIAL,
+  specialist_id dom_id_card,
   name dom_name NOT NULL,
   description dom_description NOT NULL,
   when_appeared dom_description NOT NULL,
   created_at dom_created_at,
   CONSTRAINT pk_symptom PRIMARY KEY (pacient_id,symptom_id),
-  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 13
 CREATE TABLE activities (

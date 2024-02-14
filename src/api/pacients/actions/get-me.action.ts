@@ -43,7 +43,7 @@ export const getMe = async (
 
 		const { rows: symptoms } = await pool.query({
 			text:`
-      SELECT symptom_id, name, description, when_appeared
+      SELECT symptom_id, name, description, when_appeared, specialist_id
       FROM symptoms
       WHERE pacient_id = $1
       `,

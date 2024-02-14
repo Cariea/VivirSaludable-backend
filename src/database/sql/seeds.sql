@@ -260,22 +260,23 @@ INSERT INTO ingredients (
 
 INSERT INTO symptoms (
   pacient_id,
+  specialist_id,
   name,
   description,
   when_appeared
 ) VALUES
-  ('00000000', 'sintoma #1', 'descripcion del sintoma #1', '2021-10-10 08:00:00'),
-  ('00000000', 'sintoma #2', 'descripcion del sintoma #2', '2021-10-10 12:00:00'),
-  ('00000000', 'sintoma #3', 'descripcion del sintoma #3', '2021-10-10 18:00:00'),
-  ('00000001', 'sintoma #4', 'descripcion del sintoma #4', '2021-10-10 08:00:00'),
-  ('00000001', 'sintoma #5', 'descripcion del sintoma #5', '2021-10-10 12:00:00'),
-  ('00000001', 'sintoma #6', 'descripcion del sintoma #6', '2021-10-10 18:00:00'),
-  ('00000006', 'sintoma #7', 'descripcion del sintoma #7', '2021-10-10 08:00:00'),
-  ('00000006', 'sintoma #8', 'descripcion del sintoma #8', '2021-10-10 12:00:00'),
-  ('00000006', 'sintoma #9', 'descripcion del sintoma #9', '2021-10-10 18:00:00'),
-  ('00000007', 'sintoma #10', 'descripcion del sintoma #10', '2021-10-10 08:00:00'),
-  ('00000007', 'sintoma #11', 'descripcion del sintoma #11', '2021-10-10 12:00:00'),
-  ('00000007', 'sintoma #12', 'descripcion del sintoma #12', '2021-10-10 18:00:00');
+  ('00000000', '00000002', 'sintoma #1', 'descripcion del sintoma #1', '2021-10-10 08:00:00'),
+  ('00000000', '00000002', 'sintoma #2', 'descripcion del sintoma #2', '2021-10-10 12:00:00'),
+  ('00000000', '00000002', 'sintoma #3', 'descripcion del sintoma #3', '2021-10-10 18:00:00'),
+  ('00000001', '00000002', 'sintoma #4', 'descripcion del sintoma #4', '2021-10-10 08:00:00'),
+  ('00000001', '00000002', 'sintoma #5', 'descripcion del sintoma #5', '2021-10-10 12:00:00'),
+  ('00000001', '00000002', 'sintoma #6', 'descripcion del sintoma #6', '2021-10-10 18:00:00'),
+  ('00000006', '00000002', 'sintoma #7', 'descripcion del sintoma #7', '2021-10-10 08:00:00'),
+  ('00000006', '00000002', 'sintoma #8', 'descripcion del sintoma #8', '2021-10-10 12:00:00'),
+  ('00000006', '00000002', 'sintoma #9', 'descripcion del sintoma #9', '2021-10-10 18:00:00'),
+  ('00000007', '00000002', 'sintoma #10', 'descripcion del sintoma #10', '2021-10-10 08:00:00'),
+  ('00000007', '00000002', 'sintoma #11', 'descripcion del sintoma #11', '2021-10-10 12:00:00'),
+  ('00000007', '00000002', 'sintoma #12', 'descripcion del sintoma #12', '2021-10-10 18:00:00');
 
 
 
