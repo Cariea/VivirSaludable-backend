@@ -25,7 +25,7 @@ export const updateAntropometrico = async (
 		const {antropometricoId} = req.params
 		const { rows } = await pool.query({
 			text: `
-        UPDATE atropometricos
+        UPDATE antropometricos
           SET arm_circumference = $1,
           leg_circumference = $2,
           waist = $3,

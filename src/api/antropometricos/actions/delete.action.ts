@@ -11,7 +11,7 @@ export const deleteAntropometrico = async (
 		const { antropometricoId } = req.params
 		const {rows} = await pool.query({
 			text: `
-        DELETE FROM atropometricos
+        DELETE FROM antropometricos
           WHERE antropometrico_id = $1
           RETURNING
           antropometrico_id

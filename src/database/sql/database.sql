@@ -42,6 +42,7 @@ CREATE TABLE pacients (
   password dom_password NOT NULL,
   asistent_id dom_id_card,
   phone dom_phone_number,
+  address dom_description,
   status BOOLEAN DEFAULT TRUE,
   created_at dom_created_at,
   updated_at dom_created_at,
@@ -62,6 +63,7 @@ CREATE TABLE specialists (
   asistent_id dom_id_card,
   speciality_id INTEGER NOT NULL,
   phone dom_phone_number,
+  address dom_description,
   status BOOLEAN DEFAULT TRUE,
   created_at dom_created_at,
   updated_at dom_created_at,
@@ -86,7 +88,7 @@ CREATE TABLE antropometricos (
   waist_hip_ratio dom_volume NOT NULL,
   visceral_fat_level dom_volume NOT NULL,
   created_at dom_created_at, 
-  CONSTRAINT pk_atropometricos PRIMARY KEY (specialist_id, pacient_id, antropometrico_id),
+  CONSTRAINT pk_antropometricos PRIMARY KEY (specialist_id, pacient_id, antropometrico_id),
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- 5
@@ -203,7 +205,10 @@ CREATE TABLE assings (
   specialist_id dom_id_card,
   pacient_id dom_id_card,
   assigned_date dom_created_at,
+  alta BOOLEAN DEFAULT FALSE,
   assigned_status BOOLEAN DEFAULT TRUE,
+  created_at dom_created_at,
+  updated_at dom_created_at,
   CONSTRAINT pk_assings PRIMARY KEY (asistent_id,specialist_id,pacient_id),
   CONSTRAINT fk_asistent_id FOREIGN KEY (asistent_id) REFERENCES asistents(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -332,6 +337,11 @@ EXECUTE FUNCTION update_updated_at();
 
 CREATE TRIGGER update_updated_at_specialists
 BEFORE UPDATE ON specialists
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER update_updated_at_assings
+BEFORE UPDATE ON assings
 FOR EACH ROW
 EXECUTE FUNCTION update_updated_at();
 

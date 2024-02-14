@@ -25,7 +25,7 @@ export const getAntropometricos = async (
 		const { rows: antropometricos } = await pool.query({
 			text: `
         SELECT COUNT(*) 
-          FROM atropometricos
+          FROM antropometricos
           WHERE specialist_id = $1
           AND pacient_id = $2
       `,
@@ -50,7 +50,7 @@ export const getAntropometricos = async (
           waist_hip_ratio,
           visceral_fat_level,
           created_at dom_created_at
-        FROM atropometricos
+        FROM antropometricos
         WHERE specialist_id = $1
         AND pacient_id = $2
         LIMIT $3

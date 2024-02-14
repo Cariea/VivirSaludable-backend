@@ -32,7 +32,7 @@ export const addAntropometrico = async (
 	try {
 		const { rows } = await pool.query({
 			text: `
-        INSERT INTO atropometricos (
+        INSERT INTO antropometricos (
           specialist_id,
           pacient_id,
           arm_circumference,
