@@ -10,9 +10,9 @@ export const updateUser = async (
 ): Promise<Response> => {
 	try {
 		const { userId } = req.params
-		const { name, email, phone, programId, specialityId, password } = req.body
+		const { name, email, phone, programId, specialityId, address, password } = req.body
 
-		if(!userId || !name || !email || !phone || !password){
+		if(!userId || !name || !email || !phone || !password || !address){
 			return res.status(STATUS.BAD_REQUEST).json({message: 'datos incompletos'})
 		}
 
@@ -39,10 +39,10 @@ export const updateUser = async (
 			await pool.query({
 				text: `
           UPDATE pacients
-          SET name = $1, email = $2, phone = $3, status = $4, password = $5
-          WHERE user_id = $6
+          SET name = $1, email = $2, phone = $3, status = $4, password = $5, address = $6
+          WHERE user_id = $7
         `,
-				values: [name, email, phone, true, epassword, userId]
+				values: [name, email, phone, true, epassword, address,userId]
 			})
 
 			await pool.query({
@@ -63,10 +63,10 @@ export const updateUser = async (
 			await pool.query({
 				text: `
           UPDATE specialists
-          SET name = $1, email = $2, phone = $3, status = $4, speciality_id = $5, password = $6
+          SET name = $1, email = $2, phone = $3, speciality_id = $4, password = $5 ,address = $6
           WHERE user_id = $7
         `,
-				values: [name, email, phone, status, specialityId, epassword, userId]
+				values: [name, email, phone, specialityId, epassword, address, userId]
 			})
 		}
 		console.log('Usuario actualizado')

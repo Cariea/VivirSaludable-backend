@@ -15,9 +15,9 @@ export const signUp = async (
 	res: Response
 ): Promise<Response | undefined> => {
 	try {
-		const { userId, email, name, role, phone, specialityId, programId } = req.body
+		const { userId, email, name, role, phone, specialityId, programId, address } = req.body
 
-		if(!userId || !email || !name || !role || !phone){
+		if(!userId || !email || !name || !role || !phone || !address){
 			return res.status(STATUS.BAD_REQUEST).json({message: 'Datos incompletos en el formulario'})
 		}
 		// const registerData = [userId, password]
@@ -54,15 +54,16 @@ export const signUp = async (
             email,
             password,
             asistent_id,
-            phone
+            phone,
+            address
             )
-          VALUES ($1, $2, $3, $4, $5, $6)
+          VALUES ($1, $2, $3, $4, $5, $6, $7)
           RETURNING
             user_id,
             email,
             name
         `,
-				values: [userId, name, email, password, req.user?.id, phone]
+				values: [userId, name, email, password, req.user?.id, phone, address]
 			})
 
 			await pool.query({
@@ -88,15 +89,16 @@ export const signUp = async (
             password,
             speciality_id,
             asistent_id,
-            phone
+            phone,
+            address
             )
-          VALUES ($1, $2, $3, $4, $5, $6, $7)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
           RETURNING
             user_id,
             email,
             name
         `,
-				values: [userId, name, email, password, specialityId, req.user?.id, phone]
+				values: [userId, name, email, password, specialityId, req.user?.id, phone, address]
 			})
 			// sendMail(email, `Bienvenido a Vivir Saludable, ${name}`,`<h1>Su contraseña es: ${code}</h1>`)
 		}

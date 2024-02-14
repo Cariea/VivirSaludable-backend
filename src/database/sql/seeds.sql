@@ -16,17 +16,15 @@ INSERT INTO pacients (
   password,
   asistent_id,
   phone,
+  address,
   status
 ) VALUES
-  ('00000000', 'u1', 'jarodriguez.21@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.','00000008', '0412-1234567', TRUE),
-  ('00000001', 'u2', 'mpforero.21@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234568', TRUE),
-  ('00000006', 'u7', 'mggiorgetti.17@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234573', TRUE),
-  ('00000007', 'u8', 'ynacosta.15@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234574', TRUE);
+  ('00000000', 'Albert Einstein', 'albert@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234567', 'Alemania',TRUE),
+  ('00000001', 'Isaac Newton', 'newton@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234568', 'Inglaterra',TRUE),
+  ('00000006', 'Galileo Galilei', 'galilei@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234573', 'Italia',TRUE),
+  ('00000007', 'Nikola Tesla', 'tesla@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234574', 'Serbia',TRUE),
+  ('25559633', 'Carmelo Naim','carmelonaim30@gmail.com','$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-4992818', 'Venezuela',TRUE);
 
-update pacients set name = 'Vicente Fernandez' where user_id = '00000000';
-update pacients set name = 'Juan Gabriel' where user_id = '00000001';
-update pacients set name = 'Jose Jose' where user_id = '00000006';
-update pacients set name = 'Rocio Durcal' where user_id = '00000007';
 INSERT INTO specialties (
   name
 ) VALUES
@@ -45,40 +43,38 @@ INSERT INTO specialists (
   speciality_id,
   asistent_id,
   phone,
+  address,
   status
   ) VALUES
-    ('00000002', 'u3', 'ejarzolay.21@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',1 , '00000008', '0412-1234569', TRUE),
-    ('00000003', 'u4', 'ajrosas.19@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',2 , '00000008', '0412-1234570', TRUE),
-    ('00000004', 'u5', 'ejsucre.19@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',3 , '00000008', '0412-1234571', TRUE),
-    ('00000005', 'u6', 'cjnaim.16@est.ucab.edu.ve', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',4 , '00000008', '0412-1234572', TRUE);
+    ('00000002', 'Marie Curie', 'curie@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',1 , '00000008', '0412-1234569', 'Polonia',TRUE),
+    ('00000003', 'Vincenzo Viviani', 'viviani@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',2 , '00000008', '0412-1234570', 'Italia',TRUE),
+    ('00000004', 'Alessandro Volta', 'volta@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',3 , '00000008', '0412-1234571', 'Italia',TRUE),
+    ('00000005', 'Enrico Fermi', 'fermi@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',4 , '00000008', '0412-1234572', 'Italia',TRUE);
 
-update specialists set name = 'Luis Miguel' where user_id = '00000002';
-update specialists set name = 'Alejandro Fernandez' where user_id = '00000003';
-update specialists set name = 'Pedro Infante' where user_id = '00000004';
-update specialists set name = 'Javier Solis' where user_id = '00000005';
 INSERT INTO assings (
   asistent_id,
   specialist_id,
-  pacient_id,
-  assigned_date
+  pacient_id
 ) VALUES
-  ('00000008', '00000002', '00000000', '2021-10-10 08:00:00'),
-  ('00000008', '00000002', '00000001', '2021-10-10 08:00:00'),
-  ('00000008', '00000002', '00000006', '2021-10-10 08:00:00'),
-  ('00000008', '00000002', '00000007', '2021-10-10 08:00:00'),
-  ('00000008', '00000003', '00000000', '2021-10-10 08:00:00'),
-  ('00000008', '00000003', '00000001', '2021-10-10 08:00:00'),
-  ('00000008', '00000003', '00000006', '2021-10-10 08:00:00'),
-  ('00000008', '00000003', '00000007', '2021-10-10 08:00:00'),
-  ('00000008', '00000004', '00000000', '2021-10-10 08:00:00'),
-  ('00000008', '00000004', '00000001', '2021-10-10 08:00:00'),
-  ('00000008', '00000004', '00000006', '2021-10-10 08:00:00'),
-  ('00000008', '00000004', '00000007', '2021-10-10 08:00:00'),
-  ('00000008', '00000005', '00000000', '2021-10-10 08:00:00'),
-  ('00000008', '00000005', '00000001', '2021-10-10 08:00:00'),
-  ('00000008', '00000005', '00000006', '2021-10-10 08:00:00'),
-  ('00000008', '00000005', '00000007', '2021-10-10 08:00:00');
-
+  ('00000008', '00000002', '25559633'),
+  ('00000008', '00000003', '25559633'),
+  ('00000008', '00000004', '25559633'),
+  ('00000008', '00000002', '00000000'),
+  ('00000008', '00000002', '00000001'),
+  ('00000008', '00000002', '00000006'),
+  ('00000008', '00000002', '00000007'),
+  ('00000008', '00000003', '00000000'),
+  ('00000008', '00000003', '00000001'),
+  ('00000008', '00000003', '00000006'),
+  ('00000008', '00000003', '00000007'),
+  ('00000008', '00000004', '00000000'),
+  ('00000008', '00000004', '00000001'),
+  ('00000008', '00000004', '00000006'),
+  ('00000008', '00000004', '00000007'),
+  ('00000008', '00000005', '00000000'),
+  ('00000008', '00000005', '00000001'),
+  ('00000008', '00000005', '00000006'),
+  ('00000008', '00000005', '00000007');
 
 
 INSERT INTO indications (
@@ -125,7 +121,7 @@ INSERT INTO bot_questions (
   ('00000005', 'pregunta #11', 'respuesta #11'),
   ('00000005', 'pregunta #12', 'respuesta #12');
 
-INSERT INTO atropometricos (
+INSERT INTO antropometricos (
   specialist_id,
   pacient_id,
   arm_circumference,
@@ -342,10 +338,11 @@ INSERT INTO belongs (
   program_id,
   entry_date
 ) VALUES
-  ('00000008', '00000000', 1, '2021-10-10 08:00:00'),
-  ('00000008', '00000001', 2, '2021-10-10 08:00:00'),
-  ('00000008', '00000006', 3, '2021-10-10 08:00:00'),
-  ('00000008', '00000007', 4, '2021-10-10 08:00:00');
+  ('00000008', '25559633', 2, '2024-02-14 08:00:00'),
+  ('00000008', '00000000', 1, '2024-02-14 08:00:00'),
+  ('00000008', '00000001', 2, '2024-02-14 08:00:00'),
+  ('00000008', '00000006', 3, '2024-02-14 08:00:00'),
+  ('00000008', '00000007', 4, '2024-02-14 08:00:00');
 
 
 
@@ -398,17 +395,6 @@ INSERT INTO health_queries (
   ('00000005', '00000007', '2024-02-09');
 
 
-  CREATE TABLE messages (
-  user_id dom_id_card,
-  message_id SERIAL,
-  message dom_description NOT NULL,
-  user_receptor dom_id_card NOT NULL,
-  created_at dom_created_at,
-  CONSTRAINT pk_message PRIMARY KEY (user_id,message_id),
-  CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT fk_user_receptor FOREIGN KEY (user_receptor) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
 INSERT INTO messages (
   user_id,
   message,
@@ -430,7 +416,5 @@ INSERT INTO messages (
     ('00000007', '2', '00000006'),
     ('00000007', '3', '00000006'),
     ('00000007', '4', '00000006');
-
-  
 
 COMMIT;

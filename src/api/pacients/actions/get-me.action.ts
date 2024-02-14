@@ -24,7 +24,7 @@ export const getMe = async (
 		const { rows: antropometrics } = await pool.query({
 			text:`
       SELECT arm_circumference, leg_circumference, waist, hip, weight, size, musculoskeletal_mass, body_fat_mass, body_mass_index, body_fat_percentage, waist_hip_ratio, visceral_fat_level
-      FROM atropometricos
+      FROM antropometricos
       WHERE pacient_id = $1
       ORDER BY created_at DESC
       `,
