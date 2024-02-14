@@ -1,6 +1,7 @@
 SELECT * FROM daily_assing WHERE date_assing::date = '2024-02-09'::date;
 
 SELECT
+  s.user_id AS user_id,
   s.name AS name,
   sp.name AS especialidad,
   s.status AS status,
@@ -20,7 +21,7 @@ LEFT JOIN
 WHERE
   s.status = TRUE
 GROUP BY
-  s.name, sp.name, s.status, u.role;
+  s.user_id, s.name, sp.name, s.status, u.role;
 
 
 -- get pacient

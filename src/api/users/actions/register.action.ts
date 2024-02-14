@@ -96,7 +96,7 @@ export const signUp = async (
             email,
             name
         `,
-				values: [userId, name, email, password, specialityId, phone, req.user?.id]
+				values: [userId, name, email, password, specialityId, req.user?.id, phone]
 			})
 			// sendMail(email, `Bienvenido a Vivir Saludable, ${name}`,`<h1>Su contraseña es: ${code}</h1>`)
 		}
