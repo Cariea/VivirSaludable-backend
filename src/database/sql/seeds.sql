@@ -16,12 +16,13 @@ INSERT INTO pacients (
   password,
   asistent_id,
   phone,
+  address
   status
 ) VALUES
-  ('00000000', 'Albert Einstein', 'albert@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234567', TRUE),
-  ('00000001', 'Isaac Newton', 'newton@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234568', TRUE),
-  ('00000006', 'Galileo Galilei', 'galilei@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234573', TRUE),
-  ('00000007', 'Nikola Tesla', 'tesla@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234574', TRUE);
+  ('00000000', 'Albert Einstein', 'albert@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234567', 'Alemania',TRUE),
+  ('00000001', 'Isaac Newton', 'newton@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234568', 'Inglaterra',TRUE),
+  ('00000006', 'Galileo Galilei', 'galilei@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234573', 'Italia',TRUE),
+  ('00000007', 'Nikola Tesla', 'tesla@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234574', 'Serbia',TRUE);
 
 INSERT INTO specialties (
   name
@@ -41,12 +42,13 @@ INSERT INTO specialists (
   speciality_id,
   asistent_id,
   phone,
+  address,
   status
   ) VALUES
-    ('00000002', 'Marie Curie', 'curie@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',1 , '00000008', '0412-1234569', TRUE),
-    ('00000003', 'Vincenzo Viviani', 'viviani@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',2 , '00000008', '0412-1234570', TRUE),
-    ('00000004', 'Alessandro Volta', 'volta@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',3 , '00000008', '0412-1234571', TRUE),
-    ('00000005', 'Enrico Fermi', 'fermi@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',4 , '00000008', '0412-1234572', TRUE);
+    ('00000002', 'Marie Curie', 'curie@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',1 , '00000008', '0412-1234569', 'Polonia',TRUE),
+    ('00000003', 'Vincenzo Viviani', 'viviani@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',2 , '00000008', '0412-1234570', 'Italia',TRUE),
+    ('00000004', 'Alessandro Volta', 'volta@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',3 , '00000008', '0412-1234571', 'Italia',TRUE),
+    ('00000005', 'Enrico Fermi', 'fermi@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',4 , '00000008', '0412-1234572', 'Italia',TRUE);
 
 INSERT INTO assings (
   asistent_id,

@@ -21,6 +21,7 @@ export const getAllUsers = async (
         p.name,
         p.email,
         p.phone,
+        p.address,
         p.status,
         u.role AS role,
         pr.name AS program,
@@ -45,6 +46,7 @@ export const getAllUsers = async (
         SELECT
           s.user_id AS user_id,
           s.name AS name,
+          s.address AS address,
           sp.name AS especialty,
           s.status AS status,
           u.role AS role,
@@ -60,8 +62,6 @@ export const getAllUsers = async (
           assings a ON s.user_id = a.specialist_id AND a.assigned_status = TRUE
         LEFT JOIN
           belongs b ON a.pacient_id = b.pacient_id
-        WHERE
-          s.status = TRUE
         GROUP BY
           s.user_id, s.name, sp.name, s.status, u.role;
       `
