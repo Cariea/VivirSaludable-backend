@@ -21,6 +21,7 @@ export const logIn = async (
         FROM users
         WHERE
           user_id = $1
+          and status = true
       `,
 			values: [userId]
 		})

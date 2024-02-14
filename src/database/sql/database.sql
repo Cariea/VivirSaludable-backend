@@ -32,8 +32,10 @@ CREATE TABLE users (
   password dom_password NOT NULL,
   role dom_role NOT NULL,
   code dom_id_card,
+  status BOOLEAN DEFAULT TRUE,
   CONSTRAINT pk_user_id PRIMARY KEY (user_id)
 );
+
 -- 3
 CREATE TABLE pacients (
   user_id dom_id_card,
@@ -294,7 +296,7 @@ CREATE OR REPLACE FUNCTION update_user()
 RETURNS TRIGGER AS $$
 BEGIN
   UPDATE users
-  SET name = NEW.name, password = NEW.password
+  SET name = NEW.name, password = NEW.password, status = NEW.status
   WHERE user_id = NEW.user_id;
   RETURN NEW;
 END;
@@ -328,7 +330,38 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION update_pacient_status()
+RETURNS TRIGGER AS $$
+DECLARE
+  total_specialists INTEGER;
+  total_highs INTEGER;
+BEGIN
 
+raise notice 'user_id: %', NEW.pacient_id;
+  SELECT COUNT(*) INTO total_specialists
+  FROM assings
+  WHERE pacient_id = NEW.pacient_id
+  AND assigned_status = TRUE;
+  raise notice 'total_specialists: %', total_specialists;
+
+  SELECT COUNT(*) INTO total_highs
+  FROM assings
+  WHERE pacient_id = NEW.pacient_id AND alta = TRUE
+  AND assigned_status = TRUE;
+  raise notice 'total_highs: %', total_highs;
+
+  IF total_specialists = total_highs THEN
+    UPDATE pacients
+    SET status = FALSE
+    WHERE user_id = NEW.pacient_id;
+  END IF;
+  IF total_specialists < total_highs THEN
+    raise notice 'No se puede dar de alta al paciente debido a que el total de especialistas es menor al total de altas';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 -- Triggers
 CREATE TRIGGER update_updated_at_pacients
 BEFORE UPDATE ON pacients
@@ -381,5 +414,10 @@ CREATE TRIGGER trigger_check_quote_date
 BEFORE INSERT ON health_queries
 FOR EACH ROW
 EXECUTE FUNCTION check_quote_date();
+
+CREATE TRIGGER update_pacient_status_trigger
+AFTER UPDATE ON assings
+FOR EACH ROW
+EXECUTE FUNCTION update_pacient_status();
 
 COMMIT;
