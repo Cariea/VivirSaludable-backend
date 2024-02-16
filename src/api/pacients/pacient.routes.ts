@@ -3,10 +3,10 @@ import { Router } from 'express'
 // Constants
 import { AdminRoles, UserRole } from '../../utils/roles.enum'
 // Schemas
-// import { PacientSchema } from './pacient.schema'
+import { updatePacientSchema } from './pacient.schema'
 
 // Middlewares
-// import { schemaGuard } from '../../middlewares/schema-guard'
+import { schemaGuard } from '../../middlewares/schema-guard'
 import { hasAuthorization } from '../../middlewares/auth'
 
 // Controllers
@@ -20,6 +20,6 @@ const router = Router()
 router.get('/me', hasAuthorization([UserRole.ESPECIALISTA, UserRole.PACIENTE]), getMe)
 router.get('/:pacientId', hasAuthorization([UserRole.ESPECIALISTA]), getByPacientId)
 router.get('/', hasAuthorization([UserRole.ESPECIALISTA]), getPacients)
-router.put('/:pacientId', hasAuthorization([AdminRoles.ASISTENT]), updatePacient)
+router.put('/:pacientId', hasAuthorization([AdminRoles.ASISTENT]),schemaGuard(updatePacientSchema), updatePacient)
 
 export default router
