@@ -8,6 +8,7 @@ import camelizeObject from '../../../utils/camelize-object'
 import { AUTH_ROUNDS } from '../../../config'
 import { ExtendedRequest } from '../../../middlewares/auth'
 import { QueryResult } from 'pg'
+import { UserRole } from '../../../utils/roles.enum'
 // import { sendMail } from '../../../utils/send-mail-service'
 
 export const signUp = async (
@@ -16,11 +17,6 @@ export const signUp = async (
 ): Promise<Response | undefined> => {
 	try {
 		const { userId, email, name, role, phone, specialityId, programId, address } = req.body
-
-		if(!userId || !email || !name || !role || !phone || !address){
-			return res.status(STATUS.BAD_REQUEST).json({message: 'Datos incompletos en el formulario'})
-		}
-		// const registerData = [userId, password]
 
 		let response: QueryResult = { rows: [], rowCount: 0, command: 'algo paso', oid: 0, fields: [] }
 
@@ -42,7 +38,7 @@ export const signUp = async (
 		const password = await bcrypt.hash('vs123', Number(AUTH_ROUNDS))
 
 
-		if (role === 'pacient') {
+		if (role === UserRole.PACIENTE) {
 			if(!programId){
 				return res.status(STATUS.BAD_REQUEST).json({message: 'Se requiere el id del programa'})
 			}
@@ -76,7 +72,7 @@ export const signUp = async (
 
 			// sendMail(email, 'Bienvenido a la plataforma de salud',`<h1>Su contraseña es: ${code}</h1>`)
 		}
-		if (role === 'specialist') {
+		if (role === UserRole.ESPECIALISTA) {
 			if(!specialityId){
 				return res.status(STATUS.BAD_REQUEST).json({message: 'Se requiere el id de la especialidad'})
 			}
