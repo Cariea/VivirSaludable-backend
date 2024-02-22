@@ -364,6 +364,35 @@ raise notice 'user_id: %', NEW.pacient_id;
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION  validate_specialists_assignments()
+RETURNS TRIGGER AS $$
+DECLARE
+  v_speciality_id_new INTEGER;
+BEGIN
+  -- Paso 1: Obtener la especialidad del nuevo especialista
+  SELECT speciality_id INTO v_speciality_id_new
+  FROM specialists
+  WHERE user_id = NEW.specialist_id;
+
+  -- Paso 2: Verificar si hay otro especialista diferente con la misma especialidad para el mismo paciente
+  IF EXISTS (
+    SELECT 1
+    FROM assings a1
+    JOIN specialists s1 ON a1.specialist_id = s1.user_id
+    WHERE a1.pacient_id = NEW.pacient_id
+      AND s1.speciality_id = v_speciality_id_new
+      AND a1.specialist_id <> NEW.specialist_id
+  ) THEN
+    RAISE EXCEPTION 'Un paciente no puede tener mas de un especialista con la misma especialidad';
+  END IF;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
 -- Triggers
 CREATE TRIGGER update_updated_at_pacients
 BEFORE UPDATE ON pacients
@@ -421,5 +450,10 @@ CREATE TRIGGER update_pacient_status_trigger
 AFTER UPDATE ON assings
 FOR EACH ROW
 EXECUTE FUNCTION update_pacient_status();
+
+CREATE TRIGGER validate_specialists_assignments
+BEFORE INSERT ON assings
+FOR EACH ROW
+EXECUTE FUNCTION validate_specialists_assignments();
 
 COMMIT;

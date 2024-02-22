@@ -23,7 +23,12 @@ INSERT INTO pacients (
   ('00000001', 'Isaac Newton', 'newton@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234568', 'Inglaterra',TRUE),
   ('00000006', 'Galileo Galilei', 'galilei@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234573', 'Italia',TRUE),
   ('00000007', 'Nikola Tesla', 'tesla@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-1234574', 'Serbia',TRUE),
-  ('25559633', 'Carmelo Naim','carmelonaim30@gmail.com','$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-4992818', 'Venezuela',TRUE);
+  ('25559633', 'Carmelo Naim','carmelonaim30@gmail.com','$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-4992818', 'Venezuela',TRUE),
+  ('12345678', 'Hugo Rafael','hugor@mail.com','$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', '00000008', '0412-4992818', 'Venezuela',TRUE);
+  
+
+
+
 
 INSERT INTO specialties (
   name
@@ -56,6 +61,9 @@ INSERT INTO assings (
   specialist_id,
   pacient_id
 ) VALUES
+  ('00000008', '00000002', '12345678'),
+  ('00000008', '00000003', '12345678'),
+  ('00000008', '00000004', '12345678'),
   ('00000008', '00000002', '25559633'),
   ('00000008', '00000003', '25559633'),
   ('00000008', '00000004', '25559633'),
@@ -70,11 +78,7 @@ INSERT INTO assings (
   ('00000008', '00000004', '00000000'),
   ('00000008', '00000004', '00000001'),
   ('00000008', '00000004', '00000006'),
-  ('00000008', '00000004', '00000007'),
-  ('00000008', '00000005', '00000000'),
-  ('00000008', '00000005', '00000001'),
-  ('00000008', '00000005', '00000006'),
-  ('00000008', '00000005', '00000007');
+  ('00000008', '00000004', '00000007');
 
 
 INSERT INTO indications (
