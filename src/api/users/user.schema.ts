@@ -17,11 +17,9 @@ export const UserSchema = z.object({
 		.email(),
 	phone: z
 		.string()
-		.max(16, 'El número de teléfono no puede superar los 16 carácteres')
-		.optional(),
-	specialityId: z
-		.number()
-		.optional(),
+		.max(16, 'El número de teléfono no puede superar los 16 carácteres'),
+	address: z
+		.string(),
 	role: z
 		.enum([UserRole.PACIENTE, UserRole.ESPECIALISTA])
 })
