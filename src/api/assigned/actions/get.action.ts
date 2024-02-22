@@ -43,12 +43,12 @@ export const getAssignments = async (
 			count = response[0].count
 			const { rows } = await pool.query({
 				text: `
-          SELECT * 
-            FROM assigned
-            WHERE specialist_id = $1
-            AND pacient_id = $2
-            LIMIT $3
-            OFFSET $4
+        SELECT a.*, i.description
+        FROM assigned a
+        JOIN indications i ON a.specialist_id = i.specialist_id AND a.indication_id = i.indication_id
+        WHERE a.specialist_id = $1 AND a.pacient_id = $2
+        LIMIT $3
+        OFFSET $4;
         `,
 				values: [req.user.id, pacientId, size, offset]
 			})
@@ -63,12 +63,12 @@ export const getAssignments = async (
 			count = response[0].count
 			const { rows } = await pool.query({
 				text: `
-          SELECT * 
-            FROM assigned
-            WHERE pacient_id = $1
-            AND specialist_id = $2
-            LIMIT $3
-            OFFSET $4
+        SELECT a.*, i.description
+        FROM assigned a
+        JOIN indications i ON a.specialist_id = i.specialist_id AND a.indication_id = i.indication_id
+        WHERE a.pacient_id = $1 AND a.specialist_id = $2
+        LIMIT $3
+        OFFSET $4;
         `,
 				values: [req.user.id,specialistId, size, offset]
 			})
