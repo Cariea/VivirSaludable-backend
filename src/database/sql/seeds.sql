@@ -54,7 +54,9 @@ INSERT INTO specialists (
     ('00000002', 'Marie Curie', 'curie@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',1 , '00000008', '0412-1234569', 'Polonia',TRUE),
     ('00000003', 'Vincenzo Viviani', 'viviani@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',2 , '00000008', '0412-1234570', 'Italia',TRUE),
     ('00000004', 'Alessandro Volta', 'volta@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',3 , '00000008', '0412-1234571', 'Italia',TRUE),
-    ('00000005', 'Enrico Fermi', 'fermi@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',4 , '00000008', '0412-1234572', 'Italia',TRUE);
+    ('00000005', 'Enrico Fermi', 'fermi@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',4 , '00000008', '0412-1234572', 'Italia',TRUE),
+    ('00000009', 'Vicente Lecuna', 'lecuna@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',5 , '00000008', '0412-1234573', 'Venezuela',TRUE),
+    ('00000010', 'Luisa Caceres', 'caceres@mail.com', '$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.',6 , '00000008', '0412-1234574', 'Venezuela',TRUE);
 
 INSERT INTO assings (
   asistent_id,
@@ -64,9 +66,11 @@ INSERT INTO assings (
   ('00000008', '00000002', '12345678'),
   ('00000008', '00000003', '12345678'),
   ('00000008', '00000004', '12345678'),
+  ('00000008', '00000005', '12345678'),
   ('00000008', '00000002', '25559633'),
   ('00000008', '00000003', '25559633'),
   ('00000008', '00000004', '25559633'),
+  ('00000008', '00000009', '25559633'),
   ('00000008', '00000002', '00000000'),
   ('00000008', '00000002', '00000001'),
   ('00000008', '00000002', '00000006'),
@@ -78,7 +82,11 @@ INSERT INTO assings (
   ('00000008', '00000004', '00000000'),
   ('00000008', '00000004', '00000001'),
   ('00000008', '00000004', '00000006'),
-  ('00000008', '00000004', '00000007');
+  ('00000008', '00000004', '00000007'),
+  ('00000008', '00000005', '00000000'),
+  ('00000008', '00000005', '00000001'),
+  ('00000008', '00000009', '00000006'),
+  ('00000008', '00000010', '00000007');
 
 
 INSERT INTO indications (
@@ -100,12 +108,13 @@ INSERT INTO indications (
     name,
     description
   ) VALUES
-    ('programa #1', 'descripcion del programa #1'),
-    ('programa #2', 'descripcion del programa #2'),
-    ('programa #3', 'descripcion del programa #3'),
-    ('programa #4', 'descripcion del programa #4'),
-    ('programa #5', 'descripcion del programa #5'),
-    ('programa #6', 'descripcion del programa #6');
+    ('tradicional', 'programa tradicional'),
+    ('bypass', 'programa bypass'),
+    ('manga gastrica endoscopica', 'programa manga gastrica endoscopica'),
+    ('balon gastrico', 'programa balon gastrico'),
+    ('manga gastrica quirurgica', 'programa manga gastrica quirurgica'),
+    ('liraglutida','programa liraglutido'),
+    ('medicacion',' programa de medicacion');
   
 INSERT INTO bot_questions (
   specialist_id,

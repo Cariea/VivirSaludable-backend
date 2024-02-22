@@ -16,8 +16,8 @@ export const signUp = async (
 	res: Response
 ): Promise<Response | undefined> => {
 	try {
-		const { userId, email, name, role, phone, specialityId, programId, address } = req.body
-
+		const { userId, email, name, role, phone, specialtyId, programId, address } = req.body
+		console.log(req.body)
 		let response: QueryResult = { rows: [], rowCount: 0, command: 'algo paso', oid: 0, fields: [] }
 
 		const { rows } = await pool.query({
@@ -73,7 +73,8 @@ export const signUp = async (
 			// sendMail(email, 'Bienvenido a la plataforma de salud',`<h1>Su contraseña es: ${code}</h1>`)
 		}
 		if (role === UserRole.ESPECIALISTA) {
-			if(!specialityId){
+			if(!specialtyId){
+				console.log('no hay especialidad')
 				return res.status(STATUS.BAD_REQUEST).json({message: 'Se requiere el id de la especialidad'})
 			}
 			response = await pool.query({
@@ -94,7 +95,7 @@ export const signUp = async (
             email,
             name
         `,
-				values: [userId, name, email, password, specialityId, req.user?.id, phone, address]
+				values: [userId, name, email, password, specialtyId, req.user?.id, phone, address]
 			})
 			// sendMail(email, `Bienvenido a Vivir Saludable, ${name}`,`<h1>Su contraseña es: ${code}</h1>`)
 		}
