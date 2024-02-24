@@ -30,12 +30,32 @@ export const getPacients = async (
 
 		const { rows: pacients } = await pool.query({
 			text: `
-        SELECT * 
-          FROM pacients
-          WHERE status = $1
-          ORDER BY created_at DESC
-          LIMIT $2
-          OFFSET $3
+        SELECT
+          p.user_id,
+          p.name,
+          p.email,
+          p.phone,
+          p.address,
+          p.status,
+          u.role AS role,
+          pr.name AS program,
+          COUNT(DISTINCT a.specialist_id) AS especialists
+        FROM
+          pacients p
+        LEFT JOIN
+          assings a ON p.user_id = a.pacient_id AND a.assigned_status = TRUE
+        LEFT JOIN
+          belongs b ON p.user_id = b.pacient_id
+        LEFT JOIN
+          users u ON p.user_id = u.user_id
+        LEFT JOIN
+          programs pr ON b.program_id = pr.program_id
+        WHERE 
+          p.status = $1
+        GROUP BY
+          p.user_id, p.name, p.email, p.phone, p.status, u.role, pr.name
+        LIMIT $2
+        OFFSET $3
       `,
 			values: [true, size, offset]
 		})
