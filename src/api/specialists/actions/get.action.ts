@@ -30,16 +30,35 @@ export const getSpecialists = async (
 
 		const { rows: specialists } = await pool.query({
 			text: `
-        SELECT  user_id, name, email, phone, asistent_id, speciality_id, status, created_at, updated_at
-          FROM specialists
-          WHERE status = $1
-          ORDER BY created_at DESC
-          LIMIT $2
-          OFFSET $3
+        SELECT
+          s.user_id AS user_id,
+          s.name AS name,
+          s.address AS address,
+          sp.name AS especialty,
+          s.status AS status,
+          u.role AS role,
+          COUNT(DISTINCT a.pacient_id) AS pacients,
+          COUNT(DISTINCT b.program_id) AS programs
+        FROM
+            specialists s
+        JOIN
+            specialties sp ON s.speciality_id = sp.specialty_id
+        JOIN
+            users u ON s.user_id = u.user_id
+        LEFT JOIN
+            assings a ON s.user_id = a.specialist_id AND a.assigned_status = TRUE
+        LEFT JOIN
+            belongs b ON a.pacient_id = b.pacient_id
+        WHERE
+            s.status = $1
+        GROUP BY
+            s.user_id, s.name, sp.name, s.status, u.role
+        LIMIT $2
+        OFFSET $3;
       `,
 			values: [true, size, offset]
 		})
-
+		console.log('specialists', specialists)
 		const pagination: PaginateSettings = {
 			total: Number(rows[0].count),
 			page: Number(page),
@@ -48,6 +67,7 @@ export const getSpecialists = async (
 
 		return paginatedItemsResponse(res, STATUS.OK, camelizeObject(specialists) as Array<Record<string, any>>, pagination)
 	} catch (error: unknown) {
+		console.log(error)
 		return handleControllerError(error, res)
 	}
 }
