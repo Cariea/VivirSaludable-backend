@@ -1,4 +1,4 @@
-import { Response, Request } from 'express'
+import{ Response, Request } from 'express'
 import { pool } from '../../../database'
 import { DEFAULT_PAGE ,STATUS } from '../../../utils/constants'
 import { handleControllerError } from '../../../utils/responses/handle-controller-error'
@@ -13,7 +13,15 @@ export const getAllUsers = async (
 	res: Response
 ): Promise<Response> => {
 	try {
-		const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size } = req.query
+		const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size, role } = req.query
+
+		if (role && role !== 'pacient' && role !== 'specialist') {
+			return res.status(STATUS.BAD_REQUEST).json({
+				message: 'Role not valid'
+			})
+		}
+
+    
 		const { rows: pacients } = await pool.query({
 			text: `
       SELECT
@@ -66,7 +74,16 @@ export const getAllUsers = async (
           s.user_id, s.name, sp.name, s.status, u.role;
       `
 		})
-		const users = pacients.concat(specialists)
+
+		let users = []
+		if(!role){
+			users = pacients.concat(specialists)
+		}else if(role === 'pacient'){
+			users = pacients
+		}else{
+			users = specialists
+		}
+		console.log(role)
 		const offset = (Number(page) - 1) * Number(size)
 		const pagination: PaginateSettings = {
 			total: users.length,

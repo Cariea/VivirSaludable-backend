@@ -8,7 +8,8 @@ import { router } from './api/_routes/api'
 import fileUpload from 'express-fileupload'
 import { addMessage } from './api/messages/actions/add.action'
 //import { chat } from './services/chat'
-
+import initializeFirebase
+	from './services/firebase-init'
 // App Declaration
 const app = express()
 // Server Declaration
@@ -49,6 +50,9 @@ io.on('connection', (socket) => {
 		}
 	})
 })
+
+// Firebase
+initializeFirebase()
 
 // Settings
 app.set('port', PORT !== '' ? PORT : 3000)
