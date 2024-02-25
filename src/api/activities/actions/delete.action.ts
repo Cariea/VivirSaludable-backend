@@ -8,7 +8,6 @@ export const deleteActivity = async (
 	res: Response
 ): Promise<Response> => {
 	const { activityId } = req.params
-	console.log(activityId)
 	try {
 		const { rows } = await pool.query({
 			text: `

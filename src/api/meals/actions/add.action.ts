@@ -22,7 +22,6 @@ export const addMeal = async (
 			if(image === null){
 				return res.status(STATUS.BAD_REQUEST).json({message: 'No se pudo subir la imagen'})
 			}
-			console.log('image', image)
 			imageUrl = image.url
 		}else{
 			imageUrl = 'No se cargo una imagen'

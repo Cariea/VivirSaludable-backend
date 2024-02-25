@@ -31,7 +31,6 @@ export const getSymptoms = async (
       `,
 			values: [pacientId, specialistId]
 		})
-		console.log('symptoms', symptoms[0].count)
 		const { rows } = await pool.query({
 			text: `
         SELECT 
@@ -44,7 +43,6 @@ export const getSymptoms = async (
       `,
 			values: [pacientId, specialistId, size, offset]
 		})
-		console.log('rows', rows)
 		const pagination: PaginateSettings = {
 			total: Number(symptoms[0].count),
 			page: Number(page),

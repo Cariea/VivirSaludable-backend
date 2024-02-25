@@ -58,7 +58,6 @@ export const getSpecialists = async (
       `,
 			values: [true, size, offset]
 		})
-		console.log('specialists', specialists)
 		const pagination: PaginateSettings = {
 			total: Number(rows[0].count),
 			page: Number(page),

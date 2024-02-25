@@ -15,7 +15,6 @@ export const getPacientAssignments = async (
 ): Promise<Response> => {
 	try {
 		const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size, pacientId } = req.query
-		console.log('pacientId', pacientId)
 		let offset = (Number(page) - 1) * Number(size)
 		if (Number(page) < 1) {
 			offset = 0
@@ -31,7 +30,6 @@ export const getPacientAssignments = async (
       `,
 			values: [req.user?.id, pacientId]
 		})
-		console.log('indications', indications)
 		const { rows } = await pool.query({
 			text: `
         SELECT 
@@ -50,7 +48,6 @@ export const getPacientAssignments = async (
       `,
 			values: [req.user?.id, pacientId, size, offset]
 		})
-		console.log('rows', rows)
 		const pagination: PaginateSettings = {
 			total: Number(indications[0].count),
 			page: Number(page),

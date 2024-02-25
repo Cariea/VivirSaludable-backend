@@ -55,7 +55,6 @@ export const updateUser = async (
 			})
       
 		}
-		console.log('rows[0].role', rows[0].role)
 		if( rows[0].role === 'specialist'){
 			if(!specialityId){
 				return res.status(STATUS.BAD_REQUEST).json({message: 'Se requiere el id de la especialidad'})
@@ -69,7 +68,6 @@ export const updateUser = async (
 				values: [name, email, phone, specialityId, epassword, address, userId]
 			})
 		}
-		console.log('Usuario actualizado')
 
 		return res.status(STATUS.OK).json({ message: 'Usuario actualizado' })
 	} catch (error: any) {

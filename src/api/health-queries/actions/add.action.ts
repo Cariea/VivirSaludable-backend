@@ -15,7 +15,6 @@ export const addHealthQuery = async (
 		if(!validarFormatoFecha(quoteDate)){
 			return res.status(STATUS.BAD_REQUEST).json({message: 'El formato de la fecha es incorrecto'})
 		}
-		console.log('quoteDate', quoteDate)
 		const response = await pool.query({
 			text: `
         INSERT INTO health_queries (

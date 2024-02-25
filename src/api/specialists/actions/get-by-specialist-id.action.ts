@@ -10,7 +10,6 @@ export const getBySpecialistsId = async (
 ): Promise<Response> => {
 	try {
 		const { specialistId } = req.params
-		console.log(specialistId)
 		const { rows } = await pool.query({
 			text: `
         SELECT name, email, phone, speciality_id

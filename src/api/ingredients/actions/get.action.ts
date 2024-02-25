@@ -29,7 +29,6 @@ export const getIngredients = async (
       `,
 			values: [mealId]
 		})
-		console.log(ingredients)
 		const { rows } = await pool.query({
 			text: `
         SELECT 
