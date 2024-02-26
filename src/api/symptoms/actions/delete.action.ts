@@ -9,7 +9,6 @@ export const deleteSymptom = async (
 ): Promise<Response> => {
 	try {
 		const { symptomId } = req.params
-		console.log(symptomId)
 		const {rows} = await pool.query({
 			text: `
         DELETE FROM symptoms

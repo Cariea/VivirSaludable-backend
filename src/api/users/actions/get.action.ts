@@ -48,7 +48,6 @@ export const getAllUsers = async (
         p.user_id, p.name, p.email, p.phone, p.status, u.role, pr.name
       `
 		})
-		console.log('pacients', pacients)
 		const { rows: specialists } = await pool.query({
 			text: `
         SELECT
@@ -83,7 +82,6 @@ export const getAllUsers = async (
 		}else{
 			users = specialists
 		}
-		console.log(role)
 		const offset = (Number(page) - 1) * Number(size)
 		const pagination: PaginateSettings = {
 			total: users.length,

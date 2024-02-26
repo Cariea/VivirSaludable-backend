@@ -54,10 +54,8 @@ export const hasAuthorization = (validRoles: string[]) =>
 	(req: ExtendedRequest, res: Response, next: NextFunction): any => {
 		try {
 			// Punto Critico
-			console.log(req.user)
 			const role = req.user?.role || ''
 			// --
-			console.log(' ssss',role)
 			if (!validRoles.includes(role)) {
 				return errorResponse(res, STATUS.UNAUTHORIZED, 'No autorizado para realizar esta acción')
 			}

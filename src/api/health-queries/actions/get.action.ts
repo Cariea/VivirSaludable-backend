@@ -30,8 +30,7 @@ export const getHealthQueries = async (
       `,
 			values: [req.user?.id]
 		})
-		console.log('healthQueries', healthQueries)
-		console.log('req.user?.id', req.user?.id)
+
 		const { rows } = await pool.query({
 			text: `
         SELECT 
@@ -47,7 +46,6 @@ export const getHealthQueries = async (
       `,
 			values: [req.user?.id, size, offset]
 		})
-		console.log('rows', rows)
 		const pagination: PaginateSettings = {
 			total: Number(healthQueries[0].count),
 			page: Number(page),

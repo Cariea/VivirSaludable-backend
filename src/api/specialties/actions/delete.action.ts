@@ -9,7 +9,6 @@ export const deleteSpecialty = async (
 ): Promise<Response> => {
 	try {
 		const { specialtyId } = req.params
-		console.log(specialtyId)
 		const {rows} = await pool.query({
 			text: `
         DELETE FROM specialties

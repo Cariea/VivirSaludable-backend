@@ -10,7 +10,6 @@ export const generateCode = async (
 ): Promise<Response> => {
 	try {
 		const { userId } = req.params
-		console.log('userId', userId)
 		let email = ''
 		const { rows } = await pool.query({
 			text: `
@@ -21,9 +20,7 @@ export const generateCode = async (
       `,
 			values: [userId]
 		})
-		console.log('rows', rows)
-		console.log('rows[0].role', rows[0].role)
-		console.log('rows[0].exists', rows[0].exists)
+
 
 		if (rows[0].exists === false) {
 			return res.status(STATUS.NOT_FOUND).json({ message: 'Usuario no encontrado' })

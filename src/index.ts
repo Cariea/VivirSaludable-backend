@@ -6,8 +6,8 @@ import { createServer } from 'node:http'
 import { PORT } from './config'
 import { router } from './api/_routes/api'
 import fileUpload from 'express-fileupload'
-import { addMessage } from './api/messages/actions/add.action'
-//import { chat } from './services/chat'
+//import { addMessage } from './api/messages/actions/add.action'
+import { chat } from './services/chat'
 import initializeFirebase
 	from './services/firebase-init'
 // App Declaration
@@ -18,38 +18,38 @@ const server = createServer(app)
 // Socket.io
 export const io = new Server(server, {
 	cors: {
-		origin: ['http://127.0.0.1:5500'],
+		origin: ['http://127.0.0.1:5500','http://127.0.0.1:5501'],
 		methods: ['GET', 'POST'],
 		credentials: true
 	},
 	connectionStateRecovery: {}
 })
-// chat(io)
-const userIdToSocket = new Map<string,string>()
-const socketToUserId = new Map<string,string>()
+chat(io)
+// const userIdToSocket = new Map<string,string>()
+// const socketToUserId = new Map<string,string>()
 
-io.on('connection', (socket) => {
-	console.log(`Nuevo cliente conectado: ${socket.id}, Usuario: ${socket.handshake.query.userId}`)
+// io.on('connection', (socket) => {
+// 	console.log(`Nuevo cliente conectado: ${socket.id}, Usuario: ${socket.handshake.query.userId}`)
   
-	socketToUserId.set(socket.id, socket.handshake.query.userId as string)
-	userIdToSocket.set(socket.handshake.query.userId as string, socket.id)
+// 	socketToUserId.set(socket.id, socket.handshake.query.userId as string)
+// 	userIdToSocket.set(socket.handshake.query.userId as string, socket.id)
 
-	socket.on('disconnect', () => {
-		console.log(`Se desconecto: ${socketToUserId.get(socket.id)}`)
-		userIdToSocket.delete(socketToUserId.get(socket.id) as string)
-		socketToUserId.delete(socket.id)
-	})
+// 	socket.on('disconnect', () => {
+// 		console.log(`Se desconecto: ${socketToUserId.get(socket.id)}`)
+// 		userIdToSocket.delete(socketToUserId.get(socket.id) as string)
+// 		socketToUserId.delete(socket.id)
+// 	})
 
-	socket.on('chat message', (message) => {
-		if(userIdToSocket.get(message.to)){
-			addMessage(socketToUserId.get(socket.id) as string, message.to, message.text)
-			io.to(userIdToSocket.get(message.to) as string).emit('chat message', message)
-		}else{
-			addMessage(socketToUserId.get(socket.id) as string, message.to, message.text)
-			console.log('Mensaje enviado de: ', socketToUserId.get(socket.id), 'a:', message.to, 'no se encuentra conectado')
-		}
-	})
-})
+// 	socket.on('chat message', (message) => {
+// 		if(userIdToSocket.get(message.to)){
+// 			addMessage(socketToUserId.get(socket.id) as string, message.to, message.text)
+// 			io.to(userIdToSocket.get(message.to) as string).emit('chat message', message)
+// 		}else{
+// 			addMessage(socketToUserId.get(socket.id) as string, message.to, message.text)
+// 			console.log('Mensaje enviado de: ', socketToUserId.get(socket.id), 'a:', message.to, 'no se encuentra conectado')
+// 		}
+// 	})
+// })
 
 // Firebase
 initializeFirebase()

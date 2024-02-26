@@ -10,7 +10,6 @@ export const getMe = async (
 	res: Response
 ): Promise<Response> => {
 	try {
-		console.log(req.user)
 		const { rows } = await pool.query({
 			text: `
         SELECT user_id, name, email, phone, created_at

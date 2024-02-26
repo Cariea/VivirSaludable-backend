@@ -17,7 +17,6 @@ export const getQuestions = async (
 	if (!specialisId) {
 		return res.status(STATUS.BAD_REQUEST).json({ message: 'Specialist id is required' })
 	}
-	console.log(specialisId)
 	try {
 		let offset = (Number(page) - 1) * Number(size)
 		if (Number(page) < 1) {
@@ -33,7 +32,6 @@ export const getQuestions = async (
 			values: [specialisId]
 		})
 
-		console.log(rows)
 		const { rows: questions } = await pool.query({
 			text: `
         SELECT * 
@@ -44,7 +42,6 @@ export const getQuestions = async (
       `,
 			values: [specialisId, size, offset]
 		})
-		console.log(questions)
 		const pagination: PaginateSettings = {
 			total: Number(rows[0].count),
 			page: Number(page),

@@ -10,7 +10,6 @@ export const logIn = async (
 ): Promise<Response | undefined> => {
 	try {
 		const { userId, password } = req.body
-		console.log(userId, password)
 		const { rows: userResponse } = await pool.query({
 			text: `
         SELECT
@@ -25,12 +24,10 @@ export const logIn = async (
       `,
 			values: [userId]
 		})
-		console.log(userResponse)
 		if (userResponse.length > 0) {
 			const isPasswordCorrect = await bcrypt.compare(password, userResponse[0].password)
 			if (isPasswordCorrect) {
 				const token = await generateToken(userResponse[0].user_id, userResponse[0].name, userResponse[0].role)
-				console.log(token)
 				return res.status(STATUS.OK).json(token)
 			}
 		}
@@ -53,7 +50,6 @@ export const logIn = async (
 			const isPasswordCorrect = await bcrypt.compare(password, asistentsResponse[0].password)
 			if (isPasswordCorrect) {
 				const token = await generateToken(asistentsResponse[0].user_id,asistentsResponse[0].name, asistentsResponse[0].role)
-				console.log(token)
 				return res.status(STATUS.OK).json(token)
 			}
 		}
