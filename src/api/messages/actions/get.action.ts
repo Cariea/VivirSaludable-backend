@@ -1,4 +1,4 @@
-import { Response, Request } from 'express'
+import { Response } from 'express'
 import { pool } from '../../../database'
 import { DEFAULT_PAGE, STATUS } from '../../../utils/constants'
 import {
@@ -7,13 +7,15 @@ import {
 } from '../../../utils/responses'
 import { handleControllerError } from '../../../utils/responses/handle-controller-error'
 import camelizeObject from '../../../utils/camelize-object'
+import { ExtendedRequest } from '../../../middlewares/auth'
 
 export const getMessages = async (
-	req: Request,
+	req: ExtendedRequest,
 	res: Response
 ): Promise<Response> => {
-	const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size, sessionUserId, toUserId } = req.query
-	if(!sessionUserId || !toUserId) {
+	const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size, toUserId } = req.query
+  
+	if(!toUserId) {
 		return res.status(STATUS.BAD_REQUEST).json({
 			message: 'sessionUserId and toUserId are required'
 		})
@@ -31,7 +33,7 @@ export const getMessages = async (
           (user_id = $1 AND user_receptor = $2) OR 
           (user_id = $2 AND user_receptor = $1)
       `,
-			values: [sessionUserId, toUserId]
+			values: [req.user?.id, toUserId]
 		})
 
 		const { rows: messages } = await pool.query({
@@ -45,7 +47,7 @@ export const getMessages = async (
           LIMIT $3
           OFFSET $4
       `,
-			values: [sessionUserId, toUserId, size, offset]
+			values: [req.user?.id, toUserId, size, offset]
 		})
 
 		const pagination: PaginateSettings = {
