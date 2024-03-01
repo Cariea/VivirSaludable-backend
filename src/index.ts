@@ -18,8 +18,8 @@ const server = createServer(app)
 // Socket.io
 export const io = new Server(server, {
 	cors: {
-		origin: '*',
-		//origin: ['http://127.0.0.1:5500','http://127.0.0.1:5501'],
+		//origin: '*',
+		origin: ['http://127.0.0.1:5500','http://127.0.0.1:5501'],
 		methods: ['GET', 'POST'],
 		credentials: true
 	},
