@@ -132,3 +132,37 @@ SELECT
   END AS next_quote_date
 FROM health_queries
 WHERE pacient_id = '00000000';
+
+-- get possible specialists
+SELECT DISTINCT s.name AS specialist_name, sp.name AS specialty_name, s.status
+  FROM specialists s
+  JOIN specialties sp ON s.speciality_id = sp.specialty_id
+  WHERE s.speciality_id NOT IN (
+    SELECT s2.speciality_id
+    FROM specialists s2
+    JOIN assings a ON s2.user_id = a.specialist_id
+    WHERE a.pacient_id = $1
+  ) AND s.user_id NOT IN (
+    SELECT a.specialist_id
+    FROM assings a
+    WHERE a.pacient_id = $1
+  ) AND s.status = true
+        
+-- get possible pacients
+
+SELECT a.user_id AS pacient_id,  a.name AS pacient_name, u.role, p.name AS program_name, b.entry_date, a.status
+  FROM pacients a
+  JOIN belongs b ON a.user_id = b.pacient_id
+  JOIN programs p ON b.program_id = p.program_id
+  JOIN users u ON a.user_id = u.user_id
+  WHERE NOT EXISTS (
+    SELECT 1
+    FROM assings a2
+    JOIN specialists s ON a2.specialist_id = s.user_id
+    WHERE a2.pacient_id = a.user_id
+      AND s.speciality_id = (
+        SELECT speciality_id
+        FROM specialists
+        WHERE user_id = $1
+      ) 
+  )AND s.status = true

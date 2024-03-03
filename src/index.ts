@@ -33,7 +33,7 @@ chat(io)
 initializeFirebase()
 
 // Settings
-app.set('port', PORT !== '' ? PORT : 3000)
+app.set('port', PORT !== '' ? PORT : 5000)
 
 // Middlewares
 app.use(morgan('dev'))
