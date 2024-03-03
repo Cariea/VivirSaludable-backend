@@ -20,7 +20,7 @@ export const getUsers = async (
 		if(await getUserRole(userId as string) === UserRole.ESPECIALISTA){
 			const { rows: pacients } = await pool.query({
 				text: `
-          SELECT a.user_id AS pacient_id,  a.name AS pacient_name, u.role, p.name AS program_name, b.entry_date, a.status
+          SELECT a.user_id , a.name AS name
             FROM pacients a
             JOIN belongs b ON a.user_id = b.pacient_id
             JOIN programs p ON b.program_id = p.program_id
@@ -34,8 +34,8 @@ export const getUsers = async (
                   SELECT speciality_id
                   FROM specialists
                   WHERE user_id = $1
-                ) 
-            ) AND s.status = true
+                ) AND s.status = true
+            ) 
         `,
 				values: [userId]
 			})
@@ -43,7 +43,7 @@ export const getUsers = async (
 		}else {
 			const { rows: specialists } = await pool.query({
 				text: `
-          SELECT DISTINCT s.name AS specialist_name, sp.name AS specialty_name, s.status
+          SELECT DISTINCT s.user_id, s.name AS name, sp.name AS especialty
           FROM specialists s
           JOIN specialties sp ON s.speciality_id = sp.specialty_id
           WHERE s.speciality_id NOT IN (

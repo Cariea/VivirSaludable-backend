@@ -9,7 +9,7 @@ import { AUTH_ROUNDS } from '../../../config'
 import { ExtendedRequest } from '../../../middlewares/auth'
 import { QueryResult } from 'pg'
 import { UserRole } from '../../../utils/roles.enum'
-// import { sendMail } from '../../../utils/send-mail-service'
+import { sendMail } from '../../../utils/send-mail-service'
 
 export const signUp = async (
 	req: ExtendedRequest,
@@ -32,9 +32,9 @@ export const signUp = async (
 				statusCode: STATUS.BAD_REQUEST
 			})
 		}
-		// const code = Math.floor(Math.random() * 900000) + 100000
-		// const password = await bcrypt.hash(String(code), Number(AUTH_ROUNDS))
-		const password = await bcrypt.hash('vs123', Number(AUTH_ROUNDS))
+		const code = Math.floor(Math.random() * 900000) + 100000
+		const password = await bcrypt.hash(String(code), Number(AUTH_ROUNDS))
+		// const password = await bcrypt.hash('vs123', Number(AUTH_ROUNDS))
 
 
 		if (role === UserRole.PACIENTE) {
@@ -69,7 +69,7 @@ export const signUp = async (
 				values: [req.user?.id, userId, programId]
 			})
 
-			// sendMail(email, 'Bienvenido a la plataforma de salud',`<h1>Su contraseña es: ${code}</h1>`)
+			sendMail(email, 'Bienvenido a la plataforma de salud',`<h1>Su contraseña es: ${code}</h1>`)
 		}
 		if (role === UserRole.ESPECIALISTA) {
 			if(!specialityId){
@@ -95,7 +95,7 @@ export const signUp = async (
         `,
 				values: [userId, name, email, password, specialityId, req.user?.id, phone, address]
 			})
-			// sendMail(email, `Bienvenido a Vivir Saludable, ${name}`,`<h1>Su contraseña es: ${code}</h1>`)
+			sendMail(email, `Bienvenido a Vivir Saludable, ${name}`,`<h1>Su contraseña es: ${code}</h1>`)
 		}
 
 		return res.status(STATUS.CREATED).json(camelizeObject(response.rows[0]))
