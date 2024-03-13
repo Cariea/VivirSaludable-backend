@@ -17,7 +17,7 @@ export const getMessages = async (
   
 	if(!toUserId) {
 		return res.status(STATUS.BAD_REQUEST).json({
-			message: 'sessionUserId and toUserId are required'
+			message: 'toUserId is required'
 		})
 	}
 	try {
