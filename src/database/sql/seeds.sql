@@ -1,3 +1,19 @@
+-- For Seeding the Database
+
+-- Á 🐘 ├ü
+-- á 🐘 ├í
+-- É 🐘 ├ë
+-- é 🐘 ├®
+-- Í 🐘 ├ì
+-- í 🐘 ├¡
+-- Ó 🐘 ├ô
+-- ó 🐘 ├│
+-- Ú 🐘 ├Ü
+-- ú 🐘 ├║
+-- ñ 🐘 ├▒
+-- ¿ 🐘 ┬┐
+
+
 BEGIN;
 
 INSERT INTO asistents (
@@ -37,7 +53,7 @@ INSERT INTO specialties (
   ('deportologo'),
   ('psicologo'),
   ('internista'),
-  ('gastrointerologo'),
+  ('gastroenter├│logo'),
   ('cirujano bariatrico');
 
 INSERT INTO specialists (
@@ -102,7 +118,9 @@ INSERT INTO indications (
   ('00000003', 'tomar medicamento'),
   ('00000005', 'hacer ejercicio'),
   ('00000005', 'tomar agua'),
-  ('00000005', 'tomar medicamento');
+  ('00000005', 'tomar medicamento'),
+  ('00000005', 'salir a correr cada ma├▒ana de 8 a 10am sin falta te estoy vigilando pendiente pues');
+
 
   INSERT INTO programs (
     name,
@@ -176,18 +194,18 @@ INSERT INTO meals (
   pica,
   created_at
 ) VALUES
-  ('00000000', 'desayuno', 'https://www.google.com', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
-  ('00000000', 'almuerzo', 'https://www.google.com', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
-  ('00000000', 'cena', 'https://www.google.com', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00'),
-  ('00000001', 'desayuno', 'https://www.google.com', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
-  ('00000001', 'almuerzo', 'https://www.google.com', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
-  ('00000001', 'cena', 'https://www.google.com', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00'),
-  ('00000006', 'desayuno', 'https://www.google.com', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
-  ('00000006', 'almuerzo', 'https://www.google.com', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
-  ('00000006', 'cena', 'https://www.google.com', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00'),
-  ('00000007', 'desayuno', 'https://www.google.com', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
-  ('00000007', 'almuerzo', 'https://www.google.com', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
-  ('00000007', 'cena', 'https://www.google.com', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00');
+  ('00000000', 'desayuno', 'https://cocineroaficionado.com/wp-content/uploads/2020/12/breakfast-500x375.jpg', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
+  ('00000000', 'almuerzo', 'https://www.tropicanafm.com/wp-content/uploads/2023/01/09-01-23-Almuerzo-corrientazo.jpg', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
+  ('00000000', 'cena', 'https://amp.protocolo.org/extfiles/i-99-cG.16432.1.jpg', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00'),
+  ('00000001', 'desayuno', 'https://media.glamour.mx/photos/64c03dbd1baec96cda9e64d7/master/pass/desayunos_que_controlan_los_picos_de_glucosa.jpg', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
+  ('00000001', 'almuerzo', 'https://assets.delirec.com/images%2F7kvvCGhNNYQx63gkeQvUQTWB9zx2%2Frecipe%2F8f788146-e645-4bec-bb8c-3a94fb5d2f5c-Almo%C3%A7o-fit--gallery-0', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
+  ('00000001', 'cena', 'https://amp.protocolo.org/extfiles/i-99-cG.16432.1.jpg', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00'),
+  ('00000006', 'desayuno', 'https://cncsalud.com/wp-content/uploads/2018/01/omelet-scaled.jpeg', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
+  ('00000006', 'almuerzo', 'https://www.shutterstock.com/image-photo/diet-breakfast-lunch-weight-loss-600nw-2175437679.jpg', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
+  ('00000006', 'cena', 'https://amp.protocolo.org/extfiles/i-99-cG.16432.1.jpg', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00'),
+  ('00000007', 'desayuno', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf3crluQuORlHNF_BL3QVc-gTNPCb1VrDSUw&usqp=CAU', TRUE, '2021-10-10 08:00:00', TRUE, '2021-10-10 08:00:00'),
+  ('00000007', 'almuerzo', 'https://www.shutterstock.com/image-photo/executive-dish-breaded-fillet-rice-600nw-1943554549.jpg', TRUE, '2021-10-10 12:00:00', TRUE, '2021-10-10 12:00:00'),
+  ('00000007', 'cena', 'https://amp.protocolo.org/extfiles/i-99-cG.16432.1.jpg', TRUE, '2021-10-10 18:00:00', TRUE, '2021-10-10 18:00:00');
 
 
 INSERT INTO ingredients (
@@ -322,6 +340,10 @@ INSERT INTO assigned (
   indication_id,
   pacient_id
 ) VALUES
+  ('00000005', 11, '00000000'),
+  ('00000003', 7, '00000000'),
+  ('00000005', 8, '00000000'),
+  ('00000004', 2, '00000000'),
   ('00000002', 4, '00000000'),
   ('00000002', 5, '00000000'),
   ('00000002', 4, '00000001'),
@@ -336,6 +358,10 @@ INSERT INTO daily_assing (
   indication_id,
   pacient_id
 ) VALUES
+  ('00000005', 11, '00000000'),
+  ('00000003', 7, '00000000'),
+  ('00000005', 8, '00000000'),
+  ('00000004', 2, '00000000'),
   ('00000002', 4, '00000000'),
   ('00000002', 5, '00000000'),
   ('00000002', 4, '00000001'),
