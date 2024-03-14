@@ -1,3 +1,19 @@
+-- For Seeding the Database
+
+-- Á 🐘 ├ü
+-- á 🐘 ├í
+-- É 🐘 ├ë
+-- é 🐘 ├®
+-- Í 🐘 ├ì
+-- í 🐘 ├¡
+-- Ó 🐘 ├ô
+-- ó 🐘 ├│
+-- Ú 🐘 ├Ü
+-- ú 🐘 ├║
+-- ñ 🐘 ├▒
+-- ¿ 🐘 ┬┐
+
+
 BEGIN;
 
 INSERT INTO asistents (
@@ -37,7 +53,7 @@ INSERT INTO specialties (
   ('deportologo'),
   ('psicologo'),
   ('internista'),
-  ('gastrointerologo'),
+  ('gastroenter├│logo'),
   ('cirujano bariatrico');
 
 INSERT INTO specialists (
@@ -102,7 +118,9 @@ INSERT INTO indications (
   ('00000003', 'tomar medicamento'),
   ('00000005', 'hacer ejercicio'),
   ('00000005', 'tomar agua'),
-  ('00000005', 'tomar medicamento');
+  ('00000005', 'tomar medicamento'),
+  ('00000005', 'salir a correr cada ma├▒ana de 8 a 10am sin falta te estoy vigilando pendiente pues');
+
 
   INSERT INTO programs (
     name,
@@ -322,6 +340,10 @@ INSERT INTO assigned (
   indication_id,
   pacient_id
 ) VALUES
+  ('00000005', 11, '00000000'),
+  ('00000003', 7, '00000000'),
+  ('00000005', 8, '00000000'),
+  ('00000004', 2, '00000000'),
   ('00000002', 4, '00000000'),
   ('00000002', 5, '00000000'),
   ('00000002', 4, '00000001'),
@@ -336,6 +358,10 @@ INSERT INTO daily_assing (
   indication_id,
   pacient_id
 ) VALUES
+  ('00000005', 11, '00000000'),
+  ('00000003', 7, '00000000'),
+  ('00000005', 8, '00000000'),
+  ('00000004', 2, '00000000'),
   ('00000002', 4, '00000000'),
   ('00000002', 5, '00000000'),
   ('00000002', 4, '00000001'),
