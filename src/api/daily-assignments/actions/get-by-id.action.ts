@@ -31,7 +31,7 @@ export const getAssignments = async (
           specialties spe ON sp.speciality_id = spe.specialty_id
         WHERE
           da.pacient_id = $1
-          AND date_trunc('day', da.date_assing) = date_trunc('day', CURRENT_DATE + interval '4 hours')
+          AND date_trunc('day', da.date_assing) = date_trunc('day', CURRENT_DATE - interval '4 hours')
         `,
 			values: [req.user?.id]
 		})
