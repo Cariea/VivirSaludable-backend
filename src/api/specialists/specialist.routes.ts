@@ -13,10 +13,12 @@ import { getSpecialists } from './actions/get.action'
 import {  getBySpecialistsId } from './actions/get-by-specialist-id.action'
 import { getMe } from './actions/get-me.action'
 import {  updateSpecialists } from './actions/update.action'
+import { getPacientSpecialists } from './actions/get-pacient-specialist.action'
 
 const router = Router()
 
 router.get('/me', getMe)
+router.get('/pacient', getPacientSpecialists)
 router.get('/:specialistId', getBySpecialistsId)
 router.get('/', getSpecialists)
 router.put('/:specialistId', updateSpecialists)
