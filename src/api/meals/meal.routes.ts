@@ -15,7 +15,7 @@ const router = Router()
 
 //Routes
 router.get('/', getMeals)
-router.post('/add/:pacientId', schemaGuard(AddMealSchema), addMeal)
+router.post('/add', schemaGuard(AddMealSchema), addMeal)
 router.put('/:mealId',  schemaGuard(UpdateMealSchema),updateMeal)
 router.delete('/:mealId', deleteMeal)
 
