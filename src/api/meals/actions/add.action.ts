@@ -1,20 +1,23 @@
-import { Response, Request } from 'express'
+import { Response } from 'express'
 import { pool } from '../../../database'
 import { STATUS } from '../../../utils/constants'
 import { handleControllerError } from '../../../utils/responses/handle-controller-error'
 import fileUpload from 'express-fileupload'
 import camelizeObject from '../../../utils/camelize-object'
 import {isValidImageFormat, uploadImage} from '../../../utils/cloudinary'
+import { ExtendedRequest } from '../../../middlewares/auth'
 export const addMeal = async (
-	req: Request,
+	req: ExtendedRequest,
 	res: Response
 ): Promise<Response> => {
 	try {
-		const { pacientId } = req.params
-		const { description, wasSatisfied, indicateHour, pica } = req.body
+		const { description, wasSatisfied, indicateHour, pica, ingredients } = req.body
+		const ingredientsObject = JSON.parse(ingredients)
 		let imageUrl = ''
+
 		if(req.files?.mealImage !== undefined){
 			const mealImage = req.files.mealImage as fileUpload.UploadedFile
+
 			if(!isValidImageFormat(mealImage.name)){
 				return res.status(STATUS.BAD_REQUEST).json({message: 'El formato de imagen no admitido'})
 			}
@@ -23,8 +26,10 @@ export const addMeal = async (
 				return res.status(STATUS.BAD_REQUEST).json({message: 'No se pudo subir la imagen'})
 			}
 			imageUrl = image.url
+
 		}else{
 			imageUrl = 'No se cargo una imagen'
+
 		}
 
 		const { rows } = await pool.query({
@@ -40,8 +45,28 @@ export const addMeal = async (
 		    RETURNING 
 		      meal_id
 		  `,
-			values: [pacientId, description, imageUrl, wasSatisfied, indicateHour, pica]
+			values: [req.user?.id, description, imageUrl, wasSatisfied, indicateHour, pica]
 		})
+
+		const mealId = rows[0].meal_id
+
+		ingredientsObject.forEach(async (ingredient: any) => {
+			const {type, name, quantity} = ingredient
+			await pool.query({
+				text: `
+          INSERT INTO ingredients (
+            pacient_id,
+            meal_id,
+            ingredient_type,
+            name,
+            volume
+          ) VALUES ($1, $2, $3, $4, $5)
+        `,
+				values: [req.user?.id, mealId, type, name, quantity]
+			})
+		})
+		
+
 		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	} catch (error: unknown) {
 		console.error(error)
