@@ -43,7 +43,7 @@ export const getMessages = async (
           WHERE 
           (user_id = $1 AND user_receptor = $2) OR 
           (user_id = $2 AND user_receptor = $1)
-          ORDER BY message_id ASC
+          ORDER BY message_id DESC
           LIMIT $3
           OFFSET $4
       `,
