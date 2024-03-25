@@ -1,6 +1,6 @@
 import { Response } from 'express'
 import { pool } from '../../../database'
-import { DEFAULT_PAGE, STATUS } from '../../../utils/constants'
+import {  STATUS } from '../../../utils/constants'
 // import {
 // 	PaginateSettings,
 // 	paginatedItemsResponse
@@ -13,7 +13,7 @@ export const getMessages = async (
 	req: ExtendedRequest,
 	res: Response
 ): Promise<Response> => {
-	const { page = DEFAULT_PAGE.page, size = DEFAULT_PAGE.size, toUserId } = req.query
+	const {  toUserId } = req.query
   
 	if(!toUserId) {
 		return res.status(STATUS.BAD_REQUEST).json({
@@ -21,10 +21,7 @@ export const getMessages = async (
 		})
 	}
 	try {
-		let offset = (Number(page) - 1) * Number(size)
-		if (Number(page) < 1) {
-			offset = 0
-		}
+
 		// const { rows } = await pool.query({
 		// 	text: `
 		//     SELECT COUNT(*) 
@@ -44,10 +41,9 @@ export const getMessages = async (
           (user_id = $1 AND user_receptor = $2) OR 
           (user_id = $2 AND user_receptor = $1)
           ORDER BY message_id DESC
-          LIMIT $3
-          OFFSET $4
+          LIMIT 150
       `,
-			values: [req.user?.id, toUserId, size, offset]
+			values: [req.user?.id, toUserId]
 		})
 
 		// const pagination: PaginateSettings = {
