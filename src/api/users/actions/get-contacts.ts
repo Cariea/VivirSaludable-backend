@@ -88,7 +88,6 @@ export const getContacts = async (
 		}
 
 
-		console.log('response', response) 
 
 		return res.status(STATUS.OK).json(camelizeObject(response))
 	} catch (error: unknown) {
