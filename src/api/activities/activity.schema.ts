@@ -5,7 +5,6 @@ export const ActivitySchema = z.object({
 		.string(),
 	name: z
 		.string()
-		.min(3)
 		.max(255),
 	hour: z
 		.string(),
@@ -27,6 +26,6 @@ export const ActivitySchema = z.object({
 		.max(255)
 })
 
-export const AddActivitySchema = ActivitySchema.omit({ pacientId: true })
+export const AddActivitySchema = ActivitySchema.omit({ pacientId: true, hour: true, time: true, distance: true, weight: true, repetitions: true})
 export const UpdateActivitySchema = ActivitySchema.omit({ pacientId: true })
   

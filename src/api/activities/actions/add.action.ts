@@ -18,7 +18,7 @@ export const addActivity = async (
 		repetitions,
 		description
 	} = req.body
-
+	console.log(req.body)
 	try {
 		const { rows } = await pool.query({
 			text: `
@@ -46,8 +46,9 @@ export const addActivity = async (
 				description
 			]
 		})
-		return res.status(STATUS.CREATED).json(camelizeObject(rows[0]))
+		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	} catch (error) {
+		console.log(error)
 		return handleControllerError(error, res)
 	}
 }

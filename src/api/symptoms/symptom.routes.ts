@@ -13,7 +13,7 @@ import { deleteSymptom } from './actions/delete.action'
 const router = Router()
 //Routes
 router.get('/:pacientId', getSymptoms)
-router.post('/add/:pacientId',schemaGuard(addSymptomSchema), addSymptom)
+router.post('/add',schemaGuard(addSymptomSchema), addSymptom)
 router.put('/:symptomId',schemaGuard(updateSymptomSchema), updateSymptom)
 router.delete('/:symptomId', deleteSymptom)
 
