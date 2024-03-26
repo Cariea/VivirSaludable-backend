@@ -11,6 +11,7 @@ export const schemaGuard =(schema: any) =>
 			return next()
 		} catch (error) {
 			if (error instanceof ZodError) {
+				console.log(error)
 				return errorResponse(res, STATUS.BAD_REQUEST, 'Datos invalidos en formulario',
 					error.issues.map((issue) => ({
 						field: String(issue.path),

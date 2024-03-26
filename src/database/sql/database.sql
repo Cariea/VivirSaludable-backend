@@ -174,7 +174,7 @@ CREATE TABLE activities (
   pacient_id dom_id_card,
   activity_id SERIAL,
   name dom_name NOT NULL,
-  hour TIMESTAMP,
+  hour TIMESTAMP DEFAULT (CURRENT_TIMESTAMP - INTERVAL '4' HOUR),
   time dom_volume,
   distance dom_volume,
   weight dom_volume,

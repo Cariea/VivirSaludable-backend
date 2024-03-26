@@ -1,17 +1,17 @@
-import { Response, Request } from 'express'
+import { Response } from 'express'
 import { pool } from '../../../database'
 import { STATUS } from '../../../utils/constants'
 import { handleControllerError } from '../../../utils/responses/handle-controller-error'
 import camelizeObject from '../../../utils/camelize-object'
+import { ExtendedRequest } from '../../../middlewares/auth'
 
 export const addSymptom = async (
-	req: Request,
+	req: ExtendedRequest,
 	res: Response
 ): Promise<Response> => {
 	try {
 		const { name, description, whenAppeared, specialistId } = req.body
-  
-		const { pacientId } = req.params
+		console.log(req.body)
 		const { rows } = await pool.query({
 			text: `
         INSERT INTO symptoms (
@@ -25,7 +25,7 @@ export const addSymptom = async (
           pacient_id,
           name
       `,
-			values: [pacientId, name, description, whenAppeared, specialistId]
+			values: [req.user?.id, name, description, whenAppeared, specialistId]
 		})
 		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	} catch (error: unknown) {
