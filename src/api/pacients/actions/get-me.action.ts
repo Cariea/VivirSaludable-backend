@@ -32,9 +32,9 @@ export const getMe = async (
 
 		const { rows: meals} = await pool.query({
 			text: `
-      SELECT meal_id, description, meal_image_url, was_safistied, indicate_hour, pica
+      SELECT meal_id, description, meal_image_url, was_safistied, indicate_hour, pica, created_at
       FROM meals
-      WHERE pacient_id = $1
+      WHERE pacient_id = $1 AND date_trunc('day', created_at) >= date_trunc('day', CURRENT_DATE - interval '7 days')
       ORDER BY meal_id ASC
       `,
 			values: [req.user?.id]

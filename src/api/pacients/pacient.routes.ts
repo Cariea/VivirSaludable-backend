@@ -13,12 +13,15 @@ import { hasAuthorization } from '../../middlewares/auth'
 import { getPacients } from './actions/get.action'
 import { getByPacientId } from './actions/get-by-pacient-id.action'
 import { getMe } from './actions/get-me.action'
+import { getSpecialistPacients } from './actions/get-specialist-pacients.action'
+
 import { updatePacient } from './actions/update.action'
 
 const router = Router()
 
 router.get('/me', hasAuthorization([UserRole.ESPECIALISTA, UserRole.PACIENTE]), getMe)
 router.get('/:pacientId', hasAuthorization([UserRole.ESPECIALISTA]), getByPacientId)
+router.get('/specialist/pacients', hasAuthorization([UserRole.ESPECIALISTA]), getSpecialistPacients)
 router.get('/', hasAuthorization([UserRole.ESPECIALISTA]), getPacients)
 router.put('/:pacientId', hasAuthorization([AdminRoles.ASISTENT]),schemaGuard(updatePacientSchema), updatePacient)
 
