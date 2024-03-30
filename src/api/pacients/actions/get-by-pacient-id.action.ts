@@ -1,11 +1,12 @@
-import { Response,Request } from 'express'
+import { Response } from 'express'
 import { pool } from '../../../database'
 import { STATUS } from '../../../utils/constants'
 import { handleControllerError } from '../../../utils/responses/handle-controller-error'
 import camelizeObject from '../../../utils/camelize-object'
+import { ExtendedRequest } from '../../../middlewares/auth'
 
 export const getByPacientId = async (
-	req: Request,
+	req: ExtendedRequest,
 	res: Response
 ): Promise<Response> => {
 	try {
@@ -34,7 +35,7 @@ export const getByPacientId = async (
 			text: `
       SELECT meal_id, description, meal_image_url, was_safistied, indicate_hour, pica, TO_CHAR(created_at, 'DD/MM/YYYY HH24:MI:SS') as created_at
       FROM meals
-      WHERE pacient_id = $1
+      WHERE pacient_id = $1 AND date_trunc('day', created_at) >= date_trunc('day', CURRENT_DATE - interval '7 days')
       ORDER BY meal_id ASC
       `,
 			values: [pacientId]
@@ -42,11 +43,11 @@ export const getByPacientId = async (
 
 		const { rows: symptoms } = await pool.query({
 			text:`
-      SELECT symptom_id, name, description, when_appeared, specialist_id
+      SELECT symptom_id, name, description, when_appeared, specialist_id, TO_CHAR(created_at, 'DD/MM/YYYY HH24:MI:SS') as created_at
       FROM symptoms
-      WHERE pacient_id = $1
+      WHERE pacient_id = $1 AND date_trunc('day', created_at) >= date_trunc('day', CURRENT_DATE - interval '7 days') AND specialist_id = $2
       `,
-			values: [pacientId]
+			values: [pacientId, req.user?.id]
 		})
 
 		const { rows: activities } = await pool.query({
