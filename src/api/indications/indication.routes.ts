@@ -11,6 +11,7 @@ import { addIndication } from './actions/add.action'
 import { deleteIndication } from './actions/delete.action'
 import { getBySpecialistId } from './actions/get-by-specialist-id.action'
 import { updateIndication } from './actions/update.action'
+import { getIndications } from './actions/get-for-linker'
 import { UserRole } from '../../utils/roles.enum'
 
 const router = Router()
@@ -18,6 +19,7 @@ const router = Router()
 router.use(hasAuthorization([UserRole.ESPECIALISTA]))
 
 router.get('/', getBySpecialistId)
+router.get('/get-for-linker', getIndications)
 router.post('/add',schemaGuard(IndicationSchema), addIndication)
 router.put('/:indicationId',schemaGuard(IndicationSchema), updateIndication)
 router.delete('/:indicationId', deleteIndication)

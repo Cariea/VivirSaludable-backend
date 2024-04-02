@@ -15,7 +15,7 @@ export const deleteAssigment = async (
 			text: `
         DELETE FROM assigned
           WHERE
-          assigned_id = $1
+          indication_id = $1
           RETURNING *
       `,
 			values: [assignedId]
