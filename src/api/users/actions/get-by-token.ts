@@ -1,24 +1,25 @@
-import { Response, Request } from 'express'
+import { Response } from 'express'
 import { pool } from '../../../database'
 // import { STATUS } from '../../../utils/constants'
 import { handleControllerError } from '../../../utils/responses/handle-controller-error'
 // import camelizeObject from '../../../utils/camelize-object'
 import { UserRole } from '../../../utils/roles.enum'
 import camelizeObject from '../../../utils/camelize-object'
+import { ExtendedRequest } from '../../../middlewares/auth'
 
-export const getByUserId = async (
-	req: Request,
+export const getByToken = async (
+	req: ExtendedRequest,
 	res: Response
 ): Promise<Response> => {
 	try {
-		const { userId } = req.params
+
 		const {rows: role} = await pool.query({
 			text:`
         SELECT role 
         FROM users 
         where user_id = $1
       `,
-			values: [userId]
+			values: [req.user?.id]
 		})
 		if(role[0].role === UserRole.ESPECIALISTA){
 			const {rows: specialist} = await pool.query({
@@ -28,7 +29,7 @@ export const getByUserId = async (
         JOIN specialties sp ON s.speciality_id = sp.specialty_id
         WHERE s.user_id = $1
       `,
-				values: [userId]
+				values: [req.user?.id]
 			})
 			const {rows: programs} = await pool.query({
 				text:`
@@ -42,7 +43,7 @@ export const getByUserId = async (
           JOIN programs pr ON b.program_id = pr.program_id
           WHERE a.specialist_id =   $1
       `,
-				values: [userId]
+				values: [req.user?.id]
 			})
 			const {rows: pacients}= await pool.query({
 				text:`
@@ -59,7 +60,7 @@ export const getByUserId = async (
           JOIN programs pr ON b.program_id = pr.program_id
           WHERE a.specialist_id = $1
         `,
-				values: [userId]
+				values: [req.user?.id]
 			})
 			const response = {
 				...camelizeObject(specialist[0]),
@@ -85,7 +86,7 @@ export const getByUserId = async (
           JOIN programs pr ON b.program_id = pr.program_id
           WHERE p.user_id = $1
       `,
-				values: [userId]
+				values: [req.user?.id]
 			})
 			const {rows: specialists} = await pool.query({
 				text:`
@@ -101,7 +102,7 @@ export const getByUserId = async (
           JOIN specialties sp ON s.speciality_id = sp.specialty_id
           WHERE a.pacient_id = $1
         `,
-				values: [userId]
+				values: [req.user?.id]
 			})
 			const response = {
 				...camelizeObject(pacient[0]),

@@ -13,7 +13,7 @@ CREATE DOMAIN dom_created_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP - INTERVAL '4'
 -- Types
 CREATE TYPE dom_role AS ENUM ('asistent', 'pacient', 'specialist');
 CREATE TYPE dom_specialties AS ENUM ('nutricionista','psicologo','deportologo', 'internista', 'gastroenter├│logo','cirujano bariatrico');
-CREATE TYPE dom_ingredient_type AS ENUM ('vegetal','fruta','proteina','lacteo','cereal','carbohidrato','otro');
+CREATE TYPE dom_ingredient_type AS ENUM ('vegetal','fruta','proteina','lacteo','cereal','carbohidrato','otro', '');
 CREATE TYPE dom_programs_type AS ENUM ('tradicional', 'medicacion', 'liraglutida', 'balon gastrico', 'manga gastrica endoscopica', 'manga gastrica quirurgica', 'bypass');
 
 -- 1
@@ -149,7 +149,7 @@ CREATE TABLE ingredients (
   pacient_id dom_id_card,
   meal_id INTEGER,
   ingredient_id SERIAL,
-  ingredient_type dom_ingredient_type NOT NULL,
+  ingredient_type dom_ingredient_type,
   name dom_name NOT NULL,
   volume dom_volume NOT NULL,
   created_at dom_created_at,
@@ -180,6 +180,7 @@ CREATE TABLE activities (
   weight dom_volume,
   repetitions dom_volume,
   description dom_description NOT NULL,
+  heart_rate dom_volume,
   created_at dom_created_at,
   CONSTRAINT pk_activity PRIMARY KEY (pacient_id,activity_id),
   CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
@@ -201,6 +202,7 @@ CREATE TABLE daily_assing (
   date_assing dom_created_at,
   record_id SERIAL,
   completed BOOLEAN DEFAULT FALSE,
+  updated_at dom_created_at,
   CONSTRAINT pk_daily_assing PRIMARY KEY (specialist_id,indication_id,pacient_id,date_assing),
   CONSTRAINT fk_assigned_id FOREIGN KEY (specialist_id,indication_id,pacient_id) REFERENCES assigned(specialist_id,indication_id,pacient_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -431,6 +433,11 @@ CREATE TRIGGER update_user_from_pacients
 AFTER UPDATE ON pacients
 FOR EACH ROW
 EXECUTE FUNCTION update_user();
+
+CREATE TRIGGER update_daily_assing
+BEFORE UPDATE ON daily_assing
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
 
 CREATE TRIGGER delete_user_from_specialists
 AFTER DELETE ON specialists

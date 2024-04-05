@@ -101,8 +101,7 @@ export const getByPacientId = async (
 			text:`
       SELECT 
       CASE 
-        WHEN MAX(quote_date) > CURRENT_DATE THEN COALESCE(MAX(CAST(quote_date AS TEXT)), 'No hay proxima consulta')
-        ELSE 'No hay proxima consulta'
+      WHEN MAX(quote_date) > CURRENT_DATE THEN COALESCE(MAX(TO_CHAR(quote_date, 'DD-MM-YYYY')), 'No hay próxima consulta') ELSE 'No hay próxima consulta'
       END AS next_quote_date
       FROM health_queries
       WHERE pacient_id =  $1

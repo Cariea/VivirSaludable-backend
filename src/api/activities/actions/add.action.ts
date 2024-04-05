@@ -16,7 +16,8 @@ export const addActivity = async (
 		distance,
 		weight,
 		repetitions,
-		description
+		description,
+		heartRate
 	} = req.body
 	console.log(req.body)
 	try {
@@ -30,9 +31,10 @@ export const addActivity = async (
           distance,
           weight,
           repetitions,
-          description
+          description,
+          heart_rate
         )
-          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
           RETURNING *
       `,
 			values: [
@@ -43,7 +45,8 @@ export const addActivity = async (
 				distance,
 				weight,
 				repetitions,
-				description
+				description,
+				heartRate
 			]
 		})
 		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
