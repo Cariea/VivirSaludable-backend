@@ -63,6 +63,7 @@ export const getByUserId = async (
 			})
 			const response = {
 				...camelizeObject(specialist[0]),
+				role: UserRole.ESPECIALISTA,
 				programs: camelizeObject(programs),
 				pacients: camelizeObject(pacients)
 			}
@@ -104,12 +105,13 @@ export const getByUserId = async (
 			})
 			const response = {
 				...camelizeObject(pacient[0]),
+				role: UserRole.PACIENTE,
 				specialists: camelizeObject(specialists)
 			}
 			return res.status(200).json(response)
 		}
-		return res.status(200).json({})
 	}catch (error: unknown) {
+		console.log(error)
 		return handleControllerError(error,res)
 	} 
 }
