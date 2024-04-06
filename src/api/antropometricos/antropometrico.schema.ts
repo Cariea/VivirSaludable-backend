@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
 export const AntropometricoSchema = z.object({
-	armCircumference: z
+	armCircunference: z
 		.number()
 		.min(1, 'Arm circumference is too short'),
-	legCircumference: z
+	legCircunference: z
 		.number()
 		.min(1, 'Leg circumference is too short'),
 	waist: z

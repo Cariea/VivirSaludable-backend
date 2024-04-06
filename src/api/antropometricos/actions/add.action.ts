@@ -14,8 +14,8 @@ export const addAntropometrico = async (
 		return res.status(STATUS.BAD_REQUEST).json({ message: 'Falta el id del paciente' })
 	}
 	const {
-		armCircumference,
-		legCircumference,
+		armCircunference,
+		legCircunference,
 		waist,
 		hip,
 		weight,
@@ -28,7 +28,7 @@ export const addAntropometrico = async (
 		visceralFatLevel
 	} = req.body
 	
-
+	console.log(req.body) 
 	try {
 		const { rows } = await pool.query({
 			text: `
@@ -54,8 +54,8 @@ export const addAntropometrico = async (
 			values: [
 				req.user?.id,
 				pacientId,
-				armCircumference,
-				legCircumference,
+				armCircunference,
+				legCircunference,
 				waist,
 				hip,
 				weight,
@@ -69,8 +69,9 @@ export const addAntropometrico = async (
 			]
 		})
 
-		return res.status(STATUS.CREATED).json(camelizeObject(rows[0]))
+		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	} catch (error: unknown) {
+		console.log(error)
 		return handleControllerError(error, res)
 	}
 }
