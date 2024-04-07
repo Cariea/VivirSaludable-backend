@@ -21,7 +21,7 @@ export const addQuestion = async (
 			values: [req.user?.id, question, answer]
 		})
 
-		return res.status(STATUS.CREATED).json(camelizeObject(rows[0]))
+		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	} catch (error: unknown) {
 		return handleControllerError(error, res)
 	}
