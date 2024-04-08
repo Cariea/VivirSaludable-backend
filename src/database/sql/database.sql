@@ -273,6 +273,20 @@ CREATE TABLE health_queries (
   CONSTRAINT fk_specialist_id FOREIGN KEY (specialist_id) REFERENCES specialists(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_pacient_id FOREIGN KEY (pacient_id) REFERENCES pacients(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE alerts (
+  user_id dom_id_card,
+  user_receptor dom_id_card,
+  alert_id SERIAL,
+  alert dom_description NOT NULL,
+  severity INTEGER NOT NULL,
+  type dom_description NOT NULL,
+  confirmed BOOLEAN DEFAULT FALSE,
+  created_at dom_created_at,
+  CONSTRAINT pk_alert PRIMARY KEY (user_id, user_receptor, alert_id),
+  CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_user_receptor FOREIGN KEY (user_receptor) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 -- Functions
 
 CREATE OR REPLACE FUNCTION update_updated_at ()

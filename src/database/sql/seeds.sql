@@ -457,4 +457,26 @@ INSERT INTO messages (
     ('00000007', '3', '00000006'),
     ('00000007', '4', '00000006');
 
+
+
+INSERT INTO alerts (
+  user_id,
+  user_receptor,
+  alert,
+  severity,
+  type
+) VALUES
+  ('00000002', '00000000', 'No a cumplido con la asignacion XXXXX', '1', 'warning'),
+  ('00000002', '00000000', 'No a cumplido con la asignacion XXXXX', '2', 'warning'),
+  ('00000002', '00000000', 'No a cumplido con la asignacion XXXXX', '3', 'warning'),
+  ('00000003', '00000001', 'No a cumplido con la asignacion XXXXX', '4', 'warning'),
+  ('00000003', '00000001', 'No a cumplido con la asignacion XXXXX', '5', 'warning'),
+  ('00000003', '00000001', 'No a cumplido con la asignacion XXXXX', '6', 'warning'),
+  ('00000004', '00000006', 'No a cumplido con la asignacion XXXXX', '7', 'warning'),
+  ('00000004', '00000006', 'No a cumplido con la asignacion XXXXX', '8', 'warning'),
+  ('00000004', '00000006', 'No a cumplido con la asignacion XXXXX', '9', 'warning'),
+  ('00000005', '00000007', 'No a cumplido con la asignacion XXXXX0', '10', 'warning0'),
+  ('00000005', '00000007', 'No a cumplido con la asignacion XXXXX1', '11', 'warning1'),
+  ('00000005', '00000007', 'No a cumplido con la asignacion XXXXX2', '12', 'warning2');
+
 COMMIT;
