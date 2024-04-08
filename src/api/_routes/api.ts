@@ -26,7 +26,7 @@ import usersRouter from '../users/user.routes'
 import healtQueriesRouter from '../health-queries/health-querie.routes'
 import messagesRouter from '../messages/message.routes'
 import linkerRouter from '../linker/linker.routes'
-
+import alertsRouter from '../alerts/alerts.routes'
 export const router = Router()
 
 // Test endpoint
@@ -58,4 +58,5 @@ router.use('/users', usersRouter)
 router.use('/health-queries', healtQueriesRouter)
 router.use('/messages', messagesRouter)
 router.use('/linker', linkerRouter)
+router.use('/alerts', alertsRouter)
 
