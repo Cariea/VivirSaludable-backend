@@ -330,24 +330,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION check_quote_date()
-RETURNS TRIGGER AS $$
-DECLARE
-  last_quote_date date;
-BEGIN
-  SELECT MAX(quote_date) INTO last_quote_date
-  FROM health_queries
-  WHERE specialist_id = NEW.specialist_id
-    AND pacient_id = NEW.pacient_id;
-
-  IF last_quote_date IS NOT NULL AND last_quote_date >= CURRENT_DATE THEN
-    RAISE NOTICE 'No se puede registrar una nueva consulta antes de la fecha de la ultima consulta registrada.';
-    RETURN NULL;
-  END IF;
-
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION update_pacient_status()
 RETURNS TRIGGER AS $$
@@ -463,10 +445,6 @@ AFTER DELETE ON pacients
 FOR EACH ROW
 EXECUTE FUNCTION delete_user();
 
-CREATE TRIGGER trigger_check_quote_date
-BEFORE INSERT ON health_queries
-FOR EACH ROW
-EXECUTE FUNCTION check_quote_date();
 
 CREATE TRIGGER update_pacient_status_trigger
 AFTER UPDATE ON assings
