@@ -105,8 +105,10 @@ export const getByPacientId = async (
       END AS next_quote_date
       FROM health_queries
       WHERE pacient_id =  $1
+      AND quote_id = (SELECT MAX(quote_id) FROM health_queries WHERE pacient_id = $1)
+      AND specialist_id = $2
 		  `,
-			values: [pacientId]
+			values: [pacientId, req.user?.id]
 		})
     
 		const response = {
