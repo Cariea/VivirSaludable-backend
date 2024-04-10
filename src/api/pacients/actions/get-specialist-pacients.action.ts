@@ -28,7 +28,7 @@ export const getSpecialistPacients = async (
         INNER JOIN assings a ON p.user_id = a.pacient_id AND a.assigned_status = true
         INNER JOIN specialists s ON a.specialist_id = s.user_id
         WHERE s.user_id = $1
-        AND p.status = true
+        AND p.status = true AND a.alta = false
       `,
 			values: [req.user?.id]
 		})
@@ -56,7 +56,7 @@ export const getSpecialistPacients = async (
           INNER JOIN 
               programs pr ON b.program_id = pr.program_id
           WHERE 
-              s.user_id = $1 AND p.status = true
+              s.user_id = $1 AND p.status = true AND a.alta = false
           GROUP BY 
               p.user_id, p.name, p.email, p.phone, p.address, p.status, u.role, pr.name
           LIMIT $2
