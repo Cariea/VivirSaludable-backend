@@ -65,6 +65,7 @@ export const getMe = async (
         WHERE pacient_id = $1
         AND a.specialist_id = s.user_id
         AND e.specialty_id = s.speciality_id
+        AND a.alta = false
       `,
 			values: [req.user?.id]
 		})

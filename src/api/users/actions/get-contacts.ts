@@ -42,7 +42,7 @@ export const getContacts = async (
           ) max_messages ON a.pacient_id = max_messages.user_id AND s.user_id = max_messages.user_receptor
           LEFT JOIN messages m ON max_messages.user_id = m.user_id AND max_messages.last_message_id = m.message_id
           WHERE 
-              a.pacient_id = $1 AND a.assigned_status = true
+              a.pacient_id = $1 AND a.assigned_status = true AND a.alta = false
         `,
 				values: [req.user?.id ]
 			})
@@ -80,7 +80,7 @@ export const getContacts = async (
             LIMIT 1
           ) m ON true
           WHERE 
-            a.specialist_id = $1 AND a.assigned_status = true
+            a.specialist_id = $1 AND a.assigned_status = true AND a.alta = false
         `,
 				values: [req.user?.id]
 			})

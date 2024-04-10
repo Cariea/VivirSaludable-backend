@@ -14,13 +14,14 @@ import { hasAuthorization } from '../../middlewares/auth'
 import { addPacients } from './actions/add.action'
 import { deleteLinker } from './actions/delete.action'
 import { getUsers } from './actions/get-by-id'
-
+import {darAlta} from './actions/alta.action'
 const router = Router()
 
 //Routes
 
 router.get('/', hasAuthorization([AdminRoles.ASISTENT]), getUsers)
 router.post('/add', hasAuthorization([AdminRoles.ASISTENT]), schemaGuard(AddPacientToSpecialistSchema), addPacients)
+router.put('/alta', darAlta)
 router.delete('/delete', hasAuthorization([AdminRoles.ASISTENT]), schemaGuard(AddPacientToSpecialistSchema), deleteLinker)
 
 export default router
