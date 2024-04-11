@@ -27,6 +27,22 @@ export const addSymptom = async (
       `,
 			values: [req.user?.id, name, description, whenAppeared, specialistId]
 		})
+
+
+
+		await pool.query({
+			text: `
+      INSERT INTO alerts (
+        user_id,
+        user_receptor,
+        alert,
+        severity,
+        type
+      ) 
+      VALUES ($1, $2, $3, $4, $5)
+      `,
+			values: [req.user?.id, specialistId, 'Se ha añadido un nuevo sintoma', '1', 'symptom']
+		})
 		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	} catch (error: unknown) {
 		console.error(error)
