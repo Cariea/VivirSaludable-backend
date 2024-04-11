@@ -6,6 +6,7 @@ import fileUpload from 'express-fileupload'
 import camelizeObject from '../../../utils/camelize-object'
 import {isValidImageFormat, uploadImage} from '../../../utils/cloudinary'
 import { ExtendedRequest } from '../../../middlewares/auth'
+import { getSpecialist } from '../../../utils/get-specialist'
 export const addMeal = async (
 	req: ExtendedRequest,
 	res: Response
@@ -64,6 +65,22 @@ export const addMeal = async (
         `,
 				values: [req.user?.id, mealId, type, name, quantity]
 			})
+		})
+
+		const specialist_id = await getSpecialist(req.user?.id as string,'nutricionista')
+
+		await pool.query({
+			text: `
+      INSERT INTO alerts (
+        user_id,
+        user_receptor,
+        alert,
+        severity,
+        type
+      ) 
+      VALUES ($1, $2, $3, $4, $5)
+      `,
+			values: [req.user?.id, specialist_id, 'Se ha añadido una nueva comida', '1', 'meal']
 		})
 		
 

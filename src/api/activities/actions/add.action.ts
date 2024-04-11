@@ -4,6 +4,7 @@ import { STATUS } from '../../../utils/constants'
 import { handleControllerError } from '../../../utils/responses/handle-controller-error'
 import camelizeObject from '../../../utils/camelize-object'
 import { ExtendedRequest } from '../../../middlewares/auth'
+import { getSpecialist } from '../../../utils/get-specialist'
 
 export const addActivity = async (
 	req: ExtendedRequest,
@@ -49,6 +50,25 @@ export const addActivity = async (
 				heartRate
 			]
 		})
+
+
+
+		const specialist_id = await getSpecialist(req.user?.id as string,'deportologo')
+
+		await pool.query({
+			text: `
+      INSERT INTO alerts (
+        user_id,
+        user_receptor,
+        alert,
+        severity,
+        type
+      ) 
+      VALUES ($1, $2, $3, $4, $5)
+      `,
+			values: [req.user?.id, specialist_id, 'Se ha añadido una nueva actividad fisica', '1', 'activity']
+		})
+		
 		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	} catch (error) {
 		console.log(error)

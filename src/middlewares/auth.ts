@@ -6,7 +6,7 @@ import { errorResponse } from '../utils/responses'
 
 // Revisar 🔥
 interface ExtendedRequestUser {
-  id: number
+  id: string
   name: string
   email: string
   role: string
