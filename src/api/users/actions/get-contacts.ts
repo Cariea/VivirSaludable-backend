@@ -40,7 +40,9 @@ export const getContacts = async (
             GROUP BY 
               user_id, user_receptor
           ) max_messages ON a.pacient_id = max_messages.user_id AND s.user_id = max_messages.user_receptor
+          OR a.specialist_id = max_messages.user_id AND a.pacient_id = max_messages.user_receptor
           LEFT JOIN messages m ON max_messages.user_id = m.user_id AND max_messages.last_message_id = m.message_id
+          OR max_messages.user_receptor = m.user_id AND max_messages.last_message_id = m.message_id
           WHERE 
               a.pacient_id = $1 AND a.assigned_status = true AND a.alta = false
         `,
