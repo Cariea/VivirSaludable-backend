@@ -41,7 +41,7 @@ export const updatePacient = async (
 		}
 		return res.status(STATUS.OK).json(response)
 	} catch (error: unknown) {
-		console.error(error)
+		console.log(error)
 		return handleControllerError(error, res)
 	}
 }

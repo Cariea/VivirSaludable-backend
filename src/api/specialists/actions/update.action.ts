@@ -27,7 +27,8 @@ export const updateSpecialists = async (
 		}
 		return res.status(STATUS.OK).json(camelizeObject(rows[0]))
 	} catch (error: unknown) {
-		console.error(error)
+
+		console.log(error)
 		return handleControllerError(error, res)
 	}
 }

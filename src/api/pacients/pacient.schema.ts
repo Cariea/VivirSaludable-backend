@@ -19,9 +19,7 @@ export const PacientSchema = z.object({
 		.max(16, 'El número de teléfono no puede superar los 16 carácteres')
 		.optional(),
 	address: z
-		.string(),
-	status: z
-		.boolean()
+		.string()
 })
 
 export const updatePacientSchema = PacientSchema.omit({userId:true}).extend({programId: z.number()})
