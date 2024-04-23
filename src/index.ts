@@ -8,7 +8,7 @@ import { router } from './api/_routes/api'
 import fileUpload from 'express-fileupload'
 import { chat } from './services/chat'
 import initializeFirebase from './services/firebase-init'
-import { dailyAssingsService } from './services/dailyAssingsService'
+// import { dailyAssingsService } from './services/dailyAssingsService'
 
 // App Declaration
 const app = express()
@@ -57,4 +57,4 @@ server.listen(app.get('port'), () => {
 	console.log('Server on port', app.get('port'))
 })
 
-dailyAssingsService.start()
+// dailyAssingsService.start()

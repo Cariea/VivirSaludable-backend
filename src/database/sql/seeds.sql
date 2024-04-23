@@ -114,12 +114,27 @@ INSERT INTO indications (
   ('00000004', 'tomar medicamento'),
   ('00000002', 'hacer ejercicio'),
   ('00000002', 'tomar agua'),
+  ('00000002', 'tomar medicamento'),
+  ('00000002', 'correr 20 minutos diarios'),
+  ('00000002', 'tomar el sol'),
   ('00000003', 'hacer ejercicio'),
   ('00000003', 'tomar medicamento'),
-  ('00000005', 'hacer ejercicio'),
+  ('00000003', 'tomar agua'),
+  ('00000003', 'correr 20 minutos diarios'),
+  ('00000003', 'tomar el sol'),
   ('00000005', 'tomar agua'),
+  ('00000005', 'hacer ejercicio'),
   ('00000005', 'tomar medicamento'),
-  ('00000005', 'salir a correr cada ma├▒ana de 8 a 10am sin falta te estoy vigilando pendiente pues');
+  ('00000005', 'salir a correr cada ma├▒ana de 8 a 10am sin falta te estoy vigilando pendiente pues'),
+  ('00000009', 'tomar agua'),
+  ('00000009', 'hacer ejercicio'),
+  ('00000009', 'tomar medicamento'),
+  ('00000009', 'salir a correr cada ma├▒ana de 8 a 10am sin falta te estoy vigilando pendiente pues'),
+  ('00000010', 'tomar agua'),
+  ('00000010', 'hacer ejercicio'),
+  ('00000010', 'tomar medicamento'),
+  ('00000010', 'salir a correr cada ma├▒ana de 8 a 10am sin falta te estoy vigilando pendiente pues');
+
 
 
   INSERT INTO programs (
