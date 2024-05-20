@@ -71,25 +71,26 @@ export const signUp = async (
 
 			sendMail(email, '¡Bienvenido al Programa Vivir Saludable!',`
       ¡Nos emociona enormemente darte la bienvenida a nuestra familia de Vivir Saludable! Sabemos que tomar la decisión de embarcarte en un viaje hacia una vida más saludable no es fácil, pero estás dando el primer y más importante paso.
-
-      En el Programa Vivir Saludable, entendemos que la pérdida de peso es un desafío que requiere compromiso, dedicación y apoyo constante. Estamos aquí para acompañarte en cada paso del camino y brindarte las herramientas y el aliento que necesitas para alcanzar tus objetivos de salud.
-
-      Recuerda, este programa es mucho más que solo perder peso. Se trata de adoptar hábitos saludables que te permitan vivir una vida plena y feliz. Cada pequeño cambio que hagas hoy te acerca un paso más a convertirte en la mejor versión de ti mismo.
-
+        <br/><br/>
+      En el Programa<b> Vivir Saludable <b/>, entendemos que la pérdida de peso es un desafío que requiere<b> compromiso, dedicación y apoyo constante<b/>. Estamos aquí para acompañarte en cada paso del camino y brindarte las herramientas y el aliento que necesitas para alcanzar tus objetivos de salud.
+      <br/><br/>
+      Recuerda, este programa es mucho más que solo perder peso. Se trata de adoptar hábitos saludables que te permitan vivir una vida plena y feliz.<b> Cada pequeño cambio que hagas hoy te acerca un paso más a convertirte en la mejor versión de ti mismo.<b/>
+      <br/><br/>
       Queremos que sepas que no estás solo en este viaje. Nuestro equipo multidisciplinario de profesionales de la salud está aquí para brindarte el apoyo y la orientación que necesitas en cada etapa. Desde nutricionistas hasta entrenadores personales, todos estamos comprometidos a ayudarte a alcanzar tus metas y sentirte mejor contigo mismo.
-
-      Recuerda, el camino hacia una vida más saludable puede tener sus altibajos, pero cada desafío que enfrentes te hará más fuerte y te acercará un paso más a tus sueños. Mantén la vista en el objetivo y nunca te rindas, porque eres más fuerte de lo que crees y mereces vivir la vida plenamente.
-
+      <br/><br/>
+      Recuerda,<b> el camino hacia una vida más saludable puede tener sus altibajos, pero cada desafío que enfrentes te hará más fuerte y te acercará un paso más a tus sueños<b/>. Mantén la vista en el objetivo y nunca te rindas, porque eres más fuerte de lo que crees y mereces vivir la vida plenamente.
+      <br/><br/>
       Gracias por confiar en nosotros para acompañarte en este viaje hacia una vida más saludable. Estamos emocionados de ser parte de tu transformación y estamos aquí para ti en cada paso del camino.
-
-      ¡Bienvenido a Vivir Saludable, donde juntos construiremos un futuro más saludable y feliz!
+      <br/><br/>
+      <b>¡Bienvenido a Vivir Saludable, donde juntos construiremos un futuro más saludable y feliz!</b>
 
       Con cariño,
 
-      Programa Vivir Saludable
+      <b>Programa Vivir Saludable</b>
 
       <h1>Su usuario es: ${userId}</h1>
-      <h1>Su contraseña es: ${code}</h1>`)
+      <h1>Su contraseña es: ${code}</h1>`
+			)
 		}
 		if (role === UserRole.ESPECIALISTA) {
 			if(!specialityId){
