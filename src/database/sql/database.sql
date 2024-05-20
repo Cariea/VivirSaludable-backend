@@ -33,6 +33,7 @@ CREATE TABLE users (
   role dom_role NOT NULL,
   code dom_id_card,
   suscription_token dom_name DEFAULT NULL,
+  first_login BOOLEAN DEFAULT FALSE,
   status BOOLEAN DEFAULT TRUE,
   CONSTRAINT pk_user_id PRIMARY KEY (user_id)
 );

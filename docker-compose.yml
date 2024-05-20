@@ -1,0 +1,6 @@
+
+services:
+  vs-b:
+    build: .
+    ports:
+      - "5000:5000"

@@ -9,7 +9,7 @@ import { AUTH_ROUNDS } from '../../../config'
 import { ExtendedRequest } from '../../../middlewares/auth'
 import { QueryResult } from 'pg'
 import { UserRole } from '../../../utils/roles.enum'
-//import { sendMail } from '../../../utils/send-mail-service'
+import { sendMail } from '../../../utils/send-mail-service'
 
 export const signUp = async (
 	req: ExtendedRequest,
@@ -32,9 +32,9 @@ export const signUp = async (
 				statusCode: STATUS.BAD_REQUEST
 			})
 		}
-		//const code = Math.floor(Math.random() * 900000) + 100000
-		//const password = await bcrypt.hash(String(code), Number(AUTH_ROUNDS))
-		const password = await bcrypt.hash('vs123', Number(AUTH_ROUNDS))
+		const code = Math.floor(Math.random() * 900000) + 100000
+		const password = await bcrypt.hash(String(code), Number(AUTH_ROUNDS))
+		//const password = await bcrypt.hash('vs123', Number(AUTH_ROUNDS))
 
 
 		if (role === UserRole.PACIENTE) {
@@ -69,7 +69,27 @@ export const signUp = async (
 				values: [req.user?.id, userId, programId]
 			})
 
-			//sendMail(email, 'Bienvenido a la plataforma de salud',`<h1>Su contraseña es: ${code}</h1>`)
+			sendMail(email, '¡Bienvenido al Programa Vivir Saludable!',`
+      ¡Nos emociona enormemente darte la bienvenida a nuestra familia de Vivir Saludable! Sabemos que tomar la decisión de embarcarte en un viaje hacia una vida más saludable no es fácil, pero estás dando el primer y más importante paso.
+
+      En el Programa Vivir Saludable, entendemos que la pérdida de peso es un desafío que requiere compromiso, dedicación y apoyo constante. Estamos aquí para acompañarte en cada paso del camino y brindarte las herramientas y el aliento que necesitas para alcanzar tus objetivos de salud.
+
+      Recuerda, este programa es mucho más que solo perder peso. Se trata de adoptar hábitos saludables que te permitan vivir una vida plena y feliz. Cada pequeño cambio que hagas hoy te acerca un paso más a convertirte en la mejor versión de ti mismo.
+
+      Queremos que sepas que no estás solo en este viaje. Nuestro equipo multidisciplinario de profesionales de la salud está aquí para brindarte el apoyo y la orientación que necesitas en cada etapa. Desde nutricionistas hasta entrenadores personales, todos estamos comprometidos a ayudarte a alcanzar tus metas y sentirte mejor contigo mismo.
+
+      Recuerda, el camino hacia una vida más saludable puede tener sus altibajos, pero cada desafío que enfrentes te hará más fuerte y te acercará un paso más a tus sueños. Mantén la vista en el objetivo y nunca te rindas, porque eres más fuerte de lo que crees y mereces vivir la vida plenamente.
+
+      Gracias por confiar en nosotros para acompañarte en este viaje hacia una vida más saludable. Estamos emocionados de ser parte de tu transformación y estamos aquí para ti en cada paso del camino.
+
+      ¡Bienvenido a Vivir Saludable, donde juntos construiremos un futuro más saludable y feliz!
+
+      Con cariño,
+
+      Programa Vivir Saludable
+
+      <h1>Su usuario es: ${userId}</h1>
+      <h1>Su contraseña es: ${code}</h1>`)
 		}
 		if (role === UserRole.ESPECIALISTA) {
 			if(!specialityId){
@@ -95,7 +115,9 @@ export const signUp = async (
         `,
 				values: [userId, name, email, password, specialityId, req.user?.id, phone, address]
 			})
-			//sendMail(email, `Bienvenido a Vivir Saludable, ${name}`,`<h1>Su contraseña es: ${code}</h1>`)
+			sendMail(email, `¡Bienvenido al Programa Vivir Saludable!`,`
+      <h1>Su usuario es: ${userId}</h1>
+      <h1>Su contraseña es: ${code}</h1>`)
 		}
 
 		return res.status(STATUS.CREATED).json(camelizeObject(response.rows[0]))

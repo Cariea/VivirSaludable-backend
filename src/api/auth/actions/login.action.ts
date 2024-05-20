@@ -16,7 +16,8 @@ export const logIn = async (
           user_id,
           name,
           role,
-          password
+          password,
+          first_login
         FROM users
         WHERE
           user_id = $1
@@ -27,7 +28,7 @@ export const logIn = async (
 		if (userResponse.length > 0) {
 			const isPasswordCorrect = await bcrypt.compare(password, userResponse[0].password)
 			if (isPasswordCorrect) {
-				const token = await generateToken(userResponse[0].user_id, userResponse[0].name, userResponse[0].role)
+				const token = await generateToken(userResponse[0].user_id, userResponse[0].name, userResponse[0].role, userResponse[0].first_login)
 				return res.status(STATUS.OK).json(token)
 			}
 		}
@@ -49,7 +50,7 @@ export const logIn = async (
 		if (asistentsResponse.length > 0) {
 			const isPasswordCorrect = await bcrypt.compare(password, asistentsResponse[0].password)
 			if (isPasswordCorrect) {
-				const token = await generateToken(asistentsResponse[0].user_id,asistentsResponse[0].name, asistentsResponse[0].role)
+				const token = await generateToken(asistentsResponse[0].user_id,asistentsResponse[0].name, asistentsResponse[0].role, true)
 				return res.status(STATUS.OK).json(token)
 			}
 		}
