@@ -3,7 +3,7 @@ BEGIN;
 -- Domanins 
 CREATE DOMAIN dom_name VARCHAR(64);
 CREATE DOMAIN dom_id_card VARCHAR(16);
-CREATE DOMAIN dom_description VARCHAR(256);
+CREATE DOMAIN dom_description VARCHAR(1000);
 CREATE DOMAIN dom_phone_number VARCHAR(16);
 CREATE DOMAIN dom_email VARCHAR(64);
 CREATE DOMAIN dom_password VARCHAR(64);
@@ -12,7 +12,7 @@ CREATE DOMAIN dom_created_at TIMESTAMP DEFAULT (CURRENT_TIMESTAMP - INTERVAL '4'
 
 -- Types
 CREATE TYPE dom_role AS ENUM ('asistent', 'pacient', 'specialist');
-CREATE TYPE dom_specialties AS ENUM ('nutricionista','psicologo','deportologo', 'internista', 'gastroenter├│logo','cirujano bariatrico');
+CREATE TYPE dom_specialties AS ENUM ('nutricionista','psicologo','deportologo', 'internista', 'gastroenterólogo','cirujano bariatrico');
 CREATE TYPE dom_ingredient_type AS ENUM ('vegetal','fruta','proteina','lacteo','cereal','carbohidrato','otro', '');
 CREATE TYPE dom_programs_type AS ENUM ('tradicional', 'medicacion', 'liraglutida', 'balon gastrico', 'manga gastrica endoscopica', 'manga gastrica quirurgica', 'bypass');
 

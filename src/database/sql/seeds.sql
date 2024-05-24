@@ -53,7 +53,7 @@ INSERT INTO specialties (
   ('deportologo'),
   ('psicologo'),
   ('internista'),
-  ('gastroenter├│logo'),
+  ('gastroenterólogo'),
   ('cirujano bariatrico');
 
 INSERT INTO specialists (
