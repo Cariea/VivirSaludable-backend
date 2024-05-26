@@ -5,6 +5,7 @@ import {
 	SMTP_MAIL,
 	SMTP_PASSWORD,
 	SMTP_PORT,
+	SMTP_REMITENT
 } from '../config/config'
 
 export const transporter = nodemailer.createTransport({
@@ -20,12 +21,12 @@ export const transporter = nodemailer.createTransport({
 export const sendMail = async (to: string, subject: string, html: string) => {
 	try {
 		await transporter.sendMail({
-			from: SMTP_MAIL,
+			from: SMTP_REMITENT,
 			to,
 			subject,
 			html,
 		})
 	} catch (error) {
-		console.error(error)
+		console.log(error)
 	}
 }
