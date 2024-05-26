@@ -89,8 +89,8 @@ export const signUp = async (
       <b>Programa Vivir Saludable</b>
 
       <h1>Su usuario es: ${userId}</h1>
-      <h1>Su contraseña es: ${code}</h1>`
-			)
+      <h1>Su contraseña es: ${code}</h1>
+      Ingrese a través de: <a href="https://vivir-saludable.quitogastro.com/">Vivir Saludable</a>`)
 		}
 		if (role === UserRole.ESPECIALISTA) {
 			if(!specialityId){
@@ -118,7 +118,8 @@ export const signUp = async (
 			})
 			sendMail(email, `¡Bienvenido al Programa Vivir Saludable!`,`
       <h1>Su usuario es: ${userId}</h1>
-      <h1>Su contraseña es: ${code}</h1>`)
+      <h1>Su contraseña es: ${code}</h1>
+      Ingrese a través de: <a href="https://vivir-saludable.quitogastro.com/">Vivir Saludable</a>`)
 		}
 
 		return res.status(STATUS.CREATED).json(camelizeObject(response.rows[0]))
