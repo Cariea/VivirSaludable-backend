@@ -2,5 +2,33 @@
 services:
   vs-b:
     build: .
+    container_name: vs-b-1
     ports:
-      - "5000:5000"
+      - "${PORT}:5000"
+  vs-f:
+    image: vs-f
+    container_name: vs-f
+    ports:
+      - "3000:3000"
+  vs-db:
+    image: postgres:latest
+    container_name: ${DATABASE_HOST}
+    restart: always
+    ports:
+      - "${DATABASE_HOST_PORT}:5432"
+    environment:
+      POSTGRES_USER: "${DATABASE_USER}"
+      POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"
+      POSTGRES_DB: "${DATABASE_NAME}"
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-vs
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+
+
+

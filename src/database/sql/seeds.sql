@@ -23,7 +23,7 @@ INSERT INTO asistents (
   password,
   role
 ) VALUES
-  ('00000008', 'asistente #1', 'fakeemail@gmail.com','$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', 'asistent');
+  ('00000008', 'Jose Jose', 'alguien@mail.com','$2b$10$Simzix3jRBxKmNxzHxdZEeheAC6AijygvCvs/UkXyJTjYQwtm/3x.', 'asistent');
   
 INSERT INTO pacients (
   user_id,
@@ -49,12 +49,12 @@ INSERT INTO pacients (
 INSERT INTO specialties (
   name
 ) VALUES
-  ('nutricionista'),
-  ('deportologo'),
-  ('psicologo'),
-  ('internista'),
-  ('gastroenterólogo'),
-  ('cirujano bariatrico');
+  ('Nutricionista'),
+  ('Psicólogo'),
+  ('Deportologo'),
+  ('Internista'),
+  ('Gastroenterólogo'),
+  ('Cirujano Bariátrico');
 
 INSERT INTO specialists (
   user_id,
@@ -137,17 +137,17 @@ INSERT INTO indications (
 
 
 
-  INSERT INTO programs (
+INSERT INTO programs (
     name,
     description
   ) VALUES
     ('tradicional', 'programa tradicional'),
     ('bypass', 'programa bypass'),
-    ('manga gastrica endoscopica', 'programa manga gastrica endoscopica'),
-    ('balon gastrico', 'programa balon gastrico'),
-    ('manga gastrica quirurgica', 'programa manga gastrica quirurgica'),
+    ('manga gástrica endoscópica', 'programa manga gástrica endoscópica'),
+    ('balón gástrico', 'programa balón gástrico'),
+    ('manga gástrica quirúrgica', 'programa manga gástrica quirúrgica'),
     ('liraglutida','programa liraglutido'),
-    ('medicacion',' programa de medicacion');
+    ('medicación',' programa de medicación');
   
 INSERT INTO bot_questions (
   specialist_id,
